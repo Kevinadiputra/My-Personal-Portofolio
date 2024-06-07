@@ -1,0 +1,154 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+
+.header {
+    background: url('3.png') no-repeat center center/cover;
+    color: white;
+    padding: 100px 0;
+}
+
+.header h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: left;
+}
+
+.header p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: left;
+}
+
+.about, .projects, .contact {
+    padding: 5rem 0;
+}
+
+.about img {
+    border-radius: 50%;
+    max-width: 80%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.projects .card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+}
+
+.projects .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.contact form .btn {
+    width: 100%;
+}
+
+.footer {
+    background: #333;
+    color: white;
+    margin-top: 30px;
+}
+
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -100%, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 100%, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes bounceIn {
+    from, 20%, 40%, 60%, 80%, to {
+        animation-timing-function: cubic-bezier(.215,.61,.355,1);
+    }
+    0% {
+        opacity: 0;
+        transform: scale3d(.3, .3, .3);
+    }
+    20% {
+        transform: scale3d(1.1, 1.1, 1.1);
+    }
+    40% {
+        transform: scale3d(.9, .9, .9);
+    }
+    60% {
+        opacity: 1;
+        transform: scale3d(1.03, 1.03, 1.03);
+    }
+    80% {
+        transform: scale3d(.97, .97, .97);
+    }
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+.fadeInDown {
+    animation-name: fadeInDown;
+}
+
+.fadeInUp {
+    animation-name: fadeInUp;
+}
+
+.bounceIn {
+    animation-name: bounceIn;
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2.5em;
+    }
+
+    .header p {
+        font-size: 1em;
+    }
+
+    .about, .projects, .contact {
+        padding: 3rem 1rem;
+    }
+
+    .about img {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .header h1 {
+        font-size: 2em;
+    }
+
+    .header p {
+        font-size: 0.9em;
+    }
+
+    .header {
+        padding: 50px 0;
+    }
+}
