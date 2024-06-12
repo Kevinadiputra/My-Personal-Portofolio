@@ -7,6 +7,73 @@ body {
 	color: #333;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: bold;
+}
+
+.navbar {
+	background: #000000;
+}
+
+.navbar-brand {
+	font-weight: bold;
+}
+
+.nav-link {
+	color: white;
+}
+
+.nav-link:hover {
+	color: #ccc;
+}
+
+.navbar-toggler-icon {
+	background-color: white;
+}
+
+.navbar-toggler {
+	border-color: white;
+}
+
+.navbar-toggler:focus {
+	box-shadow: none;
+}
+.navbar-nav .nav-link {
+	color: #000000;
+	font-weight: bold;
+	border-bottom: 2px solid #000000;
+	padding-bottom: 5px;
+	margin-bottom: -2px;
+	transition: border-color 0.3s ease;
+	transition-property: border-color;
+	transition-timing-function: ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+	border-color: #ffffff;
+	color: #ffffff;
+	border-radius: 5px;
+	padding: 5px 10px;
+	transition: background-color 0.3s ease;
+	transition-property: background-color;
+	transition-timing-function: ease-in-out;
+}
+
+.navbar-nav .nav-link.active {
+	border-color: #ffffff;
+	color: #ffffff;
+	border-radius: 5px;
+	padding: 5px 10px;
+	transition: background-color 0.3s ease;
+	transition-property: background-color;
+	transition-timing-function: ease-in-out;
+}
+
 .header {
 	background: url("3.png") no-repeat center center/cover;
 	color: white;
@@ -25,6 +92,25 @@ body {
 	margin-bottom: 40px;
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 	text-align: left;
+}
+
+.header .btn {
+	background-color: #000000;
+	border-color: #000000;
+	color: white;
+	border-radius: .5rem;
+	padding: 10px 20px;
+	font-size: 1.2em;
+	text-decoration: none;
+	transition: background 0.3s ease;
+	transition-property: background-color, border-color;
+	transition-timing-function: ease-in-out;
+}
+
+.header .btn:hover {
+	background-color: #ffffff;
+	border-color: #000000;
+	color: #000000;
 }
 
 .about,
@@ -49,8 +135,60 @@ body {
 	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
+.projects .btn {
+	background-color: #000000;
+	border-color: #000000;
+	color: white;
+	border-radius: .5rem;
+	padding: 10px 20px;
+	font-size: 1.2em;
+	text-decoration: none;
+	transition: background 0.3s ease;
+	transition-property: background-color, border-color;
+	transition-timing-function: ease-in-out;
+}
+
+.projects .btn:hover {
+	background-color: #ffffff;
+	border-color: #000000;
+	color: #000000;
+}
+
 .contact form .btn {
 	width: 100%;
+}
+
+.contact .social-icons a {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.contact .social-icons a:last-child {
+	margin-right: 0;
+}
+
+.contact .social-icons a i {
+	font-size: 24px;
+	color: #333;
+}
+
+.contact .btn {
+	background-color: #000000;
+	border-color: #000000;
+	color: white;
+	border-radius: .5rem;
+	padding: 10px 20px;
+	font-size: 1.2em;
+	text-decoration: none;
+	transition: background 0.3s ease;
+	transition-property: background-color, border-color;
+	transition-timing-function: ease-in-out;
+}
+
+.contact .btn:hover {
+	background-color: #ffffff;
+	border-color: #000000;
+	color: #000000;
 }
 
 .footer {
