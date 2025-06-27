@@ -19,9 +19,12 @@ const navLink = [
 
 const Navbar = () => {
   return (
-    <nav>
-      <div className="flex flex-wrap items-center justify-between mx-auto p-8">
-        <Link href="/" className="text-2xl md:text-5xl text-white font-semibold">
+    <nav className="fixed top-0 left-0 right-0 z-10 bg-[#121212]/90 backdrop-blur-md">
+      <div className="flex flex-wrap items-center justify-between mx-auto">
+        <Link
+          href="/"
+          className="text-2xl md:text-5xl text-white font-semibold"
+        >
           LOGO
         </Link>
         <div className="menu block md:w-auto" id="navbar">
