@@ -222,21 +222,32 @@ const Projects = () => {
                 )}
 
                 {/* Call to Action */}
-                <div className="text-center mt-16">
-                    <p className="text-white/70 mb-6">
-                        Want to see more projects or discuss a collaboration?
-                    </p>
+                <div className="text-center mt-16 space-y-6">
                     <button
-                        onClick={() => {
-                            const contactSection = document.querySelector("#contact");
-                            if (contactSection) {
-                                contactSection.scrollIntoView({ behavior: "smooth" });
-                            }
-                        }}
-                        className="btn btn-sm btn-accent"
+                        onClick={() => router.push('/projects')}
+                        className="bg-accent hover:bg-accent-hover text-white px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-3 mx-auto transition-all duration-300 hover:scale-105"
                     >
-                        Get In Touch
+                        <Eye size={20} />
+                        View All Projects
+                        <ArrowRight size={20} />
                     </button>
+                    
+                    <div>
+                        <p className="text-white/70 mb-6">
+                            Want to discuss a collaboration?
+                        </p>
+                        <button
+                            onClick={() => {
+                                const contactSection = document.querySelector("#contact");
+                                if (contactSection) {
+                                    contactSection.scrollIntoView({ behavior: "smooth" });
+                                }
+                            }}
+                            className="btn btn-sm btn-tertiary"
+                        >
+                            Get In Touch
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
