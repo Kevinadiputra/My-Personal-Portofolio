@@ -231,7 +231,7 @@ const Projects = () => {
                         View All Projects
                         <ArrowRight size={20} />
                     </button>
-                    
+
                     <div>
                         <p className="text-white/70 mb-6">
                             Want to discuss a collaboration?

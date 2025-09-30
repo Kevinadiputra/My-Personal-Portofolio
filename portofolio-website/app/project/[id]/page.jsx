@@ -16,11 +16,11 @@ import {
     Database,
     Globe
 } from "lucide-react";
-import { useProjects } from "@/context/ProjectsContext";
+import { useProjects, ProjectsProvider } from "@/context/ProjectsContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const ProjectDetailPage = () => {
+const ProjectDetailPageContent = () => {
     const params = useParams();
     const router = useRouter();
     const { getProject, projects, loading } = useProjects();
@@ -375,6 +375,14 @@ const ProjectDetailPage = () => {
 
             <Footer />
         </div>
+    );
+};
+
+const ProjectDetailPage = () => {
+    return (
+        <ProjectsProvider>
+            <ProjectDetailPageContent />
+        </ProjectsProvider>
     );
 };
 

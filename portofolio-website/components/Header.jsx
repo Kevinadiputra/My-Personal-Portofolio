@@ -60,7 +60,7 @@ const Header = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4">
                     {/* Logo */}
-                    <button 
+                    <button
                         onClick={() => router.push("/")}
                         className="text-xl font-bold hover:scale-105 transition-transform"
                     >
@@ -71,17 +71,16 @@ const Header = () => {
                     <nav className="hidden md:flex space-x-8">
                         {navItems.map((item) => {
                             const isActive = (item.type === "route" && pathname === item.href) ||
-                                           (item.type === "section" && pathname === "/" && item.href !== "#");
-                            
+                                (item.type === "section" && pathname === "/" && item.href !== "#");
+
                             return (
                                 <button
                                     key={item.name}
                                     onClick={() => handleNavigation(item)}
-                                    className={`font-medium transition-colors duration-200 ${
-                                        isActive 
-                                            ? "text-accent" 
+                                    className={`font-medium transition-colors duration-200 ${isActive
+                                            ? "text-accent"
                                             : "text-white hover:text-accent"
-                                    }`}
+                                        }`}
                                 >
                                     {item.name}
                                 </button>
@@ -104,17 +103,16 @@ const Header = () => {
                         <nav className="flex flex-col space-y-4">
                             {navItems.map((item) => {
                                 const isActive = (item.type === "route" && pathname === item.href) ||
-                                               (item.type === "section" && pathname === "/" && item.href !== "#");
-                                
+                                    (item.type === "section" && pathname === "/" && item.href !== "#");
+
                                 return (
                                     <button
                                         key={item.name}
                                         onClick={() => handleNavigation(item)}
-                                        className={`font-medium transition-colors duration-200 text-left ${
-                                            isActive 
-                                                ? "text-accent" 
+                                        className={`font-medium transition-colors duration-200 text-left ${isActive
+                                                ? "text-accent"
                                                 : "text-white hover:text-accent"
-                                        }`}
+                                            }`}
                                     >
                                         {item.name}
                                     </button>

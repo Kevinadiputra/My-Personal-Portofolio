@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useProjects } from "@/context/ProjectsContext";
-import { 
-    ExternalLink, 
-    Github, 
-    Eye, 
-    ArrowRight, 
+import { ProjectsProvider } from "@/context/ProjectsContext";
+import {
+    ExternalLink,
+    Github,
+    Eye,
+    ArrowRight,
     Filter,
     Search,
     Star,
@@ -22,7 +23,7 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const ProjectsPage = () => {
+const ProjectsPageContent = () => {
     const [filter, setFilter] = useState("all");
     const [searchTerm, setSearchTerm] = useState("");
     const [sortBy, setSortBy] = useState("newest");
@@ -49,18 +50,18 @@ const ProjectsPage = () => {
     const filteredProjects = projects
         .filter(project => {
             // Filter by category
-            const categoryMatch = filter === "all" || 
+            const categoryMatch = filter === "all" ||
                 (filter === "featured" && project.featured) ||
                 project.category === filter;
-            
+
             // Filter by search term
-            const searchMatch = !searchTerm || 
+            const searchMatch = !searchTerm ||
                 project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                project.technologies.some(tech => 
+                project.technologies.some(tech =>
                     tech.toLowerCase().includes(searchTerm.toLowerCase())
                 );
-            
+
             return categoryMatch && searchMatch;
         })
         .sort((a, b) => {
@@ -111,7 +112,7 @@ const ProjectsPage = () => {
     return (
         <div className="min-h-screen bg-primary">
             <Header />
-            
+
             <main className="pt-20">
                 {/* Hero Section */}
                 <section className="py-16 bg-gradient-to-br from-primary via-secondary to-tertiary relative overflow-hidden">
@@ -122,33 +123,33 @@ const ProjectsPage = () => {
                             transition={{ duration: 0.6 }}
                             className="text-center"
                         >
-                            <motion.h1 
+                            <motion.h1
                                 className="text-4xl md:text-6xl font-bold text-white mb-6"
-                                whileHover={{ 
+                                whileHover={{
                                     scale: 1.02,
                                     textShadow: "0 0 20px rgba(88, 16, 255, 0.5)"
                                 }}
                             >
                                 My Projects
                             </motion.h1>
-                            <motion.div 
+                            <motion.div
                                 className="w-32 h-1 bg-gradient-to-r from-accent to-accent-hover mx-auto rounded-full mb-8"
                                 initial={{ width: 0 }}
                                 animate={{ width: 128 }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
                             />
-                            <motion.p 
+                            <motion.p
                                 className="text-xl text-white/70 max-w-3xl mx-auto leading-relaxed"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.4 }}
                             >
-                                Explore my portfolio of web applications, mobile apps, and full-stack solutions. 
+                                Explore my portfolio of web applications, mobile apps, and full-stack solutions.
                                 Each project represents a unique challenge solved with modern technologies and innovative approaches.
                             </motion.p>
                         </motion.div>
                     </div>
-                    
+
                     {/* Background Decoration */}
                     <div className="absolute inset-0 opacity-10">
                         <div className="absolute top-20 left-10 w-72 h-72 bg-accent rounded-full blur-3xl"></div>
@@ -187,11 +188,10 @@ const ProjectsPage = () => {
                                         <motion.button
                                             key={filterOption.key}
                                             onClick={() => setFilter(filterOption.key)}
-                                            className={`px-6 py-3 rounded-2xl font-medium transition-all duration-300 flex items-center gap-2 ${
-                                                filter === filterOption.key
+                                            className={`px-6 py-3 rounded-2xl font-medium transition-all duration-300 flex items-center gap-2 ${filter === filterOption.key
                                                     ? "bg-accent text-white shadow-lg scale-105"
                                                     : "bg-tertiary text-white/70 hover:bg-tertiary-hover hover:text-white hover:scale-105"
-                                            }`}
+                                                }`}
                                             whileHover={{ y: -2 }}
                                             whileTap={{ scale: 0.95 }}
                                         >
@@ -204,7 +204,7 @@ const ProjectsPage = () => {
 
                             {/* Sort and Results Count */}
                             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                                <motion.div 
+                                <motion.div
                                     className="flex items-center gap-2 text-white/70"
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
@@ -215,7 +215,7 @@ const ProjectsPage = () => {
                                         {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''} found
                                     </span>
                                 </motion.div>
-                                
+
                                 <motion.select
                                     value={sortBy}
                                     onChange={(e) => setSortBy(e.target.value)}
@@ -239,7 +239,7 @@ const ProjectsPage = () => {
                 <section className="py-16">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         {filteredProjects.length === 0 ? (
-                            <motion.div 
+                            <motion.div
                                 className="text-center py-20"
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
@@ -250,7 +250,7 @@ const ProjectsPage = () => {
                                 </div>
                                 <h3 className="text-2xl text-white mb-4">No Projects Found</h3>
                                 <p className="text-white/70 mb-8">
-                                    {searchTerm 
+                                    {searchTerm
                                         ? `No projects match "${searchTerm}". Try adjusting your search or filters.`
                                         : `No projects found in the "${filter}" category.`
                                     }
@@ -275,7 +275,7 @@ const ProjectsPage = () => {
                                         transition={{ duration: 0.6, delay: index * 0.1 }}
                                         className="bg-tertiary rounded-2xl overflow-hidden group cursor-pointer"
                                         onClick={() => router.push(`/project/${project.id}`)}
-                                        whileHover={{ 
+                                        whileHover={{
                                             scale: 1.03,
                                             boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)"
                                         }}
@@ -363,7 +363,7 @@ const ProjectsPage = () => {
                                                     View Details
                                                     <ArrowRight size={16} />
                                                 </button>
-                                                
+
                                                 <div className="flex space-x-3">
                                                     {project.liveUrl && project.liveUrl !== "#" && (
                                                         <a
@@ -410,7 +410,7 @@ const ProjectsPage = () => {
                                 Interested in Working Together?
                             </h2>
                             <p className="text-white/70 mb-8 text-lg">
-                                I'm always open to discussing new opportunities and exciting projects. 
+                                I'm always open to discussing new opportunities and exciting projects.
                                 Let's create something amazing together!
                             </p>
                             <motion.button
@@ -428,6 +428,14 @@ const ProjectsPage = () => {
 
             <Footer />
         </div>
+    );
+};
+
+const ProjectsPage = () => {
+    return (
+        <ProjectsProvider>
+            <ProjectsPageContent />
+        </ProjectsProvider>
     );
 };
 
