@@ -17,24 +17,52 @@ const defaultProjects = [
     {
         id: 1,
         title: "E-Commerce Platform",
-        description: "A full-featured e-commerce platform with user authentication, payment integration, and admin dashboard.",
+        description: "A comprehensive e-commerce solution featuring modern design, secure payment processing, real-time inventory management, and an intuitive admin dashboard. Built with scalability and performance in mind, this platform handles thousands of concurrent users and integrates with multiple payment gateways.",
         image: "/api/placeholder/400/250",
-        technologies: ["React", "Node.js", "MongoDB", "Stripe", "Tailwind CSS"],
+        technologies: ["React", "Node.js", "MongoDB", "Stripe", "Tailwind CSS", "Redux", "Express.js", "JWT"],
         category: "fullstack",
         liveUrl: "#",
         githubUrl: "#",
         featured: true,
+        details: {
+            duration: "3 months",
+            status: "Completed",
+            features: [
+                "User authentication and authorization",
+                "Product catalog with search and filtering",
+                "Shopping cart and checkout process",
+                "Payment integration with Stripe",
+                "Admin dashboard for inventory management",
+                "Order tracking and management",
+                "Responsive design for all devices",
+                "Email notifications and confirmations"
+            ]
+        }
     },
     {
         id: 2,
         title: "Task Management App",
-        description: "A collaborative task management application with real-time updates and team collaboration features.",
+        description: "A modern collaborative task management application designed for teams. Features real-time synchronization, drag-and-drop interface, project timelines, and advanced reporting. Perfect for agile teams and project managers who need to track progress and maintain productivity.",
         image: "/api/placeholder/400/250",
-        technologies: ["Next.js", "TypeScript", "PostgreSQL", "Socket.io"],
+        technologies: ["Next.js", "TypeScript", "PostgreSQL", "Socket.io", "Prisma", "Tailwind CSS", "Zustand"],
         category: "fullstack",
         liveUrl: "#",
         githubUrl: "#",
         featured: true,
+        details: {
+            duration: "2 months",
+            status: "Completed",
+            features: [
+                "Real-time task updates and notifications",
+                "Drag-and-drop kanban board interface",
+                "Team collaboration and comments",
+                "Project timelines and milestones",
+                "Advanced filtering and search",
+                "Time tracking and reporting",
+                "File attachments and document sharing",
+                "Mobile-responsive design"
+            ]
+        }
     },
     {
         id: 3,

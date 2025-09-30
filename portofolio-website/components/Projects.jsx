@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useProjects } from "@/context/ProjectsContext";
-import { ExternalLink, Github, Eye } from "lucide-react";
+import { ExternalLink, Github, Eye, ArrowRight } from "lucide-react";
 
 const Projects = () => {
     const [filter, setFilter] = useState("all");
     const { projects, loading } = useProjects();
+    const router = useRouter();
 
     const filters = [
         { key: "all", label: "All Projects" },
@@ -82,7 +84,8 @@ const Projects = () => {
                         {filteredProjects.map((project) => (
                             <div
                                 key={project.id}
-                                className="bg-tertiary rounded-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 group"
+                                className="bg-tertiary rounded-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 group cursor-pointer"
+                                onClick={() => router.push(`/project/${project.id}`)}
                             >
                                 {/* Project Image */}
                                 <div className="relative h-48 bg-gradient-to-br from-accent/20 to-accent-hover/20 overflow-hidden">
@@ -104,27 +107,39 @@ const Projects = () => {
                                     </div>
 
                                     {/* Overlay */}
-                                    <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-                                        {project.liveUrl && project.liveUrl !== "#" && (
-                                            <a
-                                                href={project.liveUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="w-12 h-12 bg-accent hover:bg-accent-hover rounded-full flex items-center justify-center transition-colors"
-                                            >
-                                                <ExternalLink size={20} />
-                                            </a>
-                                        )}
-                                        {project.githubUrl && project.githubUrl !== "#" && (
-                                            <a
-                                                href={project.githubUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="w-12 h-12 bg-white hover:bg-white/90 text-primary rounded-full flex items-center justify-center transition-colors"
-                                            >
-                                                <Github size={20} />
-                                            </a>
-                                        )}
+                                    <div className="absolute inset-0 bg-primary/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center space-y-4">
+                                        <button
+                                            onClick={() => router.push(`/project/${project.id}`)}
+                                            className="bg-accent hover:bg-accent-hover text-white px-6 py-2 rounded-full flex items-center gap-2 font-semibold transition-colors"
+                                        >
+                                            <Eye size={18} />
+                                            View Details
+                                        </button>
+                                        
+                                        <div className="flex space-x-3">
+                                            {project.liveUrl && project.liveUrl !== "#" && (
+                                                <a
+                                                    href={project.liveUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="w-12 h-12 bg-accent hover:bg-accent-hover rounded-full flex items-center justify-center transition-colors"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                >
+                                                    <ExternalLink size={20} />
+                                                </a>
+                                            )}
+                                            {project.githubUrl && project.githubUrl !== "#" && (
+                                                <a
+                                                    href={project.githubUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="w-12 h-12 bg-white hover:bg-white/90 text-primary rounded-full flex items-center justify-center transition-colors"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                >
+                                                    <Github size={20} />
+                                                </a>
+                                            )}
+                                        </div>
                                     </div>
 
                                     {/* Featured Badge */}
@@ -157,6 +172,19 @@ const Projects = () => {
                                         ))}
                                     </div>
 
+                                    {/* View Details Button */}
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            router.push(`/project/${project.id}`);
+                                        }}
+                                        className="w-full bg-accent hover:bg-accent-hover text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 font-medium transition-colors group-hover:scale-105"
+                                    >
+                                        <Eye size={16} />
+                                        View Details
+                                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                                    </button>
+
                                     {/* Project Links */}
                                     <div className="flex justify-between items-center pt-4 border-t border-primary">
                                         <span className="text-xs text-white/50 uppercase tracking-wider">
@@ -169,6 +197,7 @@ const Projects = () => {
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="text-accent hover:text-accent-hover transition-colors"
+                                                    onClick={(e) => e.stopPropagation()}
                                                 >
                                                     <ExternalLink size={16} />
                                                 </a>
@@ -179,6 +208,7 @@ const Projects = () => {
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="text-white/70 hover:text-white transition-colors"
+                                                    onClick={(e) => e.stopPropagation()}
                                                 >
                                                     <Github size={16} />
                                                 </a>
