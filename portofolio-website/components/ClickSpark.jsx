@@ -16,14 +16,14 @@ const useClickSpark = (options = {}) => {
 
     const createSpark = useCallback((x, y) => {
         const sparks = [];
-        
+
         for (let i = 0; i < particleCount; i++) {
             const spark = document.createElement('div');
             const sparkSize = Math.random() * (size.max - size.min) + size.min;
             const color = colors[Math.floor(Math.random() * colors.length)];
             const angle = (Math.PI * 2 / particleCount) * i + (Math.random() - 0.5) * 0.5;
             const velocity = Math.random() * (speed.max - speed.min) + speed.min;
-            
+
             spark.style.cssText = `
                 position: fixed;
                 width: ${sparkSize}px;
@@ -36,15 +36,15 @@ const useClickSpark = (options = {}) => {
                 top: ${y}px;
                 box-shadow: 0 0 6px ${color}40, 0 0 12px ${color}20;
             `;
-            
+
             document.body.appendChild(spark);
             sparks.push(spark);
-            
+
             const vx = Math.cos(angle) * velocity;
             const vy = Math.sin(angle) * velocity;
-            
+
             gsap.set(spark, { x: 0, y: 0, scale: 1, opacity: 1 });
-            
+
             gsap.to(spark, {
                 x: vx * (life / 2),
                 y: vy * (life / 2) + (gravity * life * life) / 2,
@@ -56,7 +56,7 @@ const useClickSpark = (options = {}) => {
                     spark.remove();
                 }
             });
-            
+
             // Add some rotation for extra flair
             gsap.to(spark, {
                 rotation: Math.random() * 360,
@@ -64,7 +64,7 @@ const useClickSpark = (options = {}) => {
                 ease: "none"
             });
         }
-        
+
         return sparks;
     }, [particleCount, colors, size, speed, gravity, friction, life]);
 

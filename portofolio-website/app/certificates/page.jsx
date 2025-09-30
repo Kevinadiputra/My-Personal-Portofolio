@@ -270,8 +270,8 @@ const CertificatesPageContent = () => {
                                             key={filterOption.key}
                                             onClick={() => setFilter(filterOption.key)}
                                             className={`px-6 py-3 rounded-2xl font-medium transition-all duration-300 flex items-center gap-2 ${filter === filterOption.key
-                                                    ? "bg-accent text-white shadow-lg scale-105"
-                                                    : "bg-tertiary text-white/70 hover:bg-tertiary-hover hover:text-white hover:scale-105"
+                                                ? "bg-accent text-white shadow-lg scale-105"
+                                                : "bg-tertiary text-white/70 hover:bg-tertiary-hover hover:text-white hover:scale-105"
                                                 }`}
                                             whileHover={{ y: -2 }}
                                             whileTap={{ scale: 0.95 }}

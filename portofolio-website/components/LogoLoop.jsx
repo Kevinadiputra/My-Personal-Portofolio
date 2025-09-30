@@ -33,13 +33,13 @@ const LogoLoop = ({
 
         const container = containerRef.current;
         const logoElements = container.children;
-        
+
         if (logoElements.length === 0) return;
 
         // Calculate total width
         const logoWidth = logoElements[0].offsetWidth;
         const totalWidth = logoWidth * logoElements.length + spacing * (logoElements.length - 1);
-        
+
         // Set up infinite loop animation
         const setupAnimation = () => {
             gsap.set(logoElements, {
@@ -47,7 +47,7 @@ const LogoLoop = ({
             });
 
             const tl = gsap.timeline({ repeat: -1, ease: 'none' });
-            
+
             if (direction === 'left') {
                 tl.to(logoElements, {
                     x: (i) => i * (logoWidth + spacing) - totalWidth - spacing,
@@ -113,7 +113,7 @@ const LogoLoop = ({
 
     return (
         <div className={`overflow-hidden relative ${className}`}>
-            <div 
+            <div
                 ref={containerRef}
                 className="flex items-center h-full relative"
                 style={{ width: '200%' }}
@@ -135,7 +135,7 @@ const LogoLoop = ({
                                 title={logo.name}
                             />
                         ) : (
-                            <div 
+                            <div
                                 className={`${logoClassName} bg-gradient-to-br from-accent/20 to-accent-hover/20 rounded-lg flex items-center justify-center text-accent font-semibold text-xs`}
                                 title={logo.name}
                             >
@@ -145,7 +145,7 @@ const LogoLoop = ({
                     </div>
                 ))}
             </div>
-            
+
             {/* Gradient overlays for smooth fade effect */}
             <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-current to-transparent opacity-20 pointer-events-none" />
             <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-current to-transparent opacity-20 pointer-events-none" />
