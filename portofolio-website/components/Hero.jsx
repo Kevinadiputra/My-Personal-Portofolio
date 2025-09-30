@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronDown, Download, Github, Linkedin, Mail } from "lucide-react";
+import { ChevronDown, Download, Github, Linkedin, Mail, Instagram } from "lucide-react";
 
 const Hero = () => {
     const [displayText, setDisplayText] = useState("");
@@ -85,7 +85,7 @@ const Hero = () => {
                         {/* Social Links */}
                         <div className="flex space-x-4">
                             <a
-                                href="https://github.com"
+                                href="https://github.com/Kevinadiputra"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-12 h-12 bg-tertiary hover:bg-accent rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110"
@@ -93,7 +93,7 @@ const Hero = () => {
                                 <Github size={20} />
                             </a>
                             <a
-                                href="https://linkedin.com"
+                                href="https://www.linkedin.com/in/kevin-adiputra-mahesa-8339911b3/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-12 h-12 bg-tertiary hover:bg-accent rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110"
@@ -101,7 +101,15 @@ const Hero = () => {
                                 <Linkedin size={20} />
                             </a>
                             <a
-                                href="mailto:kevin@example.com"
+                                href="https://www.instagram.com/kevinadiputra66/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-12 h-12 bg-tertiary hover:bg-accent rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110"
+                            >
+                                <Instagram size={20} />
+                            </a>
+                            <a
+                                href="mailto:kevinadiputra66@gmail.com"
                                 className="w-12 h-12 bg-tertiary hover:bg-accent rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110"
                             >
                                 <Mail size={20} />

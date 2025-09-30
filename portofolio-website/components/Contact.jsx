@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram } from "lucide-react";
+import LocationMap from "./LocationMap";
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -42,27 +43,21 @@ const Contact = () => {
         {
             icon: Mail,
             title: "Email",
-            content: "kevin.adiputra@example.com",
-            link: "mailto:kevin.adiputra@example.com",
+            content: "kevinadiputra66@gmail.com",
+            link: "mailto:kevinadiputra66@gmail.com",
         },
         {
             icon: Phone,
             title: "Phone",
-            content: "+62 123 456 789",
-            link: "tel:+62123456789",
-        },
-        {
-            icon: MapPin,
-            title: "Location",
-            content: "Jakarta, Indonesia",
-            link: "#",
+            content: "+62 821 8185 7340",
+            link: "tel:+6282181857340",
         },
     ];
 
     const socialLinks = [
-        { icon: Github, href: "https://github.com", label: "GitHub" },
-        { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-        { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+        { icon: Github, href: "https://github.com/Kevinadiputra", label: "GitHub" },
+        { icon: Linkedin, href: "https://www.linkedin.com/in/kevin-adiputra-mahesa-8339911b3/", label: "LinkedIn" },
+        { icon: Instagram, href: "https://www.instagram.com/kevinadiputra66/", label: "Instagram" },
     ];
 
     return (
@@ -104,6 +99,9 @@ const Contact = () => {
                                         </div>
                                     );
                                 })}
+                                
+                                {/* Location with Google Maps */}
+                                <LocationMap />
                             </div>
                         </div>
 

@@ -38,7 +38,7 @@ export const metadata = {
     locale: 'en_US',
     type: 'website',
   },
-  twitter: {
+  instagram: {
     card: 'summary_large_image',
     title: "Kevin Adiputra - Data Science & Machine Learning Operations Portfolio",
     description: "Machine Learning Operations Engineer specializing in data processing, ETL, and modern data technologies.",
