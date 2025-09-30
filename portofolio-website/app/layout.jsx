@@ -7,9 +7,9 @@ const sometypeMono = Sometype_Mono({
 });
 
 export const metadata = {
-  title: "Kevin Adiputra - Full Stack Developer Portfolio",
-  description: "Full Stack Developer specializing in React, Next.js, Node.js, and modern web technologies. Explore my projects and get in touch for web development services.",
-  keywords: "Kevin Adiputra, Full Stack Developer, React Developer, Next.js, Node.js, Web Developer, Frontend, Backend, Portfolio",
+  title: "Kevin Adiputra - Data Science & Machine Learning Operations Portfolio",
+  description: "Machine Learning Operations Engineer specializing in data processing, ETL, and modern data technologies. Explore my projects and get in touch for data engineering services.",
+  keywords: "Kevin Adiputra, Machine Learning Operations Engineer, ETL, Data Processing, Data Pipeline, Portfolio",
   authors: [{ name: "Kevin Adiputra" }],
   creator: "Kevin Adiputra",
   publisher: "Kevin Adiputra",
@@ -23,8 +23,8 @@ export const metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: "Kevin Adiputra - Full Stack Developer Portfolio",
-    description: "Full Stack Developer specializing in React, Next.js, Node.js, and modern web technologies.",
+    title: "Kevin Adiputra - Data Science & Machine Learning Operations Portfolio",
+    description: "Machine Learning Operations Engineer specializing in data processing, ETL, and modern data technologies.",
     url: 'https://kevin-adiputra-portfolio.vercel.app',
     siteName: 'Kevin Adiputra Portfolio',
     images: [
@@ -32,7 +32,7 @@ export const metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Kevin Adiputra - Full Stack Developer',
+        alt: 'Kevin Adiputra - Data Science & Machine Learning Operations Portfolio',
       },
     ],
     locale: 'en_US',
@@ -40,8 +40,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Kevin Adiputra - Full Stack Developer Portfolio",
-    description: "Full Stack Developer specializing in React, Next.js, Node.js, and modern web technologies.",
+    title: "Kevin Adiputra - Data Science & Machine Learning Operations Portfolio",
+    description: "Machine Learning Operations Engineer specializing in data processing, ETL, and modern data technologies.",
     images: ['/og-image.jpg'],
   },
   robots: {
