@@ -1,79 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useProjects } from "@/context/ProjectsContext";
 import { ExternalLink, Github, Eye } from "lucide-react";
 
 const Projects = () => {
     const [filter, setFilter] = useState("all");
-
-    const projects = [
-        {
-            id: 1,
-            title: "E-Commerce Platform",
-            description: "A full-featured e-commerce platform with user authentication, payment integration, and admin dashboard.",
-            image: "/api/placeholder/400/250",
-            technologies: ["React", "Node.js", "MongoDB", "Stripe", "Tailwind CSS"],
-            category: "fullstack",
-            liveUrl: "#",
-            githubUrl: "#",
-            featured: true,
-        },
-        {
-            id: 2,
-            title: "Task Management App",
-            description: "A collaborative task management application with real-time updates and team collaboration features.",
-            image: "/api/placeholder/400/250",
-            technologies: ["Next.js", "TypeScript", "PostgreSQL", "Socket.io"],
-            category: "fullstack",
-            liveUrl: "#",
-            githubUrl: "#",
-            featured: true,
-        },
-        {
-            id: 3,
-            title: "Weather Dashboard",
-            description: "A beautiful weather dashboard with location-based forecasts and interactive charts.",
-            image: "/api/placeholder/400/250",
-            technologies: ["React", "Chart.js", "Weather API", "CSS3"],
-            category: "frontend",
-            liveUrl: "#",
-            githubUrl: "#",
-            featured: false,
-        },
-        {
-            id: 4,
-            title: "REST API Service",
-            description: "A robust REST API with authentication, rate limiting, and comprehensive documentation.",
-            image: "/api/placeholder/400/250",
-            technologies: ["Node.js", "Express", "JWT", "Swagger", "Docker"],
-            category: "backend",
-            liveUrl: "#",
-            githubUrl: "#",
-            featured: false,
-        },
-        {
-            id: 5,
-            title: "Portfolio Website",
-            description: "A responsive portfolio website with modern design and smooth animations.",
-            image: "/api/placeholder/400/250",
-            technologies: ["Next.js", "Tailwind CSS", "Framer Motion"],
-            category: "frontend",
-            liveUrl: "#",
-            githubUrl: "#",
-            featured: false,
-        },
-        {
-            id: 6,
-            title: "Blog CMS",
-            description: "A content management system for bloggers with rich text editor and SEO optimization.",
-            image: "/api/placeholder/400/250",
-            technologies: ["React", "Node.js", "MySQL", "TinyMCE"],
-            category: "fullstack",
-            liveUrl: "#",
-            githubUrl: "#",
-            featured: false,
-        },
-    ];
+    const { projects, loading } = useProjects();
 
     const filters = [
         { key: "all", label: "All Projects" },
@@ -81,6 +14,7 @@ const Projects = () => {
         { key: "fullstack", label: "Full Stack" },
         { key: "frontend", label: "Frontend" },
         { key: "backend", label: "Backend" },
+        { key: "mobile", label: "Mobile" },
     ];
 
     const filteredProjects = projects.filter(project => {
@@ -88,6 +22,19 @@ const Projects = () => {
         if (filter === "featured") return project.featured;
         return project.category === filter;
     });
+
+    if (loading) {
+        return (
+            <section id="projects" className="py-20 bg-secondary relative">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center">
+                        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent mx-auto"></div>
+                        <p className="text-white/70 mt-4">Loading projects...</p>
+                    </div>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section id="projects" className="py-20 bg-secondary relative">
@@ -117,37 +64,67 @@ const Projects = () => {
                 </div>
 
                 {/* Projects Grid */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredProjects.map((project) => (
-                        <div
-                            key={project.id}
-                            className="bg-tertiary rounded-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 group"
-                        >
-                            {/* Project Image */}
-                            <div className="relative h-48 bg-gradient-to-br from-accent/20 to-accent-hover/20 overflow-hidden">
-                                {/* Placeholder for project image */}
-                                <div className="w-full h-full flex items-center justify-center text-6xl text-accent/30">
-                                    <Eye />
-                                </div>
+                {filteredProjects.length === 0 ? (
+                    <div className="text-center py-16">
+                        <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-tertiary flex items-center justify-center">
+                            <Eye size={32} className="text-accent/50" />
+                        </div>
+                        <h3 className="text-xl text-white mb-2">No Projects Found</h3>
+                        <p className="text-white/70">
+                            {filter === "all" 
+                                ? "No projects available yet." 
+                                : `No projects found in the "${filter}" category.`
+                            }
+                        </p>
+                    </div>
+                ) : (
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {filteredProjects.map((project) => (
+                            <div
+                                key={project.id}
+                                className="bg-tertiary rounded-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 group"
+                            >
+                                {/* Project Image */}
+                                <div className="relative h-48 bg-gradient-to-br from-accent/20 to-accent-hover/20 overflow-hidden">
+                                    {project.image && project.image !== "/api/placeholder/400/250" ? (
+                                        <img 
+                                            src={project.image} 
+                                            alt={project.title}
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => {
+                                                e.target.style.display = 'none';
+                                                e.target.nextSibling.style.display = 'flex';
+                                            }}
+                                        />
+                                    ) : null}
+                                    
+                                    {/* Fallback placeholder */}
+                                    <div className={`w-full h-full flex items-center justify-center text-6xl text-accent/30 ${project.image && project.image !== "/api/placeholder/400/250" ? 'hidden' : 'flex'}`}>
+                                        <Eye />
+                                    </div>
 
                                 {/* Overlay */}
                                 <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-                                    <a
-                                        href={project.liveUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="w-12 h-12 bg-accent hover:bg-accent-hover rounded-full flex items-center justify-center transition-colors"
-                                    >
-                                        <ExternalLink size={20} />
-                                    </a>
-                                    <a
-                                        href={project.githubUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="w-12 h-12 bg-white hover:bg-white/90 text-primary rounded-full flex items-center justify-center transition-colors"
-                                    >
-                                        <Github size={20} />
-                                    </a>
+                                    {project.liveUrl && project.liveUrl !== "#" && (
+                                        <a
+                                            href={project.liveUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="w-12 h-12 bg-accent hover:bg-accent-hover rounded-full flex items-center justify-center transition-colors"
+                                        >
+                                            <ExternalLink size={20} />
+                                        </a>
+                                    )}
+                                    {project.githubUrl && project.githubUrl !== "#" && (
+                                        <a
+                                            href={project.githubUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="w-12 h-12 bg-white hover:bg-white/90 text-primary rounded-full flex items-center justify-center transition-colors"
+                                        >
+                                            <Github size={20} />
+                                        </a>
+                                    )}
                                 </div>
 
                                 {/* Featured Badge */}
@@ -186,28 +163,33 @@ const Projects = () => {
                                         {project.category}
                                     </span>
                                     <div className="flex space-x-3">
-                                        <a
-                                            href={project.liveUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-accent hover:text-accent-hover transition-colors"
-                                        >
-                                            <ExternalLink size={16} />
-                                        </a>
-                                        <a
-                                            href={project.githubUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-white/70 hover:text-white transition-colors"
-                                        >
-                                            <Github size={16} />
-                                        </a>
+                                        {project.liveUrl && project.liveUrl !== "#" && (
+                                            <a
+                                                href={project.liveUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-accent hover:text-accent-hover transition-colors"
+                                            >
+                                                <ExternalLink size={16} />
+                                            </a>
+                                        )}
+                                        {project.githubUrl && project.githubUrl !== "#" && (
+                                            <a
+                                                href={project.githubUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-white/70 hover:text-white transition-colors"
+                                            >
+                                                <Github size={16} />
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
+                )}
 
                 {/* Call to Action */}
                 <div className="text-center mt-16">

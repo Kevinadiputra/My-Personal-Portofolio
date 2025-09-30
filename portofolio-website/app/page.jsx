@@ -9,22 +9,27 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import LoadingScreen from "@/components/LoadingScreen";
+import AdminPanel from "@/components/AdminPanel";
+import { ProjectsProvider } from "@/context/ProjectsContext";
 
 const Home = () => {
   return (
-    <div className="relative">
-      <LoadingScreen />
-      <Header />
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Contact />
-      </main>
-      <Footer />
-      <ScrollToTop />
-    </div>
+    <ProjectsProvider>
+      <div className="relative">
+        <LoadingScreen />
+        <Header />
+        <main>
+          <Hero />
+          <About />
+          <Skills />
+          <Projects />
+          <Contact />
+        </main>
+        <Footer />
+        <ScrollToTop />
+        <AdminPanel />
+      </div>
+    </ProjectsProvider>
   );
 };
 
