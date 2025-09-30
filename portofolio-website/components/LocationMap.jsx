@@ -3,11 +3,6 @@
 import { useState, useEffect } from "react";
 import { MapPin, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
-import { 
-    GlowingStarsBackgroundCard, 
-    GlowingStarsTitle, 
-    GlowingStarsDescription 
-} from "react-bits";
 
 const LocationMap = () => {
     const [location, setLocation] = useState({
@@ -117,30 +112,68 @@ const LocationMap = () => {
     }
 
     return (
-        <GlowingStarsBackgroundCard className="p-0 m-0 bg-transparent border-none">
+        <motion.div 
+            className="flex items-center space-x-4 group cursor-pointer p-4 rounded-xl bg-gradient-to-r from-tertiary/50 to-secondary/30 backdrop-blur-sm border border-accent/20" 
+            onClick={openInGoogleMaps}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            whileHover={{ 
+                scale: 1.02,
+                boxShadow: "0 10px 30px rgba(88, 16, 255, 0.3)",
+                borderColor: "rgba(88, 16, 255, 0.5)",
+                transition: { duration: 0.2 }
+            }}
+            whileTap={{ scale: 0.98 }}
+        >
             <motion.div 
-                className="flex items-center space-x-4 group cursor-pointer" 
-                onClick={openInGoogleMaps}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                className="w-12 h-12 bg-gradient-to-br from-accent to-accent-hover rounded-xl flex items-center justify-center relative overflow-hidden"
                 whileHover={{ 
-                    scale: 1.02,
-                    transition: { duration: 0.2 }
+                    boxShadow: "0 0 25px rgba(88, 16, 255, 0.6)",
+                    rotate: [0, -5, 5, 0],
+                    scale: 1.1
                 }}
-                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.3 }}
             >
-                <motion.div 
-                    className="w-12 h-12 bg-tertiary group-hover:bg-accent rounded-xl flex items-center justify-center transition-colors relative overflow-hidden"
-                    whileHover={{ 
-                        boxShadow: "0 0 20px rgba(88, 16, 255, 0.5)",
-                        rotate: [0, -5, 5, 0]
+                <motion.div
+                    animate={{ 
+                        y: [0, -3, 0],
                     }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ 
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "reverse"
+                    }}
                 >
+                    <MapPin size={20} className="text-white" />
+                </motion.div>
+                
+                {/* Animated background glow */}
+                <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-accent/30 to-accent-hover/30 rounded-xl"
+                    animate={{
+                        opacity: [0.3, 0.7, 0.3],
+                        scale: [1, 1.1, 1]
+                    }}
+                    transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "reverse"
+                    }}
+                />
+            </motion.div>
+            
+            <div className="flex-1">
+                <motion.h4 
+                    className="text-white font-semibold flex items-center gap-2 text-base mb-1"
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.2 }}
+                >
+                    Location
                     <motion.div
                         animate={{ 
-                            y: [0, -2, 0],
+                            rotate: [0, 15, 0],
+                            scale: [1, 1.2, 1]
                         }}
                         transition={{ 
                             duration: 2,
@@ -148,42 +181,22 @@ const LocationMap = () => {
                             repeatType: "reverse"
                         }}
                     >
-                        <MapPin size={20} className="text-white" />
+                        <ExternalLink size={14} className="text-white/50 group-hover:text-accent transition-colors" />
                     </motion.div>
-                    
-                    {/* Glowing effect */}
-                    <motion.div
-                        className="absolute inset-0 bg-accent/20 rounded-xl"
-                        initial={{ opacity: 0 }}
-                        whileHover={{ opacity: 1 }}
-                        transition={{ duration: 0.3 }}
-                    />
-                </motion.div>
+                </motion.h4>
                 
-                <div className="flex-1">
-                    <GlowingStarsTitle className="text-white font-semibold flex items-center gap-2 text-base mb-1">
-                        Location
-                        <motion.div
-                            animate={{ 
-                                rotate: [0, 15, 0],
-                                scale: [1, 1.1, 1]
-                            }}
-                            transition={{ 
-                                duration: 2,
-                                repeat: Infinity,
-                                repeatType: "reverse"
-                            }}
-                        >
-                            <ExternalLink size={14} className="text-white/50 group-hover:text-accent transition-colors" />
-                        </motion.div>
-                    </GlowingStarsTitle>
-                    
-                    <GlowingStarsDescription className="text-white/70 hover:text-accent transition-colors text-sm">
-                        {location.city}, {location.country}
-                    </GlowingStarsDescription>
-                </div>
-            </motion.div>
-        </GlowingStarsBackgroundCard>
+                <motion.span 
+                    className="text-white/70 hover:text-accent transition-colors text-sm"
+                    whileHover={{ 
+                        color: "#5810ff",
+                        textShadow: "0 0 10px rgba(88, 16, 255, 0.5)"
+                    }}
+                    transition={{ duration: 0.2 }}
+                >
+                    {location.city}, {location.country}
+                </motion.span>
+            </div>
+        </motion.div>
     );
 };
 

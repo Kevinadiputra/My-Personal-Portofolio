@@ -3,13 +3,6 @@
 import { useState, useEffect } from "react";
 import { ChevronDown, Download, Github, Linkedin, Mail, Instagram } from "lucide-react";
 import { motion } from "framer-motion";
-import { 
-    GlowingStarsBackgroundCard, 
-    GlowingStarsTitle, 
-    GlowingStarsDescription,
-    RainbowButton,
-    ShimmerButton
-} from "react-bits";
 
 const Hero = () => {
     const [displayText, setDisplayText] = useState("");
@@ -119,7 +112,14 @@ const Hero = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.5 }}
                     >
-                        <GlowingStarsTitle className="h1 text-white">
+                        <motion.h1 
+                            className="h1 text-white"
+                            whileHover={{ 
+                                scale: 1.02,
+                                textShadow: "0 0 20px rgba(255, 255, 255, 0.3)"
+                            }}
+                            transition={{ duration: 0.3 }}
+                        >
                             <motion.span
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
@@ -134,12 +134,12 @@ const Hero = () => {
                                 transition={{ duration: 0.6, delay: 0.9 }}
                                 whileHover={{ 
                                     scale: 1.05,
-                                    textShadow: "0 0 20px rgba(88, 16, 255, 0.8)"
+                                    textShadow: "0 0 25px rgba(88, 16, 255, 1)"
                                 }}
                             >
                                 Kevin Adiputra
                             </motion.span>
-                        </GlowingStarsTitle>
+                        </motion.h1>
 
                         <motion.div 
                             className="h-16 flex items-center justify-center"
@@ -181,16 +181,19 @@ const Hero = () => {
                     </motion.div>
 
                     {/* Description */}
-                    <motion.div
+                    <motion.p
+                        className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 1.3 }}
+                        whileHover={{ 
+                            scale: 1.02,
+                            color: "rgba(255, 255, 255, 0.9)"
+                        }}
                     >
-                        <GlowingStarsDescription className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
-                            Passionate about creating innovative web solutions with modern technologies.
-                            I bring ideas to life through clean code and exceptional user experiences.
-                        </GlowingStarsDescription>
-                    </motion.div>
+                        Passionate about creating innovative web solutions with modern technologies.
+                        I bring ideas to life through clean code and exceptional user experiences.
+                    </motion.p>
 
                     {/* Social Links and CTA */}
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-8">
@@ -235,25 +238,38 @@ const Hero = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 1.7 }}
                         >
-                            <RainbowButton className="btn btn-sm group">
+                            <motion.button 
+                                className="bg-gradient-to-r from-accent to-accent-hover hover:from-accent-hover hover:to-accent text-white font-semibold py-3 px-6 rounded-xl flex items-center gap-2 transition-all duration-300"
+                                whileHover={{ 
+                                    scale: 1.05,
+                                    boxShadow: "0 10px 30px rgba(88, 16, 255, 0.4)"
+                                }}
+                                whileTap={{ scale: 0.95 }}
+                            >
                                 <motion.div
                                     whileHover={{ 
                                         y: [0, -5, 0],
-                                        rotate: [0, 10, -10, 0]
+                                        rotate: [0, 15, -15, 0]
                                     }}
                                     transition={{ duration: 0.5 }}
                                 >
-                                    <Download size={18} className="mr-2" />
+                                    <Download size={18} />
                                 </motion.div>
                                 Download CV
-                            </RainbowButton>
+                            </motion.button>
                             
-                            <ShimmerButton
+                            <motion.button
                                 onClick={scrollToAbout}
-                                className="btn btn-sm btn-tertiary"
+                                className="bg-tertiary hover:bg-tertiary-hover text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300"
+                                whileHover={{ 
+                                    scale: 1.05,
+                                    backgroundColor: "#5810ff",
+                                    boxShadow: "0 10px 30px rgba(88, 16, 255, 0.3)"
+                                }}
+                                whileTap={{ scale: 0.95 }}
                             >
                                 Learn More
-                            </ShimmerButton>
+                            </motion.button>
                         </motion.div>
                     </div>
                 </motion.div>

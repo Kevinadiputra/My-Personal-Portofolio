@@ -4,13 +4,6 @@ import { useState } from "react";
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram } from "lucide-react";
 import LocationMap from "./LocationMap";
 import { motion } from "framer-motion";
-import { 
-    GlowingStarsBackgroundCard, 
-    GlowingStarsTitle, 
-    GlowingStarsDescription,
-    RainbowButton,
-    ShimmerButton
-} from "react-bits";
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -78,18 +71,33 @@ const Contact = () => {
                     transition={{ duration: 0.6 }}
                     viewport={{ once: true }}
                 >
-                    <GlowingStarsTitle className="h2 text-white mb-4">Get In Touch</GlowingStarsTitle>
+                    <motion.h2 
+                        className="h2 text-white mb-4"
+                        whileHover={{ 
+                            scale: 1.05,
+                            textShadow: "0 0 20px rgba(88, 16, 255, 0.8)"
+                        }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        Get In Touch
+                    </motion.h2>
                     <motion.div 
-                        className="w-24 h-1 bg-accent mx-auto rounded-full mb-6"
-                        initial={{ width: 0 }}
-                        whileInView={{ width: 96 }}
+                        className="w-24 h-1 bg-gradient-to-r from-accent to-accent-hover mx-auto rounded-full mb-6"
+                        initial={{ width: 0, opacity: 0 }}
+                        whileInView={{ width: 96, opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
                         viewport={{ once: true }}
                     />
-                    <GlowingStarsDescription className="text-white/70 max-w-2xl mx-auto">
+                    <motion.p 
+                        className="text-white/70 max-w-2xl mx-auto"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                        viewport={{ once: true }}
+                    >
                         Have a project in mind or want to collaborate? I'd love to hear from you.
                         Let's create something amazing together!
-                    </GlowingStarsDescription>
+                    </motion.p>
                 </motion.div>
 
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
@@ -102,7 +110,16 @@ const Contact = () => {
                         viewport={{ once: true }}
                     >
                         <div>
-                            <GlowingStarsTitle className="h3 text-white mb-8">Let's Connect</GlowingStarsTitle>
+                            <motion.h3 
+                                className="h3 text-white mb-8"
+                                whileHover={{ 
+                                    scale: 1.02,
+                                    color: "#5810ff"
+                                }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                Let's Connect
+                            </motion.h3>
 
                             {/* Contact Details */}
                             <div className="space-y-6">
@@ -215,19 +232,33 @@ const Contact = () => {
                         </motion.div>
 
                         {/* Availability Status */}
-                        <GlowingStarsBackgroundCard className="bg-tertiary p-6 rounded-2xl">
+                        <motion.div 
+                            className="bg-gradient-to-br from-tertiary to-secondary p-6 rounded-2xl border border-accent/20"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.5, delay: 0.4 }}
+                            viewport={{ once: true }}
+                            whileHover={{ 
+                                scale: 1.02,
+                                boxShadow: "0 10px 30px rgba(88, 16, 255, 0.2)"
+                            }}
+                        >
                             <motion.div 
                                 className="flex items-center space-x-3 mb-3"
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
-                                transition={{ duration: 0.5, delay: 0.4 }}
+                                transition={{ duration: 0.5, delay: 0.6 }}
                                 viewport={{ once: true }}
                             >
                                 <motion.div 
                                     className="w-3 h-3 bg-green-500 rounded-full"
                                     animate={{ 
-                                        scale: [1, 1.2, 1],
-                                        opacity: [1, 0.7, 1]
+                                        scale: [1, 1.3, 1],
+                                        boxShadow: [
+                                            "0 0 0px rgba(34, 197, 94, 0)",
+                                            "0 0 15px rgba(34, 197, 94, 0.8)",
+                                            "0 0 0px rgba(34, 197, 94, 0)"
+                                        ]
                                     }}
                                     transition={{ 
                                         duration: 2,
@@ -235,13 +266,25 @@ const Contact = () => {
                                         repeatType: "reverse"
                                     }}
                                 />
-                                <span className="text-white font-semibold">Available for Projects</span>
+                                <motion.span 
+                                    className="text-white font-semibold"
+                                    whileHover={{ x: 5 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    Available for Projects
+                                </motion.span>
                             </motion.div>
-                            <GlowingStarsDescription className="text-white/70 text-sm">
+                            <motion.p 
+                                className="text-white/70 text-sm"
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.8 }}
+                                viewport={{ once: true }}
+                            >
                                 I'm currently available for freelance work and new opportunities.
                                 Let's discuss how we can work together!
-                            </GlowingStarsDescription>
-                        </GlowingStarsBackgroundCard>
+                            </motion.p>
+                        </motion.div>
                     </motion.div>
 
                     {/* Contact Form */}
@@ -252,7 +295,16 @@ const Contact = () => {
                         transition={{ duration: 0.6, delay: 0.3 }}
                         viewport={{ once: true }}
                     >
-                        <GlowingStarsTitle className="h4 text-white mb-6">Send Me a Message</GlowingStarsTitle>
+                        <motion.h3 
+                            className="h4 text-white mb-6"
+                            whileHover={{ 
+                                scale: 1.02,
+                                color: "#5810ff"
+                            }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            Send Me a Message
+                        </motion.h3>
 
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid sm:grid-cols-2 gap-4">
@@ -320,10 +372,16 @@ const Contact = () => {
                                 />
                             </div>
 
-                            <RainbowButton
+                            <motion.button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className={`w-full flex items-center justify-center space-x-2 ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
+                                className={`w-full bg-gradient-to-r from-accent to-accent-hover hover:from-accent-hover hover:to-accent text-white font-semibold py-3 px-6 rounded-xl flex items-center justify-center space-x-2 transition-all duration-300 ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
+                                whileHover={{ 
+                                    scale: 1.02,
+                                    boxShadow: "0 10px 30px rgba(88, 16, 255, 0.4)"
+                                }}
+                                whileTap={{ scale: 0.98 }}
+                                transition={{ duration: 0.2 }}
                             >
                                 {isSubmitting ? (
                                     <>
@@ -343,16 +401,16 @@ const Contact = () => {
                                         <motion.div
                                             whileHover={{ 
                                                 rotate: [0, -10, 10, 0],
-                                                scale: [1, 1.1, 1]
+                                                scale: [1, 1.2, 1]
                                             }}
-                                            transition={{ duration: 0.3 }}
+                                            transition={{ duration: 0.4 }}
                                         >
                                             <Send size={18} />
                                         </motion.div>
                                         <span>Send Message</span>
                                     </>
                                 )}
-                            </RainbowButton>
+                            </motion.button>
                         </form>
                     </motion.div>
                 </div>
