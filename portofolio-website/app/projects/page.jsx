@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { useProjects } from "@/context/ProjectsContext";
-import { ProjectsProvider } from "@/context/ProjectsContext";
+import { useProjects, ProjectsProvider } from "@/context/ProjectsContext";
 import {
     ExternalLink,
     Github,
@@ -23,12 +22,16 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProjectsBento from "@/components/ProjectsBento";
+import ProjectContextMenu from "@/components/ProjectContextMenu";
+import { useAuth } from "@/context/AuthContext";
 
 const ProjectsPageContent = () => {
     const [filter, setFilter] = useState("all");
     const [searchTerm, setSearchTerm] = useState("");
     const [sortBy, setSortBy] = useState("newest");
-    const { projects, loading } = useProjects();
+    const [contextMenu, setContextMenu] = useState({ visible: false, position: { x: 0, y: 0 }, project: null });
+    const { projects, loading, updateProject, deleteProject, duplicateProject, toggleFeatured } = useProjects();
+    const { isAuthenticated } = useAuth();
     const router = useRouter();
 
     const filters = [
@@ -93,6 +96,41 @@ const ProjectsPageContent = () => {
             default:
                 return <Code size={16} />;
         }
+    };
+
+    // Context menu handlers
+    const handleContextMenu = (e, project) => {
+        e.preventDefault();
+        setContextMenu({
+            visible: true,
+            position: { x: e.clientX, y: e.clientY },
+            project
+        });
+    };
+
+    const handleCloseContextMenu = () => {
+        setContextMenu({ visible: false, position: { x: 0, y: 0 }, project: null });
+    };
+
+    const handleEditProject = (project) => {
+        // For now, just show an alert. In a real app, you'd open an edit modal
+        alert(`Edit project: ${project.title}\n\nIn a real implementation, this would open an edit form.`);
+    };
+
+    const handleDeleteProject = (projectId) => {
+        deleteProject(projectId);
+    };
+
+    const handleDuplicateProject = (projectId) => {
+        duplicateProject(projectId);
+    };
+
+    const handleToggleFeatured = (projectId) => {
+        toggleFeatured(projectId);
+    };
+
+    const handleViewProject = (project) => {
+        router.push(`/project/${project.id}`);
     };
 
     if (loading) {
@@ -175,7 +213,7 @@ const ProjectsPageContent = () => {
                                 Experience the magic of interactive design with animated cards that respond to your every move
                             </p>
                         </motion.div>
-                        
+
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
@@ -183,7 +221,7 @@ const ProjectsPageContent = () => {
                             viewport={{ once: true }}
                             className="w-full"
                         >
-                            <ProjectsBento 
+                            <ProjectsBento
                                 projects={projects}
                                 enableStars={true}
                                 enableSpotlight={true}
@@ -195,6 +233,7 @@ const ProjectsPageContent = () => {
                                 particleCount={8}
                                 glowColor="88, 16, 255"
                                 disableAnimations={false}
+                                onContextMenu={handleContextMenu}
                             />
                         </motion.div>
                     </div>
@@ -232,8 +271,8 @@ const ProjectsPageContent = () => {
                                             key={filterOption.key}
                                             onClick={() => setFilter(filterOption.key)}
                                             className={`px-6 py-3 rounded-2xl font-medium transition-all duration-300 flex items-center gap-2 ${filter === filterOption.key
-                                                    ? "bg-accent text-white shadow-lg scale-105"
-                                                    : "bg-tertiary text-white/70 hover:bg-tertiary-hover hover:text-white hover:scale-105"
+                                                ? "bg-accent text-white shadow-lg scale-105"
+                                                : "bg-tertiary text-white/70 hover:bg-tertiary-hover hover:text-white hover:scale-105"
                                                 }`}
                                             whileHover={{ y: -2 }}
                                             whileTap={{ scale: 0.95 }}
@@ -318,6 +357,7 @@ const ProjectsPageContent = () => {
                                         transition={{ duration: 0.6, delay: index * 0.1 }}
                                         className="bg-tertiary rounded-2xl overflow-hidden group cursor-pointer"
                                         onClick={() => router.push(`/project/${project.id}`)}
+                                        onContextMenu={(e) => handleContextMenu(e, project)}
                                         whileHover={{
                                             scale: 1.03,
                                             boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)"
@@ -470,6 +510,19 @@ const ProjectsPageContent = () => {
             </main>
 
             <Footer />
+            
+            {/* Context Menu */}
+            <ProjectContextMenu
+                project={contextMenu.project}
+                position={contextMenu.position}
+                isVisible={contextMenu.visible}
+                onClose={handleCloseContextMenu}
+                onEdit={handleEditProject}
+                onDelete={handleDeleteProject}
+                onDuplicate={handleDuplicateProject}
+                onToggleFeatured={handleToggleFeatured}
+                onView={handleViewProject}
+            />
         </div>
     );
 };

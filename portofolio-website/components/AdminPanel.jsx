@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useProjects } from '@/context/ProjectsContext';
+import { useAuth } from '@/context/AuthContext';
 import {
     Settings, Plus, X, Edit, Trash, Save, RefreshCw, Star, Copy,
     ExternalLink, Github, Eye, EyeOff
@@ -17,6 +18,7 @@ const AdminPanel = () => {
         duplicateProject,
         toggleFeatured
     } = useProjects();
+    const { isAuthenticated } = useAuth();
 
     const [isOpen, setIsOpen] = useState(false);
     const [showForm, setShowForm] = useState(false);
@@ -142,6 +144,11 @@ const AdminPanel = () => {
             showNotification('All projects have been reset to default!', 'error');
         }
     };
+
+    // Only show admin panel if user is authenticated
+    if (!isAuthenticated) {
+        return null;
+    }
 
     return (
         <>

@@ -1,5 +1,6 @@
 import { Sometype_Mono } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
 
 const sometypeMono = Sometype_Mono({
   variable: "--font-sometype-mono",
@@ -63,7 +64,9 @@ export default function RootLayout({ children }) {
       <body
         className={`${sometypeMono.variable} antialiased`}
       >
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
