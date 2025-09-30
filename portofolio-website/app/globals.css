@@ -22,18 +22,51 @@
 }
 
 body {
-  @apply font-primary bg-primary text-white leading-relaxed
+  @apply font-primary bg-primary text-white leading-relaxed;
+}
 
-}.h1 {
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection styles */
+::selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-hover);
+}
+
+.h1 {
   @apply text-[40px] md:text-[52px] xl:text-[56px] leading-[1] tracking-tight font-extrabold;
+}
 
-}.h2 {
+.h2 {
   @apply text-[32px] md:text-[36px] xl:text-[38px] leading-[1.15] tracking-tight font-medium;
+}
 
-}.h3 {
+.h3 {
   @apply text-[28px] md:text-[30px] xl:text-[32px] leading-[1.2] tracking-tight font-medium;
+}
 
-}.h4 {
+.h4 {
   @apply text-[22px] md:text-[26px] xl:text-[32px] font-medium leading-snug;
 }
 
