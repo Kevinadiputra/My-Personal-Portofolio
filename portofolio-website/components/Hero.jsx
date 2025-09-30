@@ -2,6 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { ChevronDown, Download, Github, Linkedin, Mail, Instagram } from "lucide-react";
+import { motion } from "framer-motion";
+import { 
+    GlowingStarsBackgroundCard, 
+    GlowingStarsTitle, 
+    GlowingStarsDescription,
+    RainbowButton,
+    ShimmerButton
+} from "react-bits";
 
 const Hero = () => {
     const [displayText, setDisplayText] = useState("");
@@ -49,36 +57,140 @@ const Hero = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-                <div className="space-y-8">
+                <motion.div 
+                    className="space-y-8"
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                >
                     {/* Profile Image */}
-                    <div className="relative mx-auto w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-accent shadow-2xl">
-                        <div className="w-full h-full bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center text-4xl md:text-5xl font-bold text-white">
-                            KA
-                        </div>
-                    </div>
+                    <motion.div 
+                        className="relative mx-auto w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-accent shadow-2xl"
+                        initial={{ scale: 0, rotate: -180 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{ 
+                            duration: 1,
+                            delay: 0.2,
+                            type: "spring",
+                            stiffness: 260,
+                            damping: 20
+                        }}
+                        whileHover={{ 
+                            scale: 1.1,
+                            rotate: [0, -5, 5, 0],
+                            boxShadow: "0 0 30px rgba(88, 16, 255, 0.6)"
+                        }}
+                    >
+                        <motion.div 
+                            className="w-full h-full bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center text-4xl md:text-5xl font-bold text-white"
+                            animate={{ 
+                                background: [
+                                    "linear-gradient(45deg, #5810ff, #7c3aed)",
+                                    "linear-gradient(45deg, #7c3aed, #a855f7)",
+                                    "linear-gradient(45deg, #a855f7, #5810ff)"
+                                ]
+                            }}
+                            transition={{ 
+                                duration: 3,
+                                repeat: Infinity,
+                                repeatType: "reverse"
+                            }}
+                        >
+                            <motion.span
+                                animate={{ 
+                                    scale: [1, 1.1, 1],
+                                    rotateY: [0, 10, -10, 0]
+                                }}
+                                transition={{ 
+                                    duration: 2,
+                                    repeat: Infinity,
+                                    repeatType: "reverse"
+                                }}
+                            >
+                                KA
+                            </motion.span>
+                        </motion.div>
+                    </motion.div>
 
                     {/* Name and Title */}
-                    <div className="space-y-4">
-                        <h1 className="h1 text-white">
-                            Hi, I'm <span className="text-accent">Kevin Adiputra</span>
-                        </h1>
+                    <motion.div 
+                        className="space-y-4"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.5 }}
+                    >
+                        <GlowingStarsTitle className="h1 text-white">
+                            <motion.span
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.6, delay: 0.7 }}
+                            >
+                                Hi, I'm{" "}
+                            </motion.span>
+                            <motion.span 
+                                className="text-accent"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.6, delay: 0.9 }}
+                                whileHover={{ 
+                                    scale: 1.05,
+                                    textShadow: "0 0 20px rgba(88, 16, 255, 0.8)"
+                                }}
+                            >
+                                Kevin Adiputra
+                            </motion.span>
+                        </GlowingStarsTitle>
 
-                        <div className="h-16 flex items-center justify-center">
+                        <motion.div 
+                            className="h-16 flex items-center justify-center"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.6, delay: 1.1 }}
+                        >
                             <h2 className="h3 text-white/80">
                                 I'm a{" "}
-                                <span className="text-accent font-bold">
+                                <motion.span 
+                                    className="text-accent font-bold"
+                                    animate={{ 
+                                        textShadow: [
+                                            "0 0 0px rgba(88, 16, 255, 0)",
+                                            "0 0 10px rgba(88, 16, 255, 0.8)",
+                                            "0 0 0px rgba(88, 16, 255, 0)"
+                                        ]
+                                    }}
+                                    transition={{ 
+                                        duration: 2,
+                                        repeat: Infinity,
+                                        repeatType: "reverse"
+                                    }}
+                                >
                                     {displayText}
-                                    <span className="animate-pulse">|</span>
-                                </span>
+                                    <motion.span 
+                                        className="animate-pulse"
+                                        animate={{ opacity: [1, 0, 1] }}
+                                        transition={{ 
+                                            duration: 1,
+                                            repeat: Infinity 
+                                        }}
+                                    >
+                                        |
+                                    </motion.span>
+                                </motion.span>
                             </h2>
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
 
                     {/* Description */}
-                    <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
-                        Passionate about creating innovative web solutions with modern technologies.
-                        I bring ideas to life through clean code and exceptional user experiences.
-                    </p>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 1.3 }}
+                    >
+                        <GlowingStarsDescription className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
+                            Passionate about creating innovative web solutions with modern technologies.
+                            I bring ideas to life through clean code and exceptional user experiences.
+                        </GlowingStarsDescription>
+                    </motion.div>
 
                     {/* Social Links and CTA */}
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-8">
@@ -117,30 +229,62 @@ const Hero = () => {
                         </div>
 
                         {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <button className="btn btn-sm btn-accent group">
-                                <Download size={18} className="mr-2 group-hover:animate-bounce" />
+                        <motion.div 
+                            className="flex flex-col sm:flex-row gap-4"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 1.7 }}
+                        >
+                            <RainbowButton className="btn btn-sm group">
+                                <motion.div
+                                    whileHover={{ 
+                                        y: [0, -5, 0],
+                                        rotate: [0, 10, -10, 0]
+                                    }}
+                                    transition={{ duration: 0.5 }}
+                                >
+                                    <Download size={18} className="mr-2" />
+                                </motion.div>
                                 Download CV
-                            </button>
-                            <button
+                            </RainbowButton>
+                            
+                            <ShimmerButton
                                 onClick={scrollToAbout}
                                 className="btn btn-sm btn-tertiary"
                             >
                                 Learn More
-                            </button>
-                        </div>
+                            </ShimmerButton>
+                        </motion.div>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Scroll Indicator */}
-                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-                    <button
+                <motion.div 
+                    className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 1.5 }}
+                >
+                    <motion.button
                         onClick={scrollToAbout}
                         className="text-white/50 hover:text-accent transition-colors"
+                        animate={{ 
+                            y: [0, -10, 0],
+                        }}
+                        transition={{ 
+                            duration: 2,
+                            repeat: Infinity,
+                            repeatType: "reverse"
+                        }}
+                        whileHover={{ 
+                            scale: 1.2,
+                            color: "#5810ff"
+                        }}
+                        whileTap={{ scale: 0.9 }}
                     >
                         <ChevronDown size={32} />
-                    </button>
-                </div>
+                    </motion.button>
+                </motion.div>
             </div>
         </section>
     );

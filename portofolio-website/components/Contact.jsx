@@ -3,6 +3,14 @@
 import { useState } from "react";
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram } from "lucide-react";
 import LocationMap from "./LocationMap";
+import { motion } from "framer-motion";
+import { 
+    GlowingStarsBackgroundCard, 
+    GlowingStarsTitle, 
+    GlowingStarsDescription,
+    RainbowButton,
+    ShimmerButton
+} from "react-bits";
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -63,86 +71,188 @@ const Contact = () => {
     return (
         <section id="contact" className="py-20 bg-primary relative">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
-                    <h2 className="h2 text-white mb-4">Get In Touch</h2>
-                    <div className="w-24 h-1 bg-accent mx-auto rounded-full mb-6"></div>
-                    <p className="text-white/70 max-w-2xl mx-auto">
+                <motion.div 
+                    className="text-center mb-16"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                >
+                    <GlowingStarsTitle className="h2 text-white mb-4">Get In Touch</GlowingStarsTitle>
+                    <motion.div 
+                        className="w-24 h-1 bg-accent mx-auto rounded-full mb-6"
+                        initial={{ width: 0 }}
+                        whileInView={{ width: 96 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        viewport={{ once: true }}
+                    />
+                    <GlowingStarsDescription className="text-white/70 max-w-2xl mx-auto">
                         Have a project in mind or want to collaborate? I'd love to hear from you.
                         Let's create something amazing together!
-                    </p>
-                </div>
+                    </GlowingStarsDescription>
+                </motion.div>
 
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
                     {/* Contact Information */}
-                    <div className="space-y-8">
+                    <motion.div 
+                        className="space-y-8"
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        viewport={{ once: true }}
+                    >
                         <div>
-                            <h3 className="h3 text-white mb-8">Let's Connect</h3>
+                            <GlowingStarsTitle className="h3 text-white mb-8">Let's Connect</GlowingStarsTitle>
 
                             {/* Contact Details */}
                             <div className="space-y-6">
                                 {contactInfo.map((info, index) => {
                                     const IconComponent = info.icon;
                                     return (
-                                        <div key={index} className="flex items-center space-x-4 group">
-                                            <div className="w-12 h-12 bg-tertiary group-hover:bg-accent rounded-xl flex items-center justify-center transition-colors">
+                                        <motion.div 
+                                            key={index} 
+                                            className="flex items-center space-x-4 group"
+                                            initial={{ opacity: 0, x: -30 }}
+                                            whileInView={{ opacity: 1, x: 0 }}
+                                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                                            viewport={{ once: true }}
+                                            whileHover={{ 
+                                                scale: 1.02,
+                                                transition: { duration: 0.2 }
+                                            }}
+                                        >
+                                            <motion.div 
+                                                className="w-12 h-12 bg-tertiary group-hover:bg-accent rounded-xl flex items-center justify-center transition-colors relative overflow-hidden"
+                                                whileHover={{ 
+                                                    boxShadow: "0 0 20px rgba(88, 16, 255, 0.4)",
+                                                    rotate: [0, -5, 5, 0]
+                                                }}
+                                                transition={{ duration: 0.3 }}
+                                            >
                                                 <IconComponent size={20} className="text-white" />
-                                            </div>
+                                                <motion.div
+                                                    className="absolute inset-0 bg-accent/20 rounded-xl"
+                                                    initial={{ opacity: 0 }}
+                                                    whileHover={{ opacity: 1 }}
+                                                    transition={{ duration: 0.3 }}
+                                                />
+                                            </motion.div>
                                             <div>
                                                 <h4 className="text-white font-semibold">{info.title}</h4>
-                                                <a
+                                                <motion.a
                                                     href={info.link}
                                                     className="text-white/70 hover:text-accent transition-colors"
+                                                    whileHover={{ x: 5 }}
+                                                    transition={{ duration: 0.2 }}
                                                 >
                                                     {info.content}
-                                                </a>
+                                                </motion.a>
                                             </div>
-                                        </div>
+                                        </motion.div>
                                     );
                                 })}
-                                
+
                                 {/* Location with Google Maps */}
                                 <LocationMap />
                             </div>
                         </div>
 
                         {/* Social Links */}
-                        <div>
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.3 }}
+                            viewport={{ once: true }}
+                        >
                             <h4 className="text-white font-semibold mb-4">Follow Me</h4>
-                            <div className="flex space-x-4">
+                            <motion.div 
+                                className="flex space-x-4"
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
+                                transition={{ duration: 0.6, delay: 0.4 }}
+                                viewport={{ once: true }}
+                            >
                                 {socialLinks.map((social, index) => {
                                     const IconComponent = social.icon;
                                     return (
-                                        <a
+                                        <motion.a
                                             key={index}
                                             href={social.href}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="w-12 h-12 bg-tertiary hover:bg-accent rounded-xl flex items-center justify-center transition-all duration-300 transform hover:scale-110"
+                                            className="w-12 h-12 bg-tertiary hover:bg-accent rounded-xl flex items-center justify-center transition-all duration-300"
                                             aria-label={social.label}
+                                            initial={{ opacity: 0, scale: 0 }}
+                                            whileInView={{ opacity: 1, scale: 1 }}
+                                            transition={{ 
+                                                duration: 0.4, 
+                                                delay: index * 0.1,
+                                                type: "spring",
+                                                stiffness: 260,
+                                                damping: 20
+                                            }}
+                                            viewport={{ once: true }}
+                                            whileHover={{ 
+                                                scale: 1.15,
+                                                rotate: [0, -10, 10, 0],
+                                                boxShadow: "0 0 25px rgba(88, 16, 255, 0.6)"
+                                            }}
+                                            whileTap={{ scale: 0.95 }}
                                         >
-                                            <IconComponent size={20} />
-                                        </a>
+                                            <motion.div
+                                                whileHover={{ 
+                                                    rotate: [0, 15, -15, 0],
+                                                    scale: [1, 1.1, 1]
+                                                }}
+                                                transition={{ duration: 0.3 }}
+                                            >
+                                                <IconComponent size={20} />
+                                            </motion.div>
+                                        </motion.a>
                                     );
                                 })}
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
 
                         {/* Availability Status */}
-                        <div className="bg-tertiary p-6 rounded-2xl">
-                            <div className="flex items-center space-x-3 mb-3">
-                                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                        <GlowingStarsBackgroundCard className="bg-tertiary p-6 rounded-2xl">
+                            <motion.div 
+                                className="flex items-center space-x-3 mb-3"
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
+                                transition={{ duration: 0.5, delay: 0.4 }}
+                                viewport={{ once: true }}
+                            >
+                                <motion.div 
+                                    className="w-3 h-3 bg-green-500 rounded-full"
+                                    animate={{ 
+                                        scale: [1, 1.2, 1],
+                                        opacity: [1, 0.7, 1]
+                                    }}
+                                    transition={{ 
+                                        duration: 2,
+                                        repeat: Infinity,
+                                        repeatType: "reverse"
+                                    }}
+                                />
                                 <span className="text-white font-semibold">Available for Projects</span>
-                            </div>
-                            <p className="text-white/70 text-sm">
+                            </motion.div>
+                            <GlowingStarsDescription className="text-white/70 text-sm">
                                 I'm currently available for freelance work and new opportunities.
                                 Let's discuss how we can work together!
-                            </p>
-                        </div>
-                    </div>
+                            </GlowingStarsDescription>
+                        </GlowingStarsBackgroundCard>
+                    </motion.div>
 
                     {/* Contact Form */}
-                    <div className="bg-secondary p-8 rounded-2xl">
-                        <h3 className="h4 text-white mb-6">Send Me a Message</h3>
+                    <motion.div 
+                        className="bg-secondary p-8 rounded-2xl"
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        viewport={{ once: true }}
+                    >
+                        <GlowingStarsTitle className="h4 text-white mb-6">Send Me a Message</GlowingStarsTitle>
 
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid sm:grid-cols-2 gap-4">
@@ -210,26 +320,41 @@ const Contact = () => {
                                 />
                             </div>
 
-                            <button
+                            <RainbowButton
                                 type="submit"
                                 disabled={isSubmitting}
-                                className={`w-full btn btn-accent flex items-center justify-center space-x-2 ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""
-                                    }`}
+                                className={`w-full flex items-center justify-center space-x-2 ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
                             >
                                 {isSubmitting ? (
                                     <>
-                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                        <motion.div 
+                                            className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                                            animate={{ rotate: 360 }}
+                                            transition={{ 
+                                                duration: 1,
+                                                repeat: Infinity,
+                                                ease: "linear"
+                                            }}
+                                        />
                                         <span>Sending...</span>
                                     </>
                                 ) : (
                                     <>
-                                        <Send size={18} />
+                                        <motion.div
+                                            whileHover={{ 
+                                                rotate: [0, -10, 10, 0],
+                                                scale: [1, 1.1, 1]
+                                            }}
+                                            transition={{ duration: 0.3 }}
+                                        >
+                                            <Send size={18} />
+                                        </motion.div>
                                         <span>Send Message</span>
                                     </>
                                 )}
-                            </button>
+                            </RainbowButton>
                         </form>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </section>
