@@ -83,19 +83,19 @@ const LocationMap = () => {
 
     if (location.loading) {
         return (
-            <motion.div 
+            <motion.div
                 className="flex items-center space-x-4 group"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <motion.div 
+                <motion.div
                     className="w-12 h-12 bg-tertiary group-hover:bg-accent rounded-xl flex items-center justify-center transition-colors"
-                    animate={{ 
+                    animate={{
                         scale: [1, 1.1, 1],
                         rotate: [0, 10, -10, 0]
                     }}
-                    transition={{ 
+                    transition={{
                         duration: 2,
                         repeat: Infinity,
                         repeatType: "reverse"
@@ -112,13 +112,13 @@ const LocationMap = () => {
     }
 
     return (
-        <motion.div 
-            className="flex items-center space-x-4 group cursor-pointer p-4 rounded-xl bg-gradient-to-r from-tertiary/50 to-secondary/30 backdrop-blur-sm border border-accent/20" 
+        <motion.div
+            className="flex items-center space-x-4 group cursor-pointer p-4 rounded-xl bg-gradient-to-r from-tertiary/50 to-secondary/30 backdrop-blur-sm border border-accent/20"
             onClick={openInGoogleMaps}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            whileHover={{ 
+            whileHover={{
                 scale: 1.02,
                 boxShadow: "0 10px 30px rgba(88, 16, 255, 0.3)",
                 borderColor: "rgba(88, 16, 255, 0.5)",
@@ -126,9 +126,9 @@ const LocationMap = () => {
             }}
             whileTap={{ scale: 0.98 }}
         >
-            <motion.div 
+            <motion.div
                 className="w-12 h-12 bg-gradient-to-br from-accent to-accent-hover rounded-xl flex items-center justify-center relative overflow-hidden"
-                whileHover={{ 
+                whileHover={{
                     boxShadow: "0 0 25px rgba(88, 16, 255, 0.6)",
                     rotate: [0, -5, 5, 0],
                     scale: 1.1
@@ -136,10 +136,10 @@ const LocationMap = () => {
                 transition={{ duration: 0.3 }}
             >
                 <motion.div
-                    animate={{ 
+                    animate={{
                         y: [0, -3, 0],
                     }}
-                    transition={{ 
+                    transition={{
                         duration: 2,
                         repeat: Infinity,
                         repeatType: "reverse"
@@ -147,7 +147,7 @@ const LocationMap = () => {
                 >
                     <MapPin size={20} className="text-white" />
                 </motion.div>
-                
+
                 {/* Animated background glow */}
                 <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-accent/30 to-accent-hover/30 rounded-xl"
@@ -162,20 +162,20 @@ const LocationMap = () => {
                     }}
                 />
             </motion.div>
-            
+
             <div className="flex-1">
-                <motion.h4 
+                <motion.h4
                     className="text-white font-semibold flex items-center gap-2 text-base mb-1"
                     whileHover={{ x: 5 }}
                     transition={{ duration: 0.2 }}
                 >
                     Location
                     <motion.div
-                        animate={{ 
+                        animate={{
                             rotate: [0, 15, 0],
                             scale: [1, 1.2, 1]
                         }}
-                        transition={{ 
+                        transition={{
                             duration: 2,
                             repeat: Infinity,
                             repeatType: "reverse"
@@ -184,10 +184,10 @@ const LocationMap = () => {
                         <ExternalLink size={14} className="text-white/50 group-hover:text-accent transition-colors" />
                     </motion.div>
                 </motion.h4>
-                
-                <motion.span 
+
+                <motion.span
                     className="text-white/70 hover:text-accent transition-colors text-sm"
-                    whileHover={{ 
+                    whileHover={{
                         color: "#5810ff",
                         textShadow: "0 0 10px rgba(88, 16, 255, 0.5)"
                     }}

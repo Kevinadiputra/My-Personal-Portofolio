@@ -64,16 +64,16 @@ const Contact = () => {
     return (
         <section id="contact" className="py-20 bg-primary relative">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div 
+                <motion.div
                     className="text-center mb-16"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                     viewport={{ once: true }}
                 >
-                    <motion.h2 
+                    <motion.h2
                         className="h2 text-white mb-4"
-                        whileHover={{ 
+                        whileHover={{
                             scale: 1.05,
                             textShadow: "0 0 20px rgba(88, 16, 255, 0.8)"
                         }}
@@ -81,14 +81,14 @@ const Contact = () => {
                     >
                         Get In Touch
                     </motion.h2>
-                    <motion.div 
+                    <motion.div
                         className="w-24 h-1 bg-gradient-to-r from-accent to-accent-hover mx-auto rounded-full mb-6"
                         initial={{ width: 0, opacity: 0 }}
                         whileInView={{ width: 96, opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
                         viewport={{ once: true }}
                     />
-                    <motion.p 
+                    <motion.p
                         className="text-white/70 max-w-2xl mx-auto"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -102,7 +102,7 @@ const Contact = () => {
 
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
                     {/* Contact Information */}
-                    <motion.div 
+                    <motion.div
                         className="space-y-8"
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -110,9 +110,9 @@ const Contact = () => {
                         viewport={{ once: true }}
                     >
                         <div>
-                            <motion.h3 
+                            <motion.h3
                                 className="h3 text-white mb-8"
-                                whileHover={{ 
+                                whileHover={{
                                     scale: 1.02,
                                     color: "#5810ff"
                                 }}
@@ -126,21 +126,21 @@ const Contact = () => {
                                 {contactInfo.map((info, index) => {
                                     const IconComponent = info.icon;
                                     return (
-                                        <motion.div 
-                                            key={index} 
+                                        <motion.div
+                                            key={index}
                                             className="flex items-center space-x-4 group"
                                             initial={{ opacity: 0, x: -30 }}
                                             whileInView={{ opacity: 1, x: 0 }}
                                             transition={{ duration: 0.5, delay: index * 0.1 }}
                                             viewport={{ once: true }}
-                                            whileHover={{ 
+                                            whileHover={{
                                                 scale: 1.02,
                                                 transition: { duration: 0.2 }
                                             }}
                                         >
-                                            <motion.div 
+                                            <motion.div
                                                 className="w-12 h-12 bg-tertiary group-hover:bg-accent rounded-xl flex items-center justify-center transition-colors relative overflow-hidden"
-                                                whileHover={{ 
+                                                whileHover={{
                                                     boxShadow: "0 0 20px rgba(88, 16, 255, 0.4)",
                                                     rotate: [0, -5, 5, 0]
                                                 }}
@@ -182,7 +182,7 @@ const Contact = () => {
                             viewport={{ once: true }}
                         >
                             <h4 className="text-white font-semibold mb-4">Follow Me</h4>
-                            <motion.div 
+                            <motion.div
                                 className="flex space-x-4"
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
@@ -201,15 +201,15 @@ const Contact = () => {
                                             aria-label={social.label}
                                             initial={{ opacity: 0, scale: 0 }}
                                             whileInView={{ opacity: 1, scale: 1 }}
-                                            transition={{ 
-                                                duration: 0.4, 
+                                            transition={{
+                                                duration: 0.4,
                                                 delay: index * 0.1,
                                                 type: "spring",
                                                 stiffness: 260,
                                                 damping: 20
                                             }}
                                             viewport={{ once: true }}
-                                            whileHover={{ 
+                                            whileHover={{
                                                 scale: 1.15,
                                                 rotate: [0, -10, 10, 0],
                                                 boxShadow: "0 0 25px rgba(88, 16, 255, 0.6)"
@@ -217,7 +217,7 @@ const Contact = () => {
                                             whileTap={{ scale: 0.95 }}
                                         >
                                             <motion.div
-                                                whileHover={{ 
+                                                whileHover={{
                                                     rotate: [0, 15, -15, 0],
                                                     scale: [1, 1.1, 1]
                                                 }}
@@ -232,27 +232,27 @@ const Contact = () => {
                         </motion.div>
 
                         {/* Availability Status */}
-                        <motion.div 
+                        <motion.div
                             className="bg-gradient-to-br from-tertiary to-secondary p-6 rounded-2xl border border-accent/20"
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.5, delay: 0.4 }}
                             viewport={{ once: true }}
-                            whileHover={{ 
+                            whileHover={{
                                 scale: 1.02,
                                 boxShadow: "0 10px 30px rgba(88, 16, 255, 0.2)"
                             }}
                         >
-                            <motion.div 
+                            <motion.div
                                 className="flex items-center space-x-3 mb-3"
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
                                 transition={{ duration: 0.5, delay: 0.6 }}
                                 viewport={{ once: true }}
                             >
-                                <motion.div 
+                                <motion.div
                                     className="w-3 h-3 bg-green-500 rounded-full"
-                                    animate={{ 
+                                    animate={{
                                         scale: [1, 1.3, 1],
                                         boxShadow: [
                                             "0 0 0px rgba(34, 197, 94, 0)",
@@ -260,13 +260,13 @@ const Contact = () => {
                                             "0 0 0px rgba(34, 197, 94, 0)"
                                         ]
                                     }}
-                                    transition={{ 
+                                    transition={{
                                         duration: 2,
                                         repeat: Infinity,
                                         repeatType: "reverse"
                                     }}
                                 />
-                                <motion.span 
+                                <motion.span
                                     className="text-white font-semibold"
                                     whileHover={{ x: 5 }}
                                     transition={{ duration: 0.2 }}
@@ -274,7 +274,7 @@ const Contact = () => {
                                     Available for Projects
                                 </motion.span>
                             </motion.div>
-                            <motion.p 
+                            <motion.p
                                 className="text-white/70 text-sm"
                                 initial={{ opacity: 0, y: 10 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -288,16 +288,16 @@ const Contact = () => {
                     </motion.div>
 
                     {/* Contact Form */}
-                    <motion.div 
+                    <motion.div
                         className="bg-secondary p-8 rounded-2xl"
                         initial={{ opacity: 0, x: 50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, delay: 0.3 }}
                         viewport={{ once: true }}
                     >
-                        <motion.h3 
+                        <motion.h3
                             className="h4 text-white mb-6"
-                            whileHover={{ 
+                            whileHover={{
                                 scale: 1.02,
                                 color: "#5810ff"
                             }}
@@ -376,7 +376,7 @@ const Contact = () => {
                                 type="submit"
                                 disabled={isSubmitting}
                                 className={`w-full bg-gradient-to-r from-accent to-accent-hover hover:from-accent-hover hover:to-accent text-white font-semibold py-3 px-6 rounded-xl flex items-center justify-center space-x-2 transition-all duration-300 ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
-                                whileHover={{ 
+                                whileHover={{
                                     scale: 1.02,
                                     boxShadow: "0 10px 30px rgba(88, 16, 255, 0.4)"
                                 }}
@@ -385,10 +385,10 @@ const Contact = () => {
                             >
                                 {isSubmitting ? (
                                     <>
-                                        <motion.div 
+                                        <motion.div
                                             className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
                                             animate={{ rotate: 360 }}
-                                            transition={{ 
+                                            transition={{
                                                 duration: 1,
                                                 repeat: Infinity,
                                                 ease: "linear"
@@ -399,7 +399,7 @@ const Contact = () => {
                                 ) : (
                                     <>
                                         <motion.div
-                                            whileHover={{ 
+                                            whileHover={{
                                                 rotate: [0, -10, 10, 0],
                                                 scale: [1, 1.2, 1]
                                             }}

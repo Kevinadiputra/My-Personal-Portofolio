@@ -50,51 +50,51 @@ const Hero = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-                <motion.div 
+                <motion.div
                     className="space-y-8"
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
                     {/* Profile Image */}
-                    <motion.div 
+                    <motion.div
                         className="relative mx-auto w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-accent shadow-2xl"
                         initial={{ scale: 0, rotate: -180 }}
                         animate={{ scale: 1, rotate: 0 }}
-                        transition={{ 
+                        transition={{
                             duration: 1,
                             delay: 0.2,
                             type: "spring",
                             stiffness: 260,
                             damping: 20
                         }}
-                        whileHover={{ 
+                        whileHover={{
                             scale: 1.1,
                             rotate: [0, -5, 5, 0],
                             boxShadow: "0 0 30px rgba(88, 16, 255, 0.6)"
                         }}
                     >
-                        <motion.div 
+                        <motion.div
                             className="w-full h-full bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center text-4xl md:text-5xl font-bold text-white"
-                            animate={{ 
+                            animate={{
                                 background: [
                                     "linear-gradient(45deg, #5810ff, #7c3aed)",
                                     "linear-gradient(45deg, #7c3aed, #a855f7)",
                                     "linear-gradient(45deg, #a855f7, #5810ff)"
                                 ]
                             }}
-                            transition={{ 
+                            transition={{
                                 duration: 3,
                                 repeat: Infinity,
                                 repeatType: "reverse"
                             }}
                         >
                             <motion.span
-                                animate={{ 
+                                animate={{
                                     scale: [1, 1.1, 1],
                                     rotateY: [0, 10, -10, 0]
                                 }}
-                                transition={{ 
+                                transition={{
                                     duration: 2,
                                     repeat: Infinity,
                                     repeatType: "reverse"
@@ -106,15 +106,15 @@ const Hero = () => {
                     </motion.div>
 
                     {/* Name and Title */}
-                    <motion.div 
+                    <motion.div
                         className="space-y-4"
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.5 }}
                     >
-                        <motion.h1 
+                        <motion.h1
                             className="h1 text-white"
-                            whileHover={{ 
+                            whileHover={{
                                 scale: 1.02,
                                 textShadow: "0 0 20px rgba(255, 255, 255, 0.3)"
                             }}
@@ -127,12 +127,12 @@ const Hero = () => {
                             >
                                 Hi, I'm{" "}
                             </motion.span>
-                            <motion.span 
+                            <motion.span
                                 className="text-accent"
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.6, delay: 0.9 }}
-                                whileHover={{ 
+                                whileHover={{
                                     scale: 1.05,
                                     textShadow: "0 0 25px rgba(88, 16, 255, 1)"
                                 }}
@@ -141,7 +141,7 @@ const Hero = () => {
                             </motion.span>
                         </motion.h1>
 
-                        <motion.div 
+                        <motion.div
                             className="h-16 flex items-center justify-center"
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -149,28 +149,28 @@ const Hero = () => {
                         >
                             <h2 className="h3 text-white/80">
                                 I'm a{" "}
-                                <motion.span 
+                                <motion.span
                                     className="text-accent font-bold"
-                                    animate={{ 
+                                    animate={{
                                         textShadow: [
                                             "0 0 0px rgba(88, 16, 255, 0)",
                                             "0 0 10px rgba(88, 16, 255, 0.8)",
                                             "0 0 0px rgba(88, 16, 255, 0)"
                                         ]
                                     }}
-                                    transition={{ 
+                                    transition={{
                                         duration: 2,
                                         repeat: Infinity,
                                         repeatType: "reverse"
                                     }}
                                 >
                                     {displayText}
-                                    <motion.span 
+                                    <motion.span
                                         className="animate-pulse"
                                         animate={{ opacity: [1, 0, 1] }}
-                                        transition={{ 
+                                        transition={{
                                             duration: 1,
-                                            repeat: Infinity 
+                                            repeat: Infinity
                                         }}
                                     >
                                         |
@@ -186,7 +186,7 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 1.3 }}
-                        whileHover={{ 
+                        whileHover={{
                             scale: 1.02,
                             color: "rgba(255, 255, 255, 0.9)"
                         }}
@@ -232,22 +232,22 @@ const Hero = () => {
                         </div>
 
                         {/* CTA Buttons */}
-                        <motion.div 
+                        <motion.div
                             className="flex flex-col sm:flex-row gap-4"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 1.7 }}
                         >
-                            <motion.button 
+                            <motion.button
                                 className="bg-gradient-to-r from-accent to-accent-hover hover:from-accent-hover hover:to-accent text-white font-semibold py-3 px-6 rounded-xl flex items-center gap-2 transition-all duration-300"
-                                whileHover={{ 
+                                whileHover={{
                                     scale: 1.05,
                                     boxShadow: "0 10px 30px rgba(88, 16, 255, 0.4)"
                                 }}
                                 whileTap={{ scale: 0.95 }}
                             >
                                 <motion.div
-                                    whileHover={{ 
+                                    whileHover={{
                                         y: [0, -5, 0],
                                         rotate: [0, 15, -15, 0]
                                     }}
@@ -257,11 +257,11 @@ const Hero = () => {
                                 </motion.div>
                                 Download CV
                             </motion.button>
-                            
+
                             <motion.button
                                 onClick={scrollToAbout}
                                 className="bg-tertiary hover:bg-tertiary-hover text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300"
-                                whileHover={{ 
+                                whileHover={{
                                     scale: 1.05,
                                     backgroundColor: "#5810ff",
                                     boxShadow: "0 10px 30px rgba(88, 16, 255, 0.3)"
@@ -275,7 +275,7 @@ const Hero = () => {
                 </motion.div>
 
                 {/* Scroll Indicator */}
-                <motion.div 
+                <motion.div
                     className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -284,15 +284,15 @@ const Hero = () => {
                     <motion.button
                         onClick={scrollToAbout}
                         className="text-white/50 hover:text-accent transition-colors"
-                        animate={{ 
+                        animate={{
                             y: [0, -10, 0],
                         }}
-                        transition={{ 
+                        transition={{
                             duration: 2,
                             repeat: Infinity,
                             repeatType: "reverse"
                         }}
-                        whileHover={{ 
+                        whileHover={{
                             scale: 1.2,
                             color: "#5810ff"
                         }}
