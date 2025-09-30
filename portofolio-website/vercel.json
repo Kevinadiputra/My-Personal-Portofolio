@@ -1,13 +1,13 @@
 {
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
+    "builds": [
+        {
+            "src": "package.json",
+            "use": "@vercel/next"
+        }
+    ],
+    "functions": {
+        "app/**/*.js": {
+            "runtime": "nodejs18.x"
+        }
     }
-  ],
-  "functions": {
-    "app/**/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  }
 }
