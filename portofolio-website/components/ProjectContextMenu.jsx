@@ -2,29 +2,29 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-    Edit3, 
-    Trash2, 
-    Copy, 
-    Star, 
-    StarOff, 
-    Eye, 
-    ExternalLink, 
+import {
+    Edit3,
+    Trash2,
+    Copy,
+    Star,
+    StarOff,
+    Eye,
+    ExternalLink,
     Github,
     Info
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
-const ProjectContextMenu = ({ 
-    project, 
-    position, 
-    isVisible, 
-    onClose, 
-    onEdit, 
-    onDelete, 
-    onDuplicate, 
-    onToggleFeatured, 
-    onView 
+const ProjectContextMenu = ({
+    project,
+    position,
+    isVisible,
+    onClose,
+    onEdit,
+    onDelete,
+    onDuplicate,
+    onToggleFeatured,
+    onView
 }) => {
     const { isAuthenticated } = useAuth();
     const menuRef = useRef(null);
@@ -186,9 +186,9 @@ const ProjectContextMenu = ({
                     {visibleItems.map((item, index) => {
                         if (item.type === 'separator') {
                             return (
-                                <div 
-                                    key={`separator-${index}`} 
-                                    className="h-px bg-tertiary-hover mx-2 my-1" 
+                                <div
+                                    key={`separator-${index}`}
+                                    className="h-px bg-tertiary-hover mx-2 my-1"
                                 />
                             );
                         }

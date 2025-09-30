@@ -428,8 +428,8 @@ const AdminPanel = () => {
                                                         <button
                                                             onClick={() => handleToggleFeatured(project.id, project.title, project.featured)}
                                                             className={`p-1.5 rounded-md transition-colors ${project.featured
-                                                                    ? 'text-yellow-400 hover:bg-yellow-500/20'
-                                                                    : 'text-white/40 hover:bg-white/10'
+                                                                ? 'text-yellow-400 hover:bg-yellow-500/20'
+                                                                : 'text-white/40 hover:bg-white/10'
                                                                 }`}
                                                             title={project.featured ? 'Remove from featured' : 'Add to featured'}
                                                         >

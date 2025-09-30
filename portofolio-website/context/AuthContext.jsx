@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
                     const { token, user, timestamp } = JSON.parse(authData);
                     // Check if token is expired (24 hours)
                     const isExpired = Date.now() - timestamp > 24 * 60 * 60 * 1000;
-                    
+
                     if (!isExpired && token && user) {
                         setIsAuthenticated(true);
                         setUser(user);

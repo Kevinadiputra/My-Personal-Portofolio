@@ -28,6 +28,7 @@ const Header = () => {
         { name: "About", href: "#about", type: "section" },
         { name: "Skills", href: "#skills", type: "section" },
         { name: "Projects", href: "/projects", type: "route" },
+        { name: "Certificates", href: "/certificates", type: "route" },
         { name: "Contact", href: "#contact", type: "section" },
     ];
 
@@ -66,7 +67,7 @@ const Header = () => {
                     {/* Logo */}
                     <button
                         onClick={() => router.push("/")}
-                        className="text-xl font-bold hover:scale-105 transition-transform"
+                        className="text-xl font-bold hover:scale-105 transition-transform spark-on-click"
                     >
                         <span className="text-accent">Kevin</span> Adiputra
                     </button>
@@ -81,16 +82,16 @@ const Header = () => {
                                 <button
                                     key={item.name}
                                     onClick={() => handleNavigation(item)}
-                                    className={`font-medium transition-colors duration-200 ${isActive
-                                            ? "text-accent"
-                                            : "text-white hover:text-accent"
+                                    className={`font-medium transition-colors duration-200 spark-on-click ${isActive
+                                        ? "text-accent"
+                                        : "text-white hover:text-accent"
                                         }`}
                                 >
                                     {item.name}
                                 </button>
                             );
                         })}
-                        
+
                         {/* Auth Button */}
                         <div className="flex items-center">
                             {isAuthenticated ? (
@@ -141,15 +142,15 @@ const Header = () => {
                                         key={item.name}
                                         onClick={() => handleNavigation(item)}
                                         className={`font-medium transition-colors duration-200 text-left ${isActive
-                                                ? "text-accent"
-                                                : "text-white hover:text-accent"
+                                            ? "text-accent"
+                                            : "text-white hover:text-accent"
                                             }`}
                                     >
                                         {item.name}
                                     </button>
                                 );
                             })}
-                            
+
                             {/* Mobile Auth */}
                             <div className="border-t border-secondary pt-4 mt-4">
                                 {isAuthenticated ? (
@@ -182,11 +183,11 @@ const Header = () => {
                     </div>
                 )}
             </div>
-            
+
             {/* Login Modal */}
-            <LoginModal 
-                isOpen={showLoginModal} 
-                onClose={() => setShowLoginModal(false)} 
+            <LoginModal
+                isOpen={showLoginModal}
+                onClose={() => setShowLoginModal(false)}
             />
         </header>
     );

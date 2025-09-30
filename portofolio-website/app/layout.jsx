@@ -1,6 +1,7 @@
 import { Sometype_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import ClickSparkProvider from "@/components/ClickSpark";
 
 const sometypeMono = Sometype_Mono({
   variable: "--font-sometype-mono",
@@ -65,7 +66,14 @@ export default function RootLayout({ children }) {
         className={`${sometypeMono.variable} antialiased`}
       >
         <AuthProvider>
-          {children}
+          <ClickSparkProvider
+            particleCount={15}
+            colors={['#5810FF', '#8B46FF', '#A855F7', '#C084FC', '#DDD6FE', '#FFFFFF']}
+            speed={{ min: 150, max: 400 }}
+            life={1.5}
+          >
+            {children}
+          </ClickSparkProvider>
         </AuthProvider>
       </body>
     </html>

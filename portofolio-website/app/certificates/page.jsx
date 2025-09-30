@@ -3,44 +3,43 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { useProjects, ProjectsProvider } from "@/context/ProjectsContext";
 import {
+    Award,
+    Calendar,
     ExternalLink,
-    Github,
-    Eye,
-    ArrowRight,
+    Star,
     Filter,
     Search,
-    Star,
-    Calendar,
-    Code,
-    Palette,
-    Database,
-    Globe,
-    Smartphone
+    CheckCircle,
+    Users,
+    Clock,
+    BookOpen,
+    Trophy,
+    Medal,
+    Target,
+    Zap
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ProjectsBento from "@/components/ProjectsBento";
-import ProjectContextMenu from "@/components/ProjectContextMenu";
-import { useAuth } from "@/context/AuthContext";
+import LogoLoop from "@/components/LogoLoop";
+import { CertificatesProvider, useCertificates } from "@/context/CertificatesContext";
 
-const ProjectsPageContent = () => {
+const CertificatesPageContent = () => {
     const [filter, setFilter] = useState("all");
     const [searchTerm, setSearchTerm] = useState("");
     const [sortBy, setSortBy] = useState("newest");
-    const [contextMenu, setContextMenu] = useState({ visible: false, position: { x: 0, y: 0 }, project: null });
-    const { projects, loading, updateProject, deleteProject, duplicateProject, toggleFeatured } = useProjects();
-    const { isAuthenticated } = useAuth();
+    const { certificates, loading } = useCertificates();
     const router = useRouter();
 
     const filters = [
-        { key: "all", label: "All Projects", icon: Globe },
+        { key: "all", label: "All Certificates", icon: Award },
         { key: "featured", label: "Featured", icon: Star },
-        { key: "fullstack", label: "Full Stack", icon: Globe },
-        { key: "frontend", label: "Frontend", icon: Palette },
-        { key: "backend", label: "Backend", icon: Database },
-        { key: "mobile", label: "Mobile", icon: Smartphone },
+        { key: "development", label: "Development", icon: BookOpen },
+        { key: "ai-ml", label: "AI & ML", icon: Zap },
+        { key: "cloud", label: "Cloud", icon: Target },
+        { key: "data", label: "Data Science", icon: Trophy },
+        { key: "management", label: "Management", icon: Users },
+        { key: "mobile", label: "Mobile", icon: Medal },
     ];
 
     const sortOptions = [
@@ -50,20 +49,32 @@ const ProjectsPageContent = () => {
         { key: "alphabetical", label: "A-Z" },
     ];
 
-    // Filter and search projects
-    const filteredProjects = projects
-        .filter(project => {
-            // Filter by category
-            const categoryMatch = filter === "all" ||
-                (filter === "featured" && project.featured) ||
-                project.category === filter;
+    // Skills for logo loop
+    const skillsLogos = [
+        { name: 'JavaScript', src: '/api/placeholder/48/48' },
+        { name: 'React', src: '/api/placeholder/48/48' },
+        { name: 'Node.js', src: '/api/placeholder/48/48' },
+        { name: 'Python', src: '/api/placeholder/48/48' },
+        { name: 'TensorFlow', src: '/api/placeholder/48/48' },
+        { name: 'AWS', src: '/api/placeholder/48/48' },
+        { name: 'Docker', src: '/api/placeholder/48/48' },
+        { name: 'MongoDB', src: '/api/placeholder/48/48' },
+        { name: 'PostgreSQL', src: '/api/placeholder/48/48' },
+        { name: 'Tableau', src: '/api/placeholder/48/48' },
+    ];
 
-            // Filter by search term
+    // Filter and search certificates
+    const filteredCertificates = certificates
+        .filter(certificate => {
+            const categoryMatch = filter === "all" ||
+                (filter === "featured" && certificate.featured) ||
+                certificate.category === filter;
+
             const searchMatch = !searchTerm ||
-                project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                project.technologies.some(tech =>
-                    tech.toLowerCase().includes(searchTerm.toLowerCase())
+                certificate.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                certificate.issuer.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                certificate.skills.some(skill =>
+                    skill.toLowerCase().includes(searchTerm.toLowerCase())
                 );
 
             return categoryMatch && searchMatch;
@@ -71,9 +82,9 @@ const ProjectsPageContent = () => {
         .sort((a, b) => {
             switch (sortBy) {
                 case "newest":
-                    return b.id - a.id;
+                    return new Date(b.date) - new Date(a.date);
                 case "oldest":
-                    return a.id - b.id;
+                    return new Date(a.date) - new Date(b.date);
                 case "featured":
                     return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
                 case "alphabetical":
@@ -83,54 +94,19 @@ const ProjectsPageContent = () => {
             }
         });
 
-    const getCategoryIcon = (category) => {
-        switch (category) {
-            case 'frontend':
-                return <Palette size={16} />;
-            case 'backend':
-                return <Database size={16} />;
-            case 'fullstack':
-                return <Globe size={16} />;
-            case 'mobile':
-                return <Smartphone size={16} />;
+    const getLevelColor = (level) => {
+        switch (level?.toLowerCase()) {
+            case 'foundation':
+                return 'text-green-400 bg-green-400/20';
+            case 'intermediate':
+                return 'text-blue-400 bg-blue-400/20';
+            case 'professional':
+                return 'text-purple-400 bg-purple-400/20';
+            case 'advanced':
+                return 'text-red-400 bg-red-400/20';
             default:
-                return <Code size={16} />;
+                return 'text-gray-400 bg-gray-400/20';
         }
-    };
-
-    // Context menu handlers
-    const handleContextMenu = (e, project) => {
-        e.preventDefault();
-        setContextMenu({
-            visible: true,
-            position: { x: e.clientX, y: e.clientY },
-            project
-        });
-    };
-
-    const handleCloseContextMenu = () => {
-        setContextMenu({ visible: false, position: { x: 0, y: 0 }, project: null });
-    };
-
-    const handleEditProject = (project) => {
-        // For now, just show an alert. In a real app, you'd open an edit modal
-        alert(`Edit project: ${project.title}\n\nIn a real implementation, this would open an edit form.`);
-    };
-
-    const handleDeleteProject = (projectId) => {
-        deleteProject(projectId);
-    };
-
-    const handleDuplicateProject = (projectId) => {
-        duplicateProject(projectId);
-    };
-
-    const handleToggleFeatured = (projectId) => {
-        toggleFeatured(projectId);
-    };
-
-    const handleViewProject = (project) => {
-        router.push(`/project/${project.id}`);
     };
 
     if (loading) {
@@ -140,7 +116,7 @@ const ProjectsPageContent = () => {
                 <div className="flex items-center justify-center min-h-screen">
                     <div className="text-center">
                         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent mx-auto mb-4"></div>
-                        <p className="text-white/70">Loading projects...</p>
+                        <p className="text-white/70">Loading certificates...</p>
                     </div>
                 </div>
                 <Footer />
@@ -162,6 +138,14 @@ const ProjectsPageContent = () => {
                             transition={{ duration: 0.6 }}
                             className="text-center"
                         >
+                            <motion.div
+                                className="inline-flex items-center gap-3 bg-accent/10 backdrop-blur-sm border border-accent/20 rounded-full px-6 py-3 mb-8"
+                                whileHover={{ scale: 1.05 }}
+                            >
+                                <Trophy className="text-accent" size={24} />
+                                <span className="text-accent font-semibold">Professional Certifications</span>
+                            </motion.div>
+
                             <motion.h1
                                 className="text-4xl md:text-6xl font-bold text-white mb-6"
                                 whileHover={{
@@ -169,7 +153,7 @@ const ProjectsPageContent = () => {
                                     textShadow: "0 0 20px rgba(88, 16, 255, 0.5)"
                                 }}
                             >
-                                My Projects
+                                My Certificates
                             </motion.h1>
                             <motion.div
                                 className="w-32 h-1 bg-gradient-to-r from-accent to-accent-hover mx-auto rounded-full mb-8"
@@ -178,14 +162,47 @@ const ProjectsPageContent = () => {
                                 transition={{ duration: 0.8, delay: 0.2 }}
                             />
                             <motion.p
-                                className="text-xl text-white/70 max-w-3xl mx-auto leading-relaxed"
+                                className="text-xl text-white/70 max-w-3xl mx-auto leading-relaxed mb-12"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.4 }}
                             >
-                                Explore my portfolio of web applications, mobile apps, and full-stack solutions.
-                                Each project represents a unique challenge solved with modern technologies and innovative approaches.
+                                Continuous learning and professional development through industry-recognized certifications
+                                from leading institutions and technology platforms.
                             </motion.p>
+
+                            {/* Stats */}
+                            <motion.div
+                                className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.6 }}
+                            >
+                                <div className="text-center">
+                                    <div className="text-2xl md:text-3xl font-bold text-accent mb-1">
+                                        {certificates.length}
+                                    </div>
+                                    <div className="text-sm text-white/60">Certificates</div>
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-2xl md:text-3xl font-bold text-accent mb-1">
+                                        {certificates.filter(c => c.featured).length}
+                                    </div>
+                                    <div className="text-sm text-white/60">Featured</div>
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-2xl md:text-3xl font-bold text-accent mb-1">
+                                        {new Set(certificates.flatMap(c => c.skills)).size}
+                                    </div>
+                                    <div className="text-sm text-white/60">Skills</div>
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-2xl md:text-3xl font-bold text-accent mb-1">
+                                        {new Date().getFullYear() - 2020}+
+                                    </div>
+                                    <div className="text-sm text-white/60">Years</div>
+                                </div>
+                            </motion.div>
                         </motion.div>
                     </div>
 
@@ -196,44 +213,26 @@ const ProjectsPageContent = () => {
                     </div>
                 </section>
 
-                {/* Magic Bento Showcase */}
-                <section className="py-16 bg-primary/50">
+                {/* Skills Logo Loop */}
+                <section className="py-8 bg-secondary/50">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6 }}
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 0.8 }}
                             viewport={{ once: true }}
-                            className="text-center mb-12"
                         >
-                            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                                Interactive Showcase
-                            </h2>
-                            <p className="text-white/70 text-lg max-w-2xl mx-auto">
-                                Experience the magic of interactive design with animated cards that respond to your every move
-                            </p>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                            viewport={{ once: true }}
-                            className="w-full"
-                        >
-                            <ProjectsBento
-                                projects={projects}
-                                enableStars={true}
-                                enableSpotlight={true}
-                                enableBorderGlow={true}
-                                enableTilt={true}
-                                enableMagnetism={true}
-                                clickEffect={true}
-                                spotlightRadius={250}
-                                particleCount={8}
-                                glowColor="88, 16, 255"
-                                disableAnimations={false}
-                                onContextMenu={handleContextMenu}
+                            <h3 className="text-center text-white/60 text-sm uppercase tracking-wider mb-6">
+                                Skills & Technologies
+                            </h3>
+                            <LogoLoop
+                                logos={skillsLogos}
+                                speed={1}
+                                direction="left"
+                                pauseOnHover={true}
+                                spacing={80}
+                                className="h-16"
+                                logoClassName="w-12 h-12 object-contain opacity-40 hover:opacity-80 transition-all duration-300"
                             />
                         </motion.div>
                     </div>
@@ -254,7 +253,7 @@ const ProjectsPageContent = () => {
                                     <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/50" size={20} />
                                     <input
                                         type="text"
-                                        placeholder="Search projects by name, description, or technology..."
+                                        placeholder="Search certificates by title, issuer, or skills..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                         className="w-full pl-12 pr-4 py-4 bg-tertiary border border-tertiary-hover rounded-2xl text-white placeholder-white/50 focus:outline-none focus:border-accent transition-colors"
@@ -270,9 +269,9 @@ const ProjectsPageContent = () => {
                                         <motion.button
                                             key={filterOption.key}
                                             onClick={() => setFilter(filterOption.key)}
-                                            className={`px-6 py-3 rounded-2xl font-medium transition-all duration-300 flex items-center gap-2 spark-on-click ${filter === filterOption.key
-                                                ? "bg-accent text-white shadow-lg scale-105"
-                                                : "bg-tertiary text-white/70 hover:bg-tertiary-hover hover:text-white hover:scale-105"
+                                            className={`px-6 py-3 rounded-2xl font-medium transition-all duration-300 flex items-center gap-2 ${filter === filterOption.key
+                                                    ? "bg-accent text-white shadow-lg scale-105"
+                                                    : "bg-tertiary text-white/70 hover:bg-tertiary-hover hover:text-white hover:scale-105"
                                                 }`}
                                             whileHover={{ y: -2 }}
                                             whileTap={{ scale: 0.95 }}
@@ -294,7 +293,7 @@ const ProjectsPageContent = () => {
                                 >
                                     <Filter size={18} />
                                     <span>
-                                        {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''} found
+                                        {filteredCertificates.length} certificate{filteredCertificates.length !== 1 ? 's' : ''} found
                                     </span>
                                 </motion.div>
 
@@ -317,10 +316,10 @@ const ProjectsPageContent = () => {
                     </div>
                 </section>
 
-                {/* Projects Grid */}
+                {/* Certificates Grid */}
                 <section className="py-16">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        {filteredProjects.length === 0 ? (
+                        {filteredCertificates.length === 0 ? (
                             <motion.div
                                 className="text-center py-20"
                                 initial={{ opacity: 0, scale: 0.9 }}
@@ -328,13 +327,13 @@ const ProjectsPageContent = () => {
                                 transition={{ duration: 0.5 }}
                             >
                                 <div className="w-32 h-32 mx-auto mb-8 rounded-full bg-tertiary flex items-center justify-center">
-                                    <Eye size={48} className="text-accent/50" />
+                                    <Award size={48} className="text-accent/50" />
                                 </div>
-                                <h3 className="text-2xl text-white mb-4">No Projects Found</h3>
+                                <h3 className="text-2xl text-white mb-4">No Certificates Found</h3>
                                 <p className="text-white/70 mb-8">
                                     {searchTerm
-                                        ? `No projects match "${searchTerm}". Try adjusting your search or filters.`
-                                        : `No projects found in the "${filter}" category.`
+                                        ? `No certificates match "${searchTerm}". Try adjusting your search or filters.`
+                                        : `No certificates found in the "${filter}" category.`
                                     }
                                 </p>
                                 <button
@@ -349,128 +348,122 @@ const ProjectsPageContent = () => {
                             </motion.div>
                         ) : (
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {filteredProjects.map((project, index) => (
+                                {filteredCertificates.map((certificate, index) => (
                                     <motion.div
-                                        key={project.id}
+                                        key={certificate.id}
                                         initial={{ opacity: 0, y: 50 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.6, delay: index * 0.1 }}
-                                        className="bg-tertiary rounded-2xl overflow-hidden group cursor-pointer"
-                                        onClick={() => router.push(`/project/${project.id}`)}
-                                        onContextMenu={(e) => handleContextMenu(e, project)}
+                                        className="bg-tertiary rounded-2xl overflow-hidden group hover:shadow-2xl transition-all duration-300"
                                         whileHover={{
                                             scale: 1.03,
                                             boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)"
                                         }}
-                                        whileTap={{ scale: 0.98 }}
                                     >
-                                        {/* Project Image */}
-                                        <div className="relative h-56 bg-gradient-to-br from-accent/20 to-accent-hover/20 overflow-hidden">
-                                            {project.image && project.image !== "/api/placeholder/400/250" ? (
+                                        {/* Certificate Image */}
+                                        <div className="relative h-48 bg-gradient-to-br from-accent/20 to-accent-hover/20 overflow-hidden">
+                                            {certificate.image && certificate.image !== "/api/placeholder/400/300" ? (
                                                 <img
-                                                    src={project.image}
-                                                    alt={project.title}
+                                                    src={certificate.image}
+                                                    alt={certificate.title}
                                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                 />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center">
-                                                    <Eye size={48} className="text-accent/30" />
+                                                    <Award size={48} className="text-accent/30" />
                                                 </div>
                                             )}
 
-                                            {/* Overlay */}
-                                            <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                                <motion.div
-                                                    initial={{ scale: 0 }}
-                                                    whileHover={{ scale: 1 }}
-                                                    className="bg-accent hover:bg-accent-hover text-white px-6 py-3 rounded-full flex items-center gap-2 font-semibold"
-                                                >
-                                                    <Eye size={18} />
-                                                    View Details
-                                                    <ArrowRight size={18} />
-                                                </motion.div>
-                                            </div>
-
                                             {/* Badges */}
                                             <div className="absolute top-4 left-4 flex gap-2">
-                                                <div className="flex items-center gap-1 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full text-xs text-white">
-                                                    {getCategoryIcon(project.category)}
-                                                    <span className="capitalize">{project.category}</span>
-                                                </div>
-                                                {project.featured && (
+                                                {certificate.featured && (
                                                     <div className="flex items-center gap-1 bg-accent px-3 py-1 rounded-full text-xs font-semibold text-white">
                                                         <Star size={12} />
                                                         Featured
                                                     </div>
                                                 )}
+                                                <div className={`px-3 py-1 rounded-full text-xs font-semibold ${getLevelColor(certificate.level)}`}>
+                                                    {certificate.level}
+                                                </div>
                                             </div>
+
+                                            {/* Verify Link */}
+                                            {certificate.verifyUrl && certificate.verifyUrl !== "#" && (
+                                                <div className="absolute top-4 right-4">
+                                                    <motion.a
+                                                        href={certificate.verifyUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-accent transition-colors"
+                                                        whileHover={{ scale: 1.1 }}
+                                                        whileTap={{ scale: 0.9 }}
+                                                    >
+                                                        <CheckCircle size={18} />
+                                                    </motion.a>
+                                                </div>
+                                            )}
                                         </div>
 
-                                        {/* Project Content */}
+                                        {/* Certificate Content */}
                                         <div className="p-6 space-y-4">
                                             <div>
                                                 <h3 className="text-xl font-semibold text-white group-hover:text-accent transition-colors mb-2">
-                                                    {project.title}
+                                                    {certificate.title}
                                                 </h3>
-                                                <p className="text-white/70 text-sm leading-relaxed line-clamp-3">
-                                                    {project.description}
+                                                <div className="flex items-center gap-2 text-sm text-white/60 mb-2">
+                                                    <span className="font-medium text-accent">{certificate.issuer}</span>
+                                                    <span>•</span>
+                                                    <span>{certificate.platform}</span>
+                                                </div>
+                                                <p className="text-white/70 text-sm leading-relaxed line-clamp-2">
+                                                    {certificate.description}
                                                 </p>
                                             </div>
 
-                                            {/* Technologies */}
+                                            {/* Skills */}
                                             <div className="flex flex-wrap gap-2">
-                                                {project.technologies.slice(0, 4).map((tech, techIndex) => (
+                                                {certificate.skills.slice(0, 4).map((skill, skillIndex) => (
                                                     <span
-                                                        key={techIndex}
+                                                        key={skillIndex}
                                                         className="px-3 py-1 bg-primary rounded-full text-xs font-medium text-accent"
                                                     >
-                                                        {tech}
+                                                        {skill}
                                                     </span>
                                                 ))}
-                                                {project.technologies.length > 4 && (
+                                                {certificate.skills.length > 4 && (
                                                     <span className="px-3 py-1 bg-primary rounded-full text-xs text-white/50">
-                                                        +{project.technologies.length - 4} more
+                                                        +{certificate.skills.length - 4} more
                                                     </span>
                                                 )}
                                             </div>
 
-                                            {/* Action Links */}
+                                            {/* Footer Info */}
                                             <div className="flex justify-between items-center pt-4 border-t border-primary">
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        router.push(`/project/${project.id}`);
-                                                    }}
-                                                    className="text-accent hover:text-accent-hover font-medium flex items-center gap-2 transition-colors"
-                                                >
-                                                    View Details
-                                                    <ArrowRight size={16} />
-                                                </button>
-
-                                                <div className="flex space-x-3">
-                                                    {project.liveUrl && project.liveUrl !== "#" && (
-                                                        <a
-                                                            href={project.liveUrl}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="text-white/70 hover:text-accent transition-colors"
-                                                            onClick={(e) => e.stopPropagation()}
-                                                        >
-                                                            <ExternalLink size={18} />
-                                                        </a>
-                                                    )}
-                                                    {project.githubUrl && project.githubUrl !== "#" && (
-                                                        <a
-                                                            href={project.githubUrl}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="text-white/70 hover:text-white transition-colors"
-                                                            onClick={(e) => e.stopPropagation()}
-                                                        >
-                                                            <Github size={18} />
-                                                        </a>
+                                                <div className="flex items-center gap-4 text-xs text-white/60">
+                                                    <div className="flex items-center gap-1">
+                                                        <Calendar size={14} />
+                                                        <span>{certificate.date}</span>
+                                                    </div>
+                                                    {certificate.duration && (
+                                                        <div className="flex items-center gap-1">
+                                                            <Clock size={14} />
+                                                            <span>{certificate.duration}</span>
+                                                        </div>
                                                     )}
                                                 </div>
+
+                                                {certificate.verifyUrl && certificate.verifyUrl !== "#" && (
+                                                    <motion.a
+                                                        href={certificate.verifyUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-accent hover:text-accent-hover font-medium flex items-center gap-2 transition-colors text-sm"
+                                                        whileHover={{ scale: 1.05 }}
+                                                    >
+                                                        Verify
+                                                        <ExternalLink size={14} />
+                                                    </motion.a>
+                                                )}
                                             </div>
                                         </div>
                                     </motion.div>
@@ -490,11 +483,11 @@ const ProjectsPageContent = () => {
                             viewport={{ once: true }}
                         >
                             <h2 className="text-3xl font-bold text-white mb-6">
-                                Interested in Working Together?
+                                Ready to Work Together?
                             </h2>
                             <p className="text-white/70 mb-8 text-lg">
-                                I'm always open to discussing new opportunities and exciting projects.
-                                Let's create something amazing together!
+                                With these professional certifications and continuous learning mindset,
+                                I'm equipped to tackle your next project challenges.
                             </p>
                             <motion.button
                                 onClick={() => router.push('/#contact')}
@@ -510,29 +503,16 @@ const ProjectsPageContent = () => {
             </main>
 
             <Footer />
-
-            {/* Context Menu */}
-            <ProjectContextMenu
-                project={contextMenu.project}
-                position={contextMenu.position}
-                isVisible={contextMenu.visible}
-                onClose={handleCloseContextMenu}
-                onEdit={handleEditProject}
-                onDelete={handleDeleteProject}
-                onDuplicate={handleDuplicateProject}
-                onToggleFeatured={handleToggleFeatured}
-                onView={handleViewProject}
-            />
         </div>
     );
 };
 
-const ProjectsPage = () => {
+const CertificatesPage = () => {
     return (
-        <ProjectsProvider>
-            <ProjectsPageContent />
-        </ProjectsProvider>
+        <CertificatesProvider>
+            <CertificatesPageContent />
+        </CertificatesProvider>
     );
 };
 
-export default ProjectsPage;
+export default CertificatesPage;
