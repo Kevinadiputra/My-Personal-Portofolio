@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ProjectsBento from "@/components/ProjectsBento";
 
 const ProjectsPageContent = () => {
     const [filter, setFilter] = useState("all");
@@ -154,6 +155,48 @@ const ProjectsPageContent = () => {
                     <div className="absolute inset-0 opacity-10">
                         <div className="absolute top-20 left-10 w-72 h-72 bg-accent rounded-full blur-3xl"></div>
                         <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent-hover rounded-full blur-3xl"></div>
+                    </div>
+                </section>
+
+                {/* Magic Bento Showcase */}
+                <section className="py-16 bg-primary/50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-12"
+                        >
+                            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                                Interactive Showcase
+                            </h2>
+                            <p className="text-white/70 text-lg max-w-2xl mx-auto">
+                                Experience the magic of interactive design with animated cards that respond to your every move
+                            </p>
+                        </motion.div>
+                        
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            viewport={{ once: true }}
+                            className="w-full"
+                        >
+                            <ProjectsBento 
+                                projects={projects}
+                                enableStars={true}
+                                enableSpotlight={true}
+                                enableBorderGlow={true}
+                                enableTilt={true}
+                                enableMagnetism={true}
+                                clickEffect={true}
+                                spotlightRadius={250}
+                                particleCount={8}
+                                glowColor="88, 16, 255"
+                                disableAnimations={false}
+                            />
+                        </motion.div>
                     </div>
                 </section>
 
