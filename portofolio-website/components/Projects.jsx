@@ -54,8 +54,8 @@ const Projects = () => {
                             key={filterOption.key}
                             onClick={() => setFilter(filterOption.key)}
                             className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${filter === filterOption.key
-                                    ? "bg-accent text-white shadow-lg"
-                                    : "bg-tertiary text-white/70 hover:bg-tertiary-hover hover:text-white"
+                                ? "bg-accent text-white shadow-lg"
+                                : "bg-tertiary text-white/70 hover:bg-tertiary-hover hover:text-white"
                                 }`}
                         >
                             {filterOption.label}
@@ -71,8 +71,8 @@ const Projects = () => {
                         </div>
                         <h3 className="text-xl text-white mb-2">No Projects Found</h3>
                         <p className="text-white/70">
-                            {filter === "all" 
-                                ? "No projects available yet." 
+                            {filter === "all"
+                                ? "No projects available yet."
                                 : `No projects found in the "${filter}" category.`
                             }
                         </p>
@@ -87,8 +87,8 @@ const Projects = () => {
                                 {/* Project Image */}
                                 <div className="relative h-48 bg-gradient-to-br from-accent/20 to-accent-hover/20 overflow-hidden">
                                     {project.image && project.image !== "/api/placeholder/400/250" ? (
-                                        <img 
-                                            src={project.image} 
+                                        <img
+                                            src={project.image}
                                             alt={project.title}
                                             className="w-full h-full object-cover"
                                             onError={(e) => {
@@ -97,80 +97,22 @@ const Projects = () => {
                                             }}
                                         />
                                     ) : null}
-                                    
+
                                     {/* Fallback placeholder */}
                                     <div className={`w-full h-full flex items-center justify-center text-6xl text-accent/30 ${project.image && project.image !== "/api/placeholder/400/250" ? 'hidden' : 'flex'}`}>
                                         <Eye />
                                     </div>
 
-                                {/* Overlay */}
-                                <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-                                    {project.liveUrl && project.liveUrl !== "#" && (
-                                        <a
-                                            href={project.liveUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="w-12 h-12 bg-accent hover:bg-accent-hover rounded-full flex items-center justify-center transition-colors"
-                                        >
-                                            <ExternalLink size={20} />
-                                        </a>
-                                    )}
-                                    {project.githubUrl && project.githubUrl !== "#" && (
-                                        <a
-                                            href={project.githubUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="w-12 h-12 bg-white hover:bg-white/90 text-primary rounded-full flex items-center justify-center transition-colors"
-                                        >
-                                            <Github size={20} />
-                                        </a>
-                                    )}
-                                </div>
-
-                                {/* Featured Badge */}
-                                {project.featured && (
-                                    <div className="absolute top-4 right-4 bg-accent px-3 py-1 rounded-full text-xs font-semibold">
-                                        Featured
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Project Content */}
-                            <div className="p-6 space-y-4">
-                                <h3 className="text-xl font-semibold text-white group-hover:text-accent transition-colors">
-                                    {project.title}
-                                </h3>
-
-                                <p className="text-white/70 text-sm leading-relaxed">
-                                    {project.description}
-                                </p>
-
-                                {/* Technologies */}
-                                <div className="flex flex-wrap gap-2">
-                                    {project.technologies.map((tech, index) => (
-                                        <span
-                                            key={index}
-                                            className="px-3 py-1 bg-primary rounded-full text-xs font-medium text-accent"
-                                        >
-                                            {tech}
-                                        </span>
-                                    ))}
-                                </div>
-
-                                {/* Project Links */}
-                                <div className="flex justify-between items-center pt-4 border-t border-primary">
-                                    <span className="text-xs text-white/50 uppercase tracking-wider">
-                                        {project.category}
-                                    </span>
-                                    <div className="flex space-x-3">
+                                    {/* Overlay */}
+                                    <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
                                         {project.liveUrl && project.liveUrl !== "#" && (
                                             <a
                                                 href={project.liveUrl}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="text-accent hover:text-accent-hover transition-colors"
+                                                className="w-12 h-12 bg-accent hover:bg-accent-hover rounded-full flex items-center justify-center transition-colors"
                                             >
-                                                <ExternalLink size={16} />
+                                                <ExternalLink size={20} />
                                             </a>
                                         )}
                                         {project.githubUrl && project.githubUrl !== "#" && (
@@ -178,17 +120,75 @@ const Projects = () => {
                                                 href={project.githubUrl}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="text-white/70 hover:text-white transition-colors"
+                                                className="w-12 h-12 bg-white hover:bg-white/90 text-primary rounded-full flex items-center justify-center transition-colors"
                                             >
-                                                <Github size={16} />
+                                                <Github size={20} />
                                             </a>
                                         )}
                                     </div>
+
+                                    {/* Featured Badge */}
+                                    {project.featured && (
+                                        <div className="absolute top-4 right-4 bg-accent px-3 py-1 rounded-full text-xs font-semibold">
+                                            Featured
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Project Content */}
+                                <div className="p-6 space-y-4">
+                                    <h3 className="text-xl font-semibold text-white group-hover:text-accent transition-colors">
+                                        {project.title}
+                                    </h3>
+
+                                    <p className="text-white/70 text-sm leading-relaxed">
+                                        {project.description}
+                                    </p>
+
+                                    {/* Technologies */}
+                                    <div className="flex flex-wrap gap-2">
+                                        {project.technologies.map((tech, index) => (
+                                            <span
+                                                key={index}
+                                                className="px-3 py-1 bg-primary rounded-full text-xs font-medium text-accent"
+                                            >
+                                                {tech}
+                                            </span>
+                                        ))}
+                                    </div>
+
+                                    {/* Project Links */}
+                                    <div className="flex justify-between items-center pt-4 border-t border-primary">
+                                        <span className="text-xs text-white/50 uppercase tracking-wider">
+                                            {project.category}
+                                        </span>
+                                        <div className="flex space-x-3">
+                                            {project.liveUrl && project.liveUrl !== "#" && (
+                                                <a
+                                                    href={project.liveUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-accent hover:text-accent-hover transition-colors"
+                                                >
+                                                    <ExternalLink size={16} />
+                                                </a>
+                                            )}
+                                            {project.githubUrl && project.githubUrl !== "#" && (
+                                                <a
+                                                    href={project.githubUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-white/70 hover:text-white transition-colors"
+                                                >
+                                                    <Github size={16} />
+                                                </a>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
                 )}
 
                 {/* Call to Action */}
