@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { 
-    ArrowLeft, 
-    ExternalLink, 
-    Github, 
-    Calendar, 
-    Tag, 
+import {
+    ArrowLeft,
+    ExternalLink,
+    Github,
+    Calendar,
+    Tag,
     Star,
     Eye,
     Code,
@@ -32,7 +32,7 @@ const ProjectDetailPage = () => {
             const foundProject = getProject(parseInt(params.id));
             if (foundProject) {
                 setProject(foundProject);
-                
+
                 // Find related projects (same category, exclude current)
                 const related = projects
                     .filter(p => p.category === foundProject.category && p.id !== foundProject.id)
@@ -91,7 +91,7 @@ const ProjectDetailPage = () => {
     return (
         <div className="min-h-screen bg-primary">
             <Header />
-            
+
             <main className="pt-20">
                 {/* Back Button */}
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -128,7 +128,7 @@ const ProjectDetailPage = () => {
                                         }}
                                     />
                                 ) : null}
-                                
+
                                 {/* Fallback */}
                                 <div className={`w-full h-full flex items-center justify-center text-8xl text-accent/30 ${project.image && project.image !== "/api/placeholder/400/250" ? 'hidden' : 'flex'}`}>
                                     <Eye />

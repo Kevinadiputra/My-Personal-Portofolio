@@ -115,7 +115,7 @@ const Projects = () => {
                                             <Eye size={18} />
                                             View Details
                                         </button>
-                                        
+
                                         <div className="flex space-x-3">
                                             {project.liveUrl && project.liveUrl !== "#" && (
                                                 <a
