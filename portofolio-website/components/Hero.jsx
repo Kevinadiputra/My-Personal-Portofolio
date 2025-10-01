@@ -1,13 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronDown, Download, Github, Linkedin, Mail, Instagram } from "lucide-react";
+import { ChevronDown, Download, Github, Linkedin, Mail, Instagram, Camera } from "lucide-react";
 import { motion } from "framer-motion";
+import { useProfile } from "@/context/ProfileContext";
+import { useAuth } from "@/context/AuthContext";
+import ProfilePictureManager from "@/components/ProfilePictureManager";
 
 const Hero = () => {
     const [displayText, setDisplayText] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentPhrase, setCurrentPhrase] = useState(0);
+    const [isProfileManagerOpen, setIsProfileManagerOpen] = useState(false);
+
+    const { profile, updateProfilePicture } = useProfile();
+    const { isAuthenticated } = useAuth();
 
     const phrases = [
         "Full Stack Developer",
@@ -58,7 +65,7 @@ const Hero = () => {
                 >
                     {/* Profile Image */}
                     <motion.div
-                        className="relative mx-auto w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-accent shadow-2xl"
+                        className="relative mx-auto w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-accent shadow-2xl group cursor-pointer"
                         initial={{ scale: 0, rotate: -180 }}
                         animate={{ scale: 1, rotate: 0 }}
                         transition={{
@@ -73,36 +80,55 @@ const Hero = () => {
                             rotate: [0, -5, 5, 0],
                             boxShadow: "0 0 30px rgba(88, 16, 255, 0.6)"
                         }}
+                        onClick={() => isAuthenticated && setIsProfileManagerOpen(true)}
                     >
-                        <motion.div
-                            className="w-full h-full bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center text-4xl md:text-5xl font-bold text-white"
-                            animate={{
-                                background: [
-                                    "linear-gradient(45deg, #5810ff, #7c3aed)",
-                                    "linear-gradient(45deg, #7c3aed, #a855f7)",
-                                    "linear-gradient(45deg, #a855f7, #5810ff)"
-                                ]
-                            }}
-                            transition={{
-                                duration: 3,
-                                repeat: Infinity,
-                                repeatType: "reverse"
-                            }}
-                        >
-                            <motion.span
+                        {profile?.profilePicture && profile.profilePicture !== '/api/placeholder/400/400' ? (
+                            <img
+                                src={profile.profilePicture}
+                                alt={profile?.name || 'Profile'}
+                                className="w-full h-full object-cover"
+                            />
+                        ) : (
+                            <motion.div
+                                className="w-full h-full bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center text-4xl md:text-5xl font-bold text-white"
                                 animate={{
-                                    scale: [1, 1.1, 1],
-                                    rotateY: [0, 10, -10, 0]
+                                    background: [
+                                        "linear-gradient(45deg, #5810ff, #7c3aed)",
+                                        "linear-gradient(45deg, #7c3aed, #a855f7)",
+                                        "linear-gradient(45deg, #a855f7, #5810ff)"
+                                    ]
                                 }}
                                 transition={{
-                                    duration: 2,
+                                    duration: 3,
                                     repeat: Infinity,
                                     repeatType: "reverse"
                                 }}
                             >
-                                KA
-                            </motion.span>
-                        </motion.div>
+                                <motion.span
+                                    animate={{
+                                        scale: [1, 1.1, 1],
+                                        rotateY: [0, 10, -10, 0]
+                                    }}
+                                    transition={{
+                                        duration: 2,
+                                        repeat: Infinity,
+                                        repeatType: "reverse"
+                                    }}
+                                >
+                                    {profile?.name?.split(' ').map(n => n.charAt(0)).join('') || 'KA'}
+                                </motion.span>
+                            </motion.div>
+                        )}
+
+                        {/* Camera overlay for admin */}
+                        {isAuthenticated && (
+                            <motion.div
+                                className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                whileHover={{ scale: 1.05 }}
+                            >
+                                <Camera className="text-white" size={24} />
+                            </motion.div>
+                        )}
                     </motion.div>
 
                     {/* Name and Title */}
@@ -137,7 +163,7 @@ const Hero = () => {
                                     textShadow: "0 0 25px rgba(88, 16, 255, 1)"
                                 }}
                             >
-                                Kevin Adiputra
+                                {profile?.name || 'Kevin Adiputra'}
                             </motion.span>
                         </motion.h1>
 
@@ -302,6 +328,14 @@ const Hero = () => {
                     </motion.button>
                 </motion.div>
             </div>
+
+            {/* Profile Picture Manager Modal */}
+            <ProfilePictureManager
+                isOpen={isProfileManagerOpen}
+                onClose={() => setIsProfileManagerOpen(false)}
+                currentImage={profile?.profilePicture}
+                onSave={updateProfilePicture}
+            />
         </section>
     );
 };

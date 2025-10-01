@@ -302,26 +302,31 @@ const CertificatesPageContent = () => {
                     </div>
                 </section>
 
-                {/* Skills Logo Loop */}
-                <section className="py-8 bg-secondary/50">
+                {/* Certificate Showcase Loop */}
+                <section className="py-12 bg-gradient-to-r from-secondary/30 via-tertiary/20 to-secondary/30">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <motion.div
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                             viewport={{ once: true }}
                         >
-                            <h3 className="text-center text-white/60 text-sm uppercase tracking-wider mb-6">
-                                Skills & Technologies
-                            </h3>
+                            <div className="text-center mb-8">
+                                <h3 className="text-2xl font-bold text-white mb-2">
+                                    Certificate Showcase
+                                </h3>
+                                <p className="text-white/60">
+                                    Interactive preview of my professional certifications
+                                </p>
+                            </div>
                             <LogoLoop
-                                logos={skillsLogos}
-                                speed={1}
+                                certificates={certificates}
+                                showCertificateLogos={true}
+                                speed={1.2}
                                 direction="left"
                                 pauseOnHover={true}
-                                spacing={80}
-                                className="h-16"
-                                logoClassName="w-12 h-12 object-contain opacity-40 hover:opacity-80 transition-all duration-300"
+                                spacing={60}
+                                className="h-28 bg-gradient-to-r from-primary/20 via-secondary/30 to-primary/20 rounded-2xl border border-accent/20 backdrop-blur-sm"
                             />
                         </motion.div>
                     </div>

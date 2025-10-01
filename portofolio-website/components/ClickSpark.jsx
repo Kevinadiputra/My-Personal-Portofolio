@@ -1,15 +1,26 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, createContext, useContext } from 'react';
+
+// Context untuk global click spark configuration
+const ClickSparkContext = createContext({
+    sparkColor: '#5810FF',
+    sparkSize: 8,
+    sparkRadius: 20,
+    sparkCount: 8,
+    duration: 600,
+    easing: 'ease-out',
+    extraScale: 1.2
+});
 
 const ClickSpark = ({
-    sparkColor = '#ffffff',
-    sparkSize = 10,
-    sparkRadius = 15,
+    sparkColor = '#5810FF',
+    sparkSize = 8,
+    sparkRadius = 20,
     sparkCount = 8,
-    duration = 400,
+    duration = 600,
     easing = 'ease-out',
-    extraScale = 1.0,
+    extraScale = 1.2,
     children
 }) => {
     const canvasRef = useRef(null);
@@ -20,32 +31,33 @@ const ClickSpark = ({
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        const parent = canvas.parentElement;
-        if (!parent) return;
-
-        let resizeTimeout;
-
+        // Set canvas to cover the entire viewport
         const resizeCanvas = () => {
-            const { width, height } = parent.getBoundingClientRect();
-            if (canvas.width !== width || canvas.height !== height) {
-                canvas.width = width;
-                canvas.height = height;
+            const { innerWidth, innerHeight } = window;
+            if (canvas.width !== innerWidth || canvas.height !== innerHeight) {
+                canvas.width = innerWidth;
+                canvas.height = innerHeight;
             }
         };
 
         const handleResize = () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(resizeCanvas, 100);
+            resizeCanvas();
         };
 
-        const ro = new ResizeObserver(handleResize);
-        ro.observe(parent);
-
+        // Initial resize
         resizeCanvas();
 
+        // Listen for window resize
+        window.addEventListener('resize', handleResize);
+
+        // Listen for orientation change on mobile
+        window.addEventListener('orientationchange', () => {
+            setTimeout(resizeCanvas, 100);
+        });
+
         return () => {
-            ro.disconnect();
-            clearTimeout(resizeTimeout);
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('orientationchange', handleResize);
         };
     }, []);
 
@@ -115,12 +127,13 @@ const ClickSpark = ({
         };
     }, [sparkColor, sparkSize, sparkRadius, sparkCount, duration, easeFunc, extraScale]);
 
-    const handleClick = e => {
+    const handleClick = useCallback((e) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+
+        // Use global coordinates directly
+        const x = e.clientX;
+        const y = e.clientY;
 
         const now = performance.now();
         const newSparks = Array.from({ length: sparkCount }, (_, i) => ({
@@ -131,32 +144,74 @@ const ClickSpark = ({
         }));
 
         sparksRef.current.push(...newSparks);
-    };
+    }, [sparkCount]);
+
+    // Global click listener
+    useEffect(() => {
+        const globalClickHandler = (e) => {
+            // Check if the clicked element should trigger sparks
+            const target = e.target;
+            const shouldSpark =
+                target.tagName === 'BUTTON' ||
+                target.tagName === 'A' ||
+                target.closest('button') ||
+                target.closest('a') ||
+                target.closest('[role="button"]') ||
+                target.classList.contains('spark-on-click') ||
+                target.classList.contains('clickable') ||
+                target.closest('.spark-on-click') ||
+                target.closest('.clickable');
+
+            if (shouldSpark) {
+                handleClick(e);
+            }
+        };
+
+        // Add global click listener
+        document.addEventListener('click', globalClickHandler, true);
+
+        return () => {
+            document.removeEventListener('click', globalClickHandler, true);
+        };
+    }, [handleClick]);
 
     return (
-        <div className="relative w-full h-full" onClick={handleClick}>
-            <canvas ref={canvasRef} className="w-full h-full block absolute top-0 left-0 select-none pointer-events-none" />
+        <>
+            <canvas
+                ref={canvasRef}
+                className="fixed top-0 left-0 w-full h-full pointer-events-none z-[9999]"
+                style={{ mixBlendMode: 'screen' }}
+            />
             {children}
-        </div>
+        </>
     );
+};
+
+// Hook untuk menggunakan click spark context
+const useClickSpark = () => {
+    return useContext(ClickSparkContext);
 };
 
 // Global ClickSpark provider that wraps the entire app
 const ClickSparkProvider = ({ children, ...sparkOptions }) => {
+    const config = {
+        sparkColor: sparkOptions.sparkColor || '#5810FF',
+        sparkSize: sparkOptions.sparkSize || 8,
+        sparkRadius: sparkOptions.sparkRadius || 20,
+        sparkCount: sparkOptions.sparkCount || 8,
+        duration: sparkOptions.duration || 600,
+        easing: sparkOptions.easing || 'ease-out',
+        extraScale: sparkOptions.extraScale || 1.2
+    };
+
     return (
-        <ClickSpark
-            sparkColor={sparkOptions.sparkColor || '#5810FF'}
-            sparkSize={sparkOptions.sparkSize || 8}
-            sparkRadius={sparkOptions.sparkRadius || 20}
-            sparkCount={sparkOptions.sparkCount || 8}
-            duration={sparkOptions.duration || 600}
-            easing={sparkOptions.easing || 'ease-out'}
-            extraScale={sparkOptions.extraScale || 1.2}
-        >
-            {children}
-        </ClickSpark>
+        <ClickSparkContext.Provider value={config}>
+            <ClickSpark {...config}>
+                {children}
+            </ClickSpark>
+        </ClickSparkContext.Provider>
     );
 };
 
-export { ClickSparkProvider };
+export { ClickSparkProvider, useClickSpark, ClickSparkContext };
 export default ClickSpark;

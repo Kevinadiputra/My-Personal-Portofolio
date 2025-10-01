@@ -1,6 +1,7 @@
 import { Sometype_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import { ProfileProvider } from "@/context/ProfileContext";
 import ClickSparkProvider from "@/components/ClickSpark";
 
 const sometypeMono = Sometype_Mono({
@@ -66,17 +67,19 @@ export default function RootLayout({ children }) {
         className={`${sometypeMono.variable} antialiased`}
       >
         <AuthProvider>
-          <ClickSparkProvider
-            sparkColor="#5810FF"
-            sparkSize={8}
-            sparkRadius={20}
-            sparkCount={8}
-            duration={600}
-            easing="ease-out"
-            extraScale={1.2}
-          >
-            {children}
-          </ClickSparkProvider>
+          <ProfileProvider>
+            <ClickSparkProvider
+              sparkColor="#5810FF"
+              sparkSize={10}
+              sparkRadius={25}
+              sparkCount={12}
+              duration={800}
+              easing="ease-out"
+              extraScale={1.5}
+            >
+              {children}
+            </ClickSparkProvider>
+          </ProfileProvider>
         </AuthProvider>
       </body>
     </html>
