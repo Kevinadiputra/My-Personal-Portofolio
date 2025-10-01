@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import { gsap } from 'gsap';
 
 const useClickSpark = (options = {}) => {
@@ -80,7 +80,7 @@ const useClickSpark = (options = {}) => {
 const ClickSparkProvider = ({ children, ...sparkOptions }) => {
     const { handleClick } = useClickSpark(sparkOptions);
 
-    useRef(() => {
+    useEffect(() => {
         const handleGlobalClick = (event) => {
             // Only trigger on clickable elements
             const target = event.target;

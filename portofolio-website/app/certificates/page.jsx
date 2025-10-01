@@ -17,18 +17,34 @@ import {
     Trophy,
     Medal,
     Target,
-    Zap
+    Zap,
+    Plus
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import LogoLoop from "@/components/LogoLoop";
+import CertificateContextMenu from "@/components/CertificateContextMenu";
+import CertificateModal from "@/components/CertificateModal";
 import { CertificatesProvider, useCertificates } from "@/context/CertificatesContext";
+import { useAuth } from "@/context/AuthContext";
 
 const CertificatesPageContent = () => {
     const [filter, setFilter] = useState("all");
     const [searchTerm, setSearchTerm] = useState("");
     const [sortBy, setSortBy] = useState("newest");
-    const { certificates, loading } = useCertificates();
+    const [contextMenu, setContextMenu] = useState({ isVisible: false, position: { x: 0, y: 0 }, certificate: null });
+    const [modal, setModal] = useState({ isOpen: false, mode: 'add', certificate: null });
+
+    const {
+        certificates,
+        loading,
+        addCertificate,
+        updateCertificate,
+        deleteCertificate,
+        duplicateCertificate,
+        toggleFeatured
+    } = useCertificates();
+    const { isAuthenticated } = useAuth();
     const router = useRouter();
 
     const filters = [
@@ -96,17 +112,75 @@ const CertificatesPageContent = () => {
 
     const getLevelColor = (level) => {
         switch (level?.toLowerCase()) {
-            case 'foundation':
+            case 'beginner':
                 return 'text-green-400 bg-green-400/20';
             case 'intermediate':
                 return 'text-blue-400 bg-blue-400/20';
+            case 'advanced':
+                return 'text-orange-400 bg-orange-400/20';
+            case 'expert':
+                return 'text-red-400 bg-red-400/20';
             case 'professional':
                 return 'text-purple-400 bg-purple-400/20';
-            case 'advanced':
-                return 'text-red-400 bg-red-400/20';
             default:
                 return 'text-gray-400 bg-gray-400/20';
         }
+    };
+
+    // Context Menu Handlers
+    const handleContextMenu = (e, certificate) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const rect = e.currentTarget.getBoundingClientRect();
+        setContextMenu({
+            isVisible: true,
+            position: { x: e.clientX, y: e.clientY },
+            certificate
+        });
+    };
+
+    const closeContextMenu = () => {
+        setContextMenu({ isVisible: false, position: { x: 0, y: 0 }, certificate: null });
+    };
+
+    // Modal Handlers
+    const handleAddCertificate = () => {
+        setModal({ isOpen: true, mode: 'add', certificate: null });
+    };
+
+    const handleEditCertificate = (certificate) => {
+        setModal({ isOpen: true, mode: 'edit', certificate });
+    };
+
+    const handleViewCertificate = (certificate) => {
+        setModal({ isOpen: true, mode: 'view', certificate });
+    };
+
+    const handleSaveCertificate = (certificateData) => {
+        if (modal.mode === 'add') {
+            addCertificate(certificateData);
+        } else if (modal.mode === 'edit') {
+            updateCertificate(certificateData.id, certificateData);
+        }
+        setModal({ isOpen: false, mode: 'add', certificate: null });
+    };
+
+    const closeModal = () => {
+        setModal({ isOpen: false, mode: 'add', certificate: null });
+    };
+
+    // CRUD Handlers
+    const handleDeleteCertificate = (certificateId) => {
+        deleteCertificate(certificateId);
+    };
+
+    const handleDuplicateCertificate = (certificateId) => {
+        duplicateCertificate(certificateId);
+    };
+
+    const handleToggleFeatured = (certificateId) => {
+        toggleFeatured(certificateId);
     };
 
     if (loading) {
@@ -162,7 +236,7 @@ const CertificatesPageContent = () => {
                                 transition={{ duration: 0.8, delay: 0.2 }}
                             />
                             <motion.p
-                                className="text-xl text-white/70 max-w-3xl mx-auto leading-relaxed mb-12"
+                                className="text-xl text-white/70 max-w-3xl mx-auto leading-relaxed mb-8"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.4 }}
@@ -170,6 +244,21 @@ const CertificatesPageContent = () => {
                                 Continuous learning and professional development through industry-recognized certifications
                                 from leading institutions and technology platforms.
                             </motion.p>
+
+                            {isAuthenticated && (
+                                <motion.button
+                                    onClick={handleAddCertificate}
+                                    className="inline-flex items-center gap-2 bg-accent hover:bg-accent/80 text-white px-6 py-3 rounded-xl font-semibold transition-colors spark-on-click mb-8"
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 0.5 }}
+                                >
+                                    <Plus size={20} />
+                                    Add New Certificate
+                                </motion.button>
+                            )}
 
                             {/* Stats */}
                             <motion.div
@@ -354,11 +443,13 @@ const CertificatesPageContent = () => {
                                         initial={{ opacity: 0, y: 50 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.6, delay: index * 0.1 }}
-                                        className="bg-tertiary rounded-2xl overflow-hidden group hover:shadow-2xl transition-all duration-300"
+                                        className="bg-tertiary rounded-2xl overflow-hidden group hover:shadow-2xl transition-all duration-300 cursor-pointer spark-on-click"
                                         whileHover={{
                                             scale: 1.03,
                                             boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)"
                                         }}
+                                        onClick={() => handleViewCertificate(certificate)}
+                                        onContextMenu={(e) => handleContextMenu(e, certificate)}
                                     >
                                         {/* Certificate Image */}
                                         <div className="relative h-48 bg-gradient-to-br from-accent/20 to-accent-hover/20 overflow-hidden">
@@ -503,6 +594,28 @@ const CertificatesPageContent = () => {
             </main>
 
             <Footer />
+
+            {/* Certificate Context Menu */}
+            <CertificateContextMenu
+                certificate={contextMenu.certificate}
+                position={contextMenu.position}
+                isVisible={contextMenu.isVisible}
+                onClose={closeContextMenu}
+                onEdit={handleEditCertificate}
+                onDelete={handleDeleteCertificate}
+                onDuplicate={handleDuplicateCertificate}
+                onToggleFeatured={handleToggleFeatured}
+                onView={handleViewCertificate}
+            />
+
+            {/* Certificate Modal */}
+            <CertificateModal
+                isOpen={modal.isOpen}
+                onClose={closeModal}
+                onSave={handleSaveCertificate}
+                certificate={modal.certificate}
+                mode={modal.mode}
+            />
         </div>
     );
 };
