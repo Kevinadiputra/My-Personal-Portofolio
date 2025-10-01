@@ -322,11 +322,13 @@ const CertificatesPageContent = () => {
                             <LogoLoop
                                 certificates={certificates}
                                 showCertificateLogos={true}
-                                speed={1.2}
+                                speed={120}
                                 direction="left"
                                 pauseOnHover={true}
-                                spacing={60}
-                                className="h-28 bg-gradient-to-r from-primary/20 via-secondary/30 to-primary/20 rounded-2xl border border-accent/20 backdrop-blur-sm"
+                                gap={32}
+                                logoHeight={72}
+                                scaleOnHover={true}
+                                className="h-32 bg-gradient-to-r from-primary/20 via-secondary/30 to-primary/20 rounded-2xl border border-accent/20 backdrop-blur-sm flex items-center"
                             />
                         </motion.div>
                     </div>
@@ -586,10 +588,18 @@ const CertificatesPageContent = () => {
                                 I'm equipped to tackle your next project challenges.
                             </p>
                             <motion.button
-                                onClick={() => router.push('/#contact')}
+                                onClick={(e) => {
+                                    if (e.ctrlKey || e.metaKey) {
+                                        window.open('/#contact', '_blank', 'noopener,noreferrer');
+                                    } else {
+                                        router.push('/#contact');
+                                    }
+                                }}
+                                onAuxClick={(e) => e.button === 1 && window.open('/#contact', '_blank', 'noopener,noreferrer')}
                                 className="bg-accent hover:bg-accent-hover text-white px-8 py-4 rounded-xl font-semibold text-lg transition-colors spark-on-click"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
+                                title="Get In Touch (Ctrl+Click for new tab)"
                             >
                                 Get In Touch
                             </motion.button>

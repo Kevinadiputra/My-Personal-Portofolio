@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Award, Calendar, ExternalLink, Star, Tag, Sparkles } from 'lucide-react';
+import { X, Award, Calendar, ExternalLink, Star, Tag, Sparkles, Upload, Image } from 'lucide-react';
 
-const CertificateModal = ({ 
-    isOpen, 
-    onClose, 
-    onSave, 
-    certificate, 
+const CertificateModal = ({
+    isOpen,
+    onClose,
+    onSave,
+    certificate,
     mode = 'add' // 'add', 'edit', 'view'
 }) => {
     const [formData, setFormData] = useState({
@@ -26,6 +26,8 @@ const CertificateModal = ({
 
     const [newSkill, setNewSkill] = useState('');
     const [errors, setErrors] = useState({});
+    const [badgeUploadMode, setBadgeUploadMode] = useState('url');
+    const [uploadProgress, setUploadProgress] = useState(0);
 
     useEffect(() => {
         if (certificate && mode !== 'add') {
@@ -57,6 +59,8 @@ const CertificateModal = ({
         }
         setErrors({});
         setNewSkill('');
+        setBadgeUploadMode('url');
+        setUploadProgress(0);
     }, [certificate, mode, isOpen]);
 
     const handleInputChange = (e) => {
@@ -95,21 +99,108 @@ const CertificateModal = ({
         }
     };
 
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Validate file type
+        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/svg+xml', 'image/webp'];
+        if (!validTypes.includes(file.type)) {
+            setErrors(prev => ({ ...prev, badge: 'Please select a valid image file (JPG, PNG, SVG, WebP)' }));
+            return;
+        }
+
+        // Validate file size (5MB)
+        const maxSize = 5 * 1024 * 1024;
+        if (file.size > maxSize) {
+            setErrors(prev => ({ ...prev, badge: 'File size must be less than 5MB' }));
+            return;
+        }
+
+        try {
+            setUploadProgress(10);
+
+            // Convert file to base64
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setUploadProgress(50);
+
+                // Create image element to get dimensions and optimize
+                const img = new Image();
+                img.onload = () => {
+                    setUploadProgress(75);
+
+                    // Create canvas for image optimization
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    // Calculate optimal dimensions (max 300x300 for badges)
+                    const maxDimension = 300;
+                    let { width, height } = img;
+
+                    if (width > maxDimension || height > maxDimension) {
+                        if (width > height) {
+                            height = (height * maxDimension) / width;
+                            width = maxDimension;
+                        } else {
+                            width = (width * maxDimension) / height;
+                            height = maxDimension;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    // Draw and compress image
+                    ctx.drawImage(img, 0, 0, width, height);
+                    const optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+
+                    setFormData(prev => ({ ...prev, badge: optimizedDataUrl }));
+                    setUploadProgress(100);
+
+                    // Reset progress after a delay
+                    setTimeout(() => setUploadProgress(0), 1000);
+
+                    // Clear any previous errors
+                    setErrors(prev => ({ ...prev, badge: '' }));
+                };
+
+                img.onerror = () => {
+                    setErrors(prev => ({ ...prev, badge: 'Failed to process the image' }));
+                    setUploadProgress(0);
+                };
+
+                img.src = event.target.result;
+            };
+
+            reader.onerror = () => {
+                setErrors(prev => ({ ...prev, badge: 'Failed to read the file' }));
+                setUploadProgress(0);
+            };
+
+            reader.readAsDataURL(file);
+        } catch (error) {
+            console.error('File upload error:', error);
+            setErrors(prev => ({ ...prev, badge: 'Failed to upload the file' }));
+            setUploadProgress(0);
+        }
+    };
+
     const validateForm = () => {
         const newErrors = {};
-        
+
         if (!formData.title.trim()) {
             newErrors.title = 'Certificate title is required';
         }
-        
+
         if (!formData.issuer.trim()) {
             newErrors.issuer = 'Issuer is required';
         }
-        
+
         if (!formData.platform.trim()) {
             newErrors.platform = 'Platform is required';
         }
-        
+
         if (!formData.dateIssued) {
             newErrors.dateIssued = 'Date issued is required';
         }
@@ -120,7 +211,7 @@ const CertificateModal = ({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         if (!validateForm()) {
             return;
         }
@@ -146,8 +237,8 @@ const CertificateModal = ({
     if (!isOpen) return null;
 
     const isViewMode = mode === 'view';
-    const modalTitle = mode === 'add' ? 'Add New Certificate' : 
-                     mode === 'edit' ? 'Edit Certificate' : 'Certificate Details';
+    const modalTitle = mode === 'add' ? 'Add New Certificate' :
+        mode === 'edit' ? 'Edit Certificate' : 'Certificate Details';
 
     return (
         <AnimatePresence>
@@ -195,7 +286,7 @@ const CertificateModal = ({
                                 <Award size={20} className="text-accent" />
                                 Basic Information
                             </h3>
-                            
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-white/80 text-sm font-medium mb-2">
@@ -207,9 +298,8 @@ const CertificateModal = ({
                                         value={formData.title}
                                         onChange={handleInputChange}
                                         disabled={isViewMode}
-                                        className={`w-full px-4 py-3 bg-tertiary-hover border rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent transition-colors ${
-                                            errors.title ? 'border-red-500' : 'border-tertiary-hover focus:border-accent'
-                                        } ${isViewMode ? 'cursor-not-allowed opacity-60' : ''}`}
+                                        className={`w-full px-4 py-3 bg-tertiary-hover border rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent transition-colors ${errors.title ? 'border-red-500' : 'border-tertiary-hover focus:border-accent'
+                                            } ${isViewMode ? 'cursor-not-allowed opacity-60' : ''}`}
                                         placeholder="e.g., React Developer Certification"
                                     />
                                     {errors.title && (
@@ -227,9 +317,8 @@ const CertificateModal = ({
                                         value={formData.issuer}
                                         onChange={handleInputChange}
                                         disabled={isViewMode}
-                                        className={`w-full px-4 py-3 bg-tertiary-hover border rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent transition-colors ${
-                                            errors.issuer ? 'border-red-500' : 'border-tertiary-hover focus:border-accent'
-                                        } ${isViewMode ? 'cursor-not-allowed opacity-60' : ''}`}
+                                        className={`w-full px-4 py-3 bg-tertiary-hover border rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent transition-colors ${errors.issuer ? 'border-red-500' : 'border-tertiary-hover focus:border-accent'
+                                            } ${isViewMode ? 'cursor-not-allowed opacity-60' : ''}`}
                                         placeholder="e.g., Meta, Google, Microsoft"
                                     />
                                     {errors.issuer && (
@@ -249,9 +338,8 @@ const CertificateModal = ({
                                         value={formData.platform}
                                         onChange={handleInputChange}
                                         disabled={isViewMode}
-                                        className={`w-full px-4 py-3 bg-tertiary-hover border rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent transition-colors ${
-                                            errors.platform ? 'border-red-500' : 'border-tertiary-hover focus:border-accent'
-                                        } ${isViewMode ? 'cursor-not-allowed opacity-60' : ''}`}
+                                        className={`w-full px-4 py-3 bg-tertiary-hover border rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent transition-colors ${errors.platform ? 'border-red-500' : 'border-tertiary-hover focus:border-accent'
+                                            } ${isViewMode ? 'cursor-not-allowed opacity-60' : ''}`}
                                         placeholder="e.g., Coursera, Udemy"
                                     />
                                     {errors.platform && (
@@ -268,9 +356,8 @@ const CertificateModal = ({
                                         value={formData.level}
                                         onChange={handleInputChange}
                                         disabled={isViewMode}
-                                        className={`w-full px-4 py-3 bg-tertiary-hover border border-tertiary-hover rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors ${
-                                            isViewMode ? 'cursor-not-allowed opacity-60' : ''
-                                        }`}
+                                        className={`w-full px-4 py-3 bg-tertiary-hover border border-tertiary-hover rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors ${isViewMode ? 'cursor-not-allowed opacity-60' : ''
+                                            }`}
                                     >
                                         {levelOptions.map(option => (
                                             <option key={option.value} value={option.value} className="bg-tertiary">
@@ -290,9 +377,8 @@ const CertificateModal = ({
                                         value={formData.dateIssued}
                                         onChange={handleInputChange}
                                         disabled={isViewMode}
-                                        className={`w-full px-4 py-3 bg-tertiary-hover border rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-accent transition-colors ${
-                                            errors.dateIssued ? 'border-red-500' : 'border-tertiary-hover focus:border-accent'
-                                        } ${isViewMode ? 'cursor-not-allowed opacity-60' : ''}`}
+                                        className={`w-full px-4 py-3 bg-tertiary-hover border rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-accent transition-colors ${errors.dateIssued ? 'border-red-500' : 'border-tertiary-hover focus:border-accent'
+                                            } ${isViewMode ? 'cursor-not-allowed opacity-60' : ''}`}
                                     />
                                     {errors.dateIssued && (
                                         <p className="text-red-400 text-sm mt-1">{errors.dateIssued}</p>
@@ -307,7 +393,7 @@ const CertificateModal = ({
                                 <ExternalLink size={20} className="text-accent" />
                                 Links & Verification
                             </h3>
-                            
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-white/80 text-sm font-medium mb-2">
@@ -319,28 +405,123 @@ const CertificateModal = ({
                                         value={formData.verifyUrl}
                                         onChange={handleInputChange}
                                         disabled={isViewMode}
-                                        className={`w-full px-4 py-3 bg-tertiary-hover border border-tertiary-hover rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors ${
-                                            isViewMode ? 'cursor-not-allowed opacity-60' : ''
-                                        }`}
+                                        className={`w-full px-4 py-3 bg-tertiary-hover border border-tertiary-hover rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors ${isViewMode ? 'cursor-not-allowed opacity-60' : ''
+                                            }`}
                                         placeholder="https://verify.example.com"
                                     />
                                 </div>
 
                                 <div>
                                     <label className="block text-white/80 text-sm font-medium mb-2">
-                                        Badge Image URL
+                                        Certificate Badge
                                     </label>
-                                    <input
-                                        type="url"
-                                        name="badge"
-                                        value={formData.badge}
-                                        onChange={handleInputChange}
-                                        disabled={isViewMode}
-                                        className={`w-full px-4 py-3 bg-tertiary-hover border border-tertiary-hover rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors ${
-                                            isViewMode ? 'cursor-not-allowed opacity-60' : ''
-                                        }`}
-                                        placeholder="https://images.example.com/badge.png"
-                                    />
+                                    <div className="space-y-3">
+                                        {/* Badge Upload Tabs */}
+                                        <div className="flex gap-2">
+                                            <button
+                                                type="button"
+                                                onClick={() => setBadgeUploadMode('url')}
+                                                className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${badgeUploadMode === 'url'
+                                                        ? 'bg-accent text-white'
+                                                        : 'bg-tertiary-hover text-white/60 hover:text-white'
+                                                    }`}
+                                                disabled={isViewMode}
+                                            >
+                                                URL
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => setBadgeUploadMode('file')}
+                                                className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${badgeUploadMode === 'file'
+                                                        ? 'bg-accent text-white'
+                                                        : 'bg-tertiary-hover text-white/60 hover:text-white'
+                                                    }`}
+                                                disabled={isViewMode}
+                                            >
+                                                Upload File
+                                            </button>
+                                        </div>
+
+                                        {/* URL Input */}
+                                        {badgeUploadMode === 'url' && (
+                                            <input
+                                                type="url"
+                                                name="badge"
+                                                value={formData.badge}
+                                                onChange={handleInputChange}
+                                                disabled={isViewMode}
+                                                className={`w-full px-4 py-3 bg-tertiary-hover border border-tertiary-hover rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors ${isViewMode ? 'cursor-not-allowed opacity-60' : ''
+                                                    }`}
+                                                placeholder="https://images.example.com/badge.png"
+                                            />
+                                        )}
+
+                                        {/* File Upload */}
+                                        {badgeUploadMode === 'file' && !isViewMode && (
+                                            <div className="space-y-2">
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    onChange={handleFileUpload}
+                                                    className="hidden"
+                                                    id="badge-upload"
+                                                />
+                                                <label
+                                                    htmlFor="badge-upload"
+                                                    className="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-accent/30 rounded-lg cursor-pointer hover:border-accent/50 transition-colors"
+                                                >
+                                                    <div className="text-center">
+                                                        <div className="text-accent mb-1">
+                                                            <Upload className="w-6 h-6 mx-auto" />
+                                                        </div>
+                                                        <p className="text-white/80 text-sm">Click to upload badge image</p>
+                                                        <p className="text-white/50 text-xs">PNG, JPG, SVG up to 5MB</p>
+                                                    </div>
+                                                </label>
+                                                {uploadProgress > 0 && uploadProgress < 100 && (
+                                                    <div className="w-full bg-tertiary-hover rounded-full h-2">
+                                                        <div
+                                                            className="bg-accent h-2 rounded-full transition-all duration-300"
+                                                            style={{ width: `${uploadProgress}%` }}
+                                                        />
+                                                    </div>
+                                                )}
+                                                {errors.badge && (
+                                                    <p className="text-red-400 text-sm">{errors.badge}</p>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {/* Badge Preview */}
+                                        {formData.badge && (
+                                            <div className="mt-3">
+                                                <p className="text-white/60 text-sm mb-2">Badge Preview:</p>
+                                                <div className="flex items-center gap-3">
+                                                    <img
+                                                        src={formData.badge}
+                                                        alt="Badge preview"
+                                                        className="w-16 h-16 object-contain rounded-lg bg-tertiary-hover border border-tertiary-hover"
+                                                        onError={(e) => {
+                                                            e.target.style.display = 'none';
+                                                            e.target.nextSibling.style.display = 'flex';
+                                                        }}
+                                                    />
+                                                    <div className="hidden w-16 h-16 bg-tertiary-hover border border-tertiary-hover rounded-lg items-center justify-center">
+                                                        <span className="text-white/50 text-xs">Invalid</span>
+                                                    </div>
+                                                    {!isViewMode && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setFormData(prev => ({ ...prev, badge: '' }))}
+                                                            className="text-red-400 hover:text-red-300 text-sm transition-colors"
+                                                        >
+                                                            Remove
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -351,7 +532,7 @@ const CertificateModal = ({
                                 <Tag size={20} className="text-accent" />
                                 Skills Covered
                             </h3>
-                            
+
                             {!isViewMode && (
                                 <div className="flex gap-2">
                                     <input
@@ -372,7 +553,7 @@ const CertificateModal = ({
                                     </button>
                                 </div>
                             )}
-                            
+
                             <div className="flex flex-wrap gap-2">
                                 {formData.skills.map((skill, index) => (
                                     <span
@@ -391,7 +572,7 @@ const CertificateModal = ({
                                         )}
                                     </span>
                                 ))}
-                                
+
                                 {formData.skills.length === 0 && (
                                     <p className="text-white/50 text-sm">No skills added yet</p>
                                 )}
@@ -404,16 +585,15 @@ const CertificateModal = ({
                                 <Sparkles size={20} className="text-accent" />
                                 Description
                             </h3>
-                            
+
                             <textarea
                                 name="description"
                                 value={formData.description}
                                 onChange={handleInputChange}
                                 disabled={isViewMode}
                                 rows={3}
-                                className={`w-full px-4 py-3 bg-tertiary-hover border border-tertiary-hover rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors resize-none ${
-                                    isViewMode ? 'cursor-not-allowed opacity-60' : ''
-                                }`}
+                                className={`w-full px-4 py-3 bg-tertiary-hover border border-tertiary-hover rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors resize-none ${isViewMode ? 'cursor-not-allowed opacity-60' : ''
+                                    }`}
                                 placeholder="Brief description about what this certificate covers..."
                             />
                         </div>
@@ -425,7 +605,7 @@ const CertificateModal = ({
                                     <Star size={20} className="text-accent" />
                                     Options
                                 </h3>
-                                
+
                                 <label className="flex items-center gap-3 cursor-pointer">
                                     <input
                                         type="checkbox"
@@ -448,7 +628,7 @@ const CertificateModal = ({
                             >
                                 {isViewMode ? 'Close' : 'Cancel'}
                             </button>
-                            
+
                             {!isViewMode && (
                                 <button
                                     type="submit"

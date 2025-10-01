@@ -129,8 +129,12 @@ const ProjectsPageContent = () => {
         toggleFeatured(projectId);
     };
 
-    const handleViewProject = (project) => {
-        router.push(`/project/${project.id}`);
+    const handleViewProject = (project, newTab = false) => {
+        if (newTab) {
+            window.open(`/project/${project.id}`, '_blank', 'noopener,noreferrer');
+        } else {
+            router.push(`/project/${project.id}`);
+        }
     };
 
     if (loading) {
@@ -356,7 +360,8 @@ const ProjectsPageContent = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.6, delay: index * 0.1 }}
                                         className="bg-tertiary rounded-2xl overflow-hidden group cursor-pointer"
-                                        onClick={() => router.push(`/project/${project.id}`)}
+                                        onClick={(e) => handleViewProject(project, e.ctrlKey || e.metaKey)}
+                                        onAuxClick={(e) => e.button === 1 && handleViewProject(project, true)}
                                         onContextMenu={(e) => handleContextMenu(e, project)}
                                         whileHover={{
                                             scale: 1.03,
@@ -439,9 +444,14 @@ const ProjectsPageContent = () => {
                                                 <button
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        router.push(`/project/${project.id}`);
+                                                        handleViewProject(project, e.ctrlKey || e.metaKey);
+                                                    }}
+                                                    onAuxClick={(e) => {
+                                                        e.stopPropagation();
+                                                        e.button === 1 && handleViewProject(project, true);
                                                     }}
                                                     className="text-accent hover:text-accent-hover font-medium flex items-center gap-2 transition-colors"
+                                                    title="View Project Details (Ctrl+Click for new tab)"
                                                 >
                                                     View Details
                                                     <ArrowRight size={16} />

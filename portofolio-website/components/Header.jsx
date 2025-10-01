@@ -24,33 +24,44 @@ const Header = () => {
     }, []);
 
     const navItems = [
-        { name: "Home", href: "/", type: "route" },
-        { name: "About", href: "#about", type: "section" },
-        { name: "Skills", href: "#skills", type: "section" },
-        { name: "Projects", href: "/projects", type: "route" },
-        { name: "Certificates", href: "/certificates", type: "route" },
-        { name: "Contact", href: "#contact", type: "section" },
+        { name: "Home", href: "/", type: "route", openInNewTab: false },
+        { name: "About", href: "#about", type: "section", openInNewTab: false },
+        { name: "Skills", href: "#skills", type: "section", openInNewTab: false },
+        { name: "Projects", href: "/projects", type: "route", openInNewTab: false },
+        { name: "Certificates", href: "/certificates", type: "route", openInNewTab: false },
+        { name: "Contact", href: "#contact", type: "section", openInNewTab: false },
     ];
 
-    const handleNavigation = (item) => {
+    const handleNavigation = (item, forceNewTab = false) => {
+        // Check if should open in new tab (Ctrl+Click or middle click or explicit flag)
+        const shouldOpenInNewTab = forceNewTab || item.openInNewTab;
+
         if (item.type === "route") {
-            if (item.href === "/" && pathname !== "/") {
-                router.push("/");
-            } else if (item.href !== "/" && pathname !== item.href) {
-                router.push(item.href);
-            } else if (item.href === "/" && pathname === "/") {
-                // If already on home page, scroll to top
-                window.scrollTo({ top: 0, behavior: "smooth" });
+            if (shouldOpenInNewTab) {
+                window.open(item.href, '_blank', 'noopener,noreferrer');
+            } else {
+                if (item.href === "/" && pathname !== "/") {
+                    router.push("/");
+                } else if (item.href !== "/" && pathname !== item.href) {
+                    router.push(item.href);
+                } else if (item.href === "/" && pathname === "/") {
+                    // If already on home page, scroll to top
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }
             }
         } else if (item.type === "section") {
-            if (pathname !== "/") {
-                // If not on home page, go to home page first then scroll
-                router.push(`/${item.href}`);
+            if (shouldOpenInNewTab) {
+                window.open(`/${item.href}`, '_blank', 'noopener,noreferrer');
             } else {
-                // If on home page, scroll to section
-                const element = document.querySelector(item.href);
-                if (element) {
-                    element.scrollIntoView({ behavior: "smooth" });
+                if (pathname !== "/") {
+                    // If not on home page, go to home page first then scroll
+                    router.push(`/${item.href}`);
+                } else {
+                    // If on home page, scroll to section
+                    const element = document.querySelector(item.href);
+                    if (element) {
+                        element.scrollIntoView({ behavior: "smooth" });
+                    }
                 }
             }
         }
@@ -81,11 +92,13 @@ const Header = () => {
                             return (
                                 <button
                                     key={item.name}
-                                    onClick={() => handleNavigation(item)}
+                                    onClick={(e) => handleNavigation(item, e.ctrlKey || e.metaKey)}
+                                    onAuxClick={(e) => e.button === 1 && handleNavigation(item, true)}
                                     className={`font-medium transition-colors duration-200 spark-on-click ${isActive
                                         ? "text-accent"
                                         : "text-white hover:text-accent"
                                         }`}
+                                    title={`${item.name} (Ctrl+Click to open in new tab)`}
                                 >
                                     {item.name}
                                 </button>
@@ -140,13 +153,17 @@ const Header = () => {
                                 return (
                                     <button
                                         key={item.name}
-                                        onClick={() => handleNavigation(item)}
+                                        onClick={(e) => handleNavigation(item, e.ctrlKey || e.metaKey)}
+                                        onAuxClick={(e) => e.button === 1 && handleNavigation(item, true)}
                                         className={`font-medium transition-colors duration-200 text-left ${isActive
                                             ? "text-accent"
                                             : "text-white hover:text-accent"
                                             }`}
                                     >
                                         {item.name}
+                                        <span className="text-xs text-white/50 block">
+                                            {item.type === "route" ? "Ctrl+Click for new tab" : ""}
+                                        </span>
                                     </button>
                                 );
                             })}
