@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from 'react';
+import { projectService } from '@/lib/supabase';
 
 const ProjectsContext = createContext();
 
@@ -113,65 +114,119 @@ const defaultProjects = [
 export const ProjectsProvider = ({ children }) => {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    // Load projects from localStorage on mount
+    // Load projects from Supabase on mount
     useEffect(() => {
-        const loadProjects = () => {
+        loadProjects();
+    }, []);
+
+    const loadProjects = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const data = await projectService.getAllProjects();
+
+            if (data && data.length > 0) {
+                // Transform Supabase data to match expected format
+                const transformedData = data.map(project => ({
+                    ...project,
+                    technologies: Array.isArray(project.technologies)
+                        ? project.technologies
+                        : (project.technologies || '').split(',').map(t => t.trim()).filter(Boolean)
+                }));
+                setProjects(transformedData);
+            } else {
+                // If no data in Supabase, use default projects
+                console.log('No projects found in Supabase, using defaults');
+                setProjects(defaultProjects);
+            }
+        } catch (err) {
+            console.error('Error loading projects from Supabase:', err);
+            setError(err.message);
+
+            // Fallback to localStorage if Supabase fails
             try {
                 const storedProjects = localStorage.getItem('portfolio-projects');
                 if (storedProjects) {
                     setProjects(JSON.parse(storedProjects));
                 } else {
                     setProjects(defaultProjects);
-                    localStorage.setItem('portfolio-projects', JSON.stringify(defaultProjects));
                 }
-            } catch (error) {
-                console.error('Error loading projects:', error);
+            } catch (localError) {
+                console.error('Error loading from localStorage:', localError);
                 setProjects(defaultProjects);
-            } finally {
-                setLoading(false);
             }
-        };
-
-        loadProjects();
-    }, []);
-
-    // Save projects to localStorage whenever they change
-    useEffect(() => {
-        if (!loading && projects.length >= 0) {
-            localStorage.setItem('portfolio-projects', JSON.stringify(projects));
+        } finally {
+            setLoading(false);
         }
-    }, [projects, loading]);
-
-    // CRUD Operations
-    const addProject = (projectData) => {
-        const newProject = {
-            ...projectData,
-            id: Date.now(),
-            technologies: Array.isArray(projectData.technologies)
-                ? projectData.technologies
-                : projectData.technologies.split(',').map(tech => tech.trim()),
-        };
-        setProjects(prev => [...prev, newProject]);
-        return newProject;
     };
 
-    const updateProject = (id, projectData) => {
-        setProjects(prev => prev.map(project =>
-            project.id === id
-                ? {
-                    ...project,
-                    ...projectData,
-                    technologies: Array.isArray(projectData.technologies)
-                        ? projectData.technologies
-                        : projectData.technologies.split(',').map(tech => tech.trim())
-                }
-                : project
-        ));
+    // CRUD Operations with Supabase
+    const addProject = async (projectData) => {
+        try {
+            const newProject = {
+                ...projectData,
+                technologies: Array.isArray(projectData.technologies)
+                    ? projectData.technologies
+                    : projectData.technologies.split(',').map(tech => tech.trim()).filter(Boolean),
+                category: projectData.category || 'web',
+                featured: projectData.featured || false
+            };
+
+            const savedProject = await projectService.addProject(newProject);
+            setProjects(prev => [savedProject, ...prev]);
+
+            // Also save to localStorage as backup
+            localStorage.setItem('portfolio-projects', JSON.stringify([savedProject, ...projects]));
+
+            return savedProject;
+        } catch (err) {
+            console.error('Error adding project:', err);
+            setError(err.message);
+            throw err;
+        }
     };
 
-    const deleteProject = (id) => {
-        setProjects(prev => prev.filter(project => project.id !== id));
+    const updateProject = async (id, projectData) => {
+        try {
+            const updatedData = {
+                ...projectData,
+                technologies: Array.isArray(projectData.technologies)
+                    ? projectData.technologies
+                    : projectData.technologies.split(',').map(tech => tech.trim()).filter(Boolean)
+            };
+
+            const updatedProject = await projectService.updateProject(id, updatedData);
+            setProjects(prev => prev.map(project =>
+                project.id === id ? updatedProject : project
+            ));
+
+            // Update localStorage backup
+            const updatedProjects = projects.map(p => p.id === id ? updatedProject : p);
+            localStorage.setItem('portfolio-projects', JSON.stringify(updatedProjects));
+
+            return updatedProject;
+        } catch (err) {
+            console.error('Error updating project:', err);
+            setError(err.message);
+            throw err;
+        }
+    };
+
+    const deleteProject = async (id) => {
+        try {
+            await projectService.deleteProject(id);
+            setProjects(prev => prev.filter(project => project.id !== id));
+
+            // Update localStorage backup
+            const remainingProjects = projects.filter(p => p.id !== id);
+            localStorage.setItem('portfolio-projects', JSON.stringify(remainingProjects));
+        } catch (err) {
+            console.error('Error deleting project:', err);
+            setError(err.message);
+            throw err;
+        }
     };
 
     const getProject = (id) => {
@@ -183,30 +238,53 @@ export const ProjectsProvider = ({ children }) => {
         localStorage.setItem('portfolio-projects', JSON.stringify(defaultProjects));
     };
 
-    const duplicateProject = (id) => {
-        const project = getProject(id);
-        if (project) {
-            const duplicatedProject = {
-                ...project,
-                id: Date.now(),
-                title: `${project.title} (Copy)`,
-            };
-            setProjects(prev => [...prev, duplicatedProject]);
-            return duplicatedProject;
+    const duplicateProject = async (id) => {
+        try {
+            const project = getProject(id);
+            if (project) {
+                const duplicatedProject = {
+                    ...project,
+                    id: undefined, // Let Supabase generate new ID
+                    title: `${project.title} (Copy)`,
+                };
+                return await addProject(duplicatedProject);
+            }
+        } catch (err) {
+            console.error('Error duplicating project:', err);
+            setError(err.message);
+            throw err;
         }
     };
 
-    const toggleFeatured = (id) => {
-        setProjects(prev => prev.map(project =>
-            project.id === id
-                ? { ...project, featured: !project.featured }
-                : project
-        ));
+    const toggleFeatured = async (id) => {
+        try {
+            const project = getProject(id);
+            if (project) {
+                await updateProject(id, { featured: !project.featured });
+            }
+        } catch (err) {
+            console.error('Error toggling featured:', err);
+            setError(err.message);
+            throw err;
+        }
+    };
+
+    // Upload project image
+    const uploadProjectImage = async (file) => {
+        try {
+            const imageUrl = await projectService.uploadProjectImage(file);
+            return imageUrl;
+        } catch (err) {
+            console.error('Error uploading image:', err);
+            setError(err.message);
+            throw err;
+        }
     };
 
     const value = {
         projects,
         loading,
+        error,
         addProject,
         updateProject,
         deleteProject,
@@ -214,6 +292,8 @@ export const ProjectsProvider = ({ children }) => {
         resetProjects,
         duplicateProject,
         toggleFeatured,
+        uploadProjectImage,
+        refresh: loadProjects,
     };
 
     return (

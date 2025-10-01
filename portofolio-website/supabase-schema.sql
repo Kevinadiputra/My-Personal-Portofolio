@@ -147,6 +147,20 @@ ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE certificates ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Public profiles are viewable by everyone" ON profiles;
+DROP POLICY IF EXISTS "Public projects are viewable by everyone" ON projects;
+DROP POLICY IF EXISTS "Public certificates are viewable by everyone" ON certificates;
+DROP POLICY IF EXISTS "Authenticated users can insert profiles" ON profiles;
+DROP POLICY IF EXISTS "Authenticated users can update profiles" ON profiles;
+DROP POLICY IF EXISTS "Authenticated users can delete profiles" ON profiles;
+DROP POLICY IF EXISTS "Authenticated users can insert projects" ON projects;
+DROP POLICY IF EXISTS "Authenticated users can update projects" ON projects;
+DROP POLICY IF EXISTS "Authenticated users can delete projects" ON projects;
+DROP POLICY IF EXISTS "Authenticated users can insert certificates" ON certificates;
+DROP POLICY IF EXISTS "Authenticated users can update certificates" ON certificates;
+DROP POLICY IF EXISTS "Authenticated users can delete certificates" ON certificates;
+
 -- Public read access policies
 CREATE POLICY "Public profiles are viewable by everyone"
     ON profiles FOR SELECT
@@ -207,6 +221,11 @@ BEGIN
     RETURN NEW;
 END;
 $$ language 'plpgsql';
+
+-- Drop existing triggers if they exist
+DROP TRIGGER IF EXISTS update_profiles_updated_at ON profiles;
+DROP TRIGGER IF EXISTS update_projects_updated_at ON projects;
+DROP TRIGGER IF EXISTS update_certificates_updated_at ON certificates;
 
 -- Create triggers
 CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON profiles

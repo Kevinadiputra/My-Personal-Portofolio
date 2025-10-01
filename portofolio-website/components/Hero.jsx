@@ -13,7 +13,7 @@ const Hero = () => {
     const [currentPhrase, setCurrentPhrase] = useState(0);
     const [isProfileManagerOpen, setIsProfileManagerOpen] = useState(false);
 
-    const { profile, updateProfilePicture } = useProfile();
+    const { profile, uploadProfilePicture } = useProfile();
     const { isAuthenticated } = useAuth();
 
     const phrases = [
@@ -334,7 +334,7 @@ const Hero = () => {
                 isOpen={isProfileManagerOpen}
                 onClose={() => setIsProfileManagerOpen(false)}
                 currentImage={profile?.profilePicture}
-                onSave={updateProfilePicture}
+                onSave={uploadProfilePicture}
             />
         </section>
     );

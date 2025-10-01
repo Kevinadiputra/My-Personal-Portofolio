@@ -83,18 +83,25 @@ const AdminPanel = () => {
     };
 
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
-        if (editingProject) {
-            updateProject(editingProject.id, formData);
-            showNotification(`Project "${formData.title}" updated successfully!`);
-        } else {
-            addProject(formData);
-            showNotification(`Project "${formData.title}" added successfully!`);
+        try {
+            if (editingProject) {
+                await updateProject(editingProject.id, formData);
+                showNotification(`Project "${formData.title}" updated successfully!`);
+            } else {
+                await addProject(formData);
+                showNotification(`Project "${formData.title}" added successfully!`);
+            }
+
+            resetForm();
+        } catch (error) {
+            showNotification(`Error: ${error.message}`, 'error');
+        } finally {
+            setLoading(false);
         }
-
-        resetForm();
     };
 
     // Handle edit
@@ -116,17 +123,31 @@ const AdminPanel = () => {
     };
 
     // Handle delete with confirmation
-    const handleDelete = (id, title) => {
+    const handleDelete = async (id, title) => {
         if (window.confirm(`Are you sure you want to delete "${title}"?`)) {
-            deleteProject(id);
-            showNotification(`Project "${title}" deleted successfully!`, 'error');
+            setLoading(true);
+            try {
+                await deleteProject(id);
+                showNotification(`Project "${title}" deleted successfully!`, 'error');
+            } catch (error) {
+                showNotification(`Error deleting project: ${error.message}`, 'error');
+            } finally {
+                setLoading(false);
+            }
         }
     };
 
     // Handle duplicate
-    const handleDuplicate = (id, title) => {
-        duplicateProject(id);
-        showNotification(`Project "${title}" duplicated successfully!`);
+    const handleDuplicate = async (id, title) => {
+        setLoading(true);
+        try {
+            await duplicateProject(id);
+            showNotification(`Project "${title}" duplicated successfully!`);
+        } catch (error) {
+            showNotification(`Error duplicating project: ${error.message}`, 'error');
+        } finally {
+            setLoading(false);
+        }
     };
 
     // Handle toggle featured

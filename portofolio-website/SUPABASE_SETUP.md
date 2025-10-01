@@ -21,12 +21,22 @@
 
 ### 2️⃣ Setup Database Schema
 
+**Option A: First Time Setup (Recommended)**
 1. Di Supabase Dashboard, buka **"SQL Editor"**
 2. Klik **"New Query"**
 3. Copy semua isi file `supabase-schema.sql`
 4. Paste ke SQL Editor
 5. Klik **"Run"** atau tekan `Ctrl+Enter`
 6. Pastikan muncul sukses message
+
+**Option B: Reset & Rebuild (Jika ada error "already exists")**
+1. Buka **"SQL Editor"**
+2. Klik **"New Query"**
+3. Copy isi file `supabase-reset.sql`
+4. Paste dan **"Run"** (ini akan hapus semua data!)
+5. Kemudian jalankan `supabase-schema.sql` seperti Option A
+
+**Note**: Schema sudah di-update dengan `DROP IF EXISTS` jadi aman untuk di-run ulang
 
 ### 3️⃣ Setup Storage Bucket
 
@@ -175,6 +185,11 @@ Di Supabase Dashboard:
 - **API Docs**: Generated automatically
 
 ## 🆘 Troubleshooting
+
+### Error: "Policy already exists" or "Trigger already exists"
+- Jalankan `supabase-reset.sql` terlebih dahulu
+- Atau: Update schema sudah include `DROP IF EXISTS`
+- Jalankan ulang `supabase-schema.sql`
 
 ### Error: "Failed to fetch"
 - Check Supabase URL dan API key

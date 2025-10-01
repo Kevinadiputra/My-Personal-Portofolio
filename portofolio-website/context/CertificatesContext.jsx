@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from 'react';
+import { certificateService } from '@/lib/supabase';
 
 const CertificatesContext = createContext();
 
@@ -115,65 +116,199 @@ const defaultCertificates = [
 export const CertificatesProvider = ({ children }) => {
     const [certificates, setCertificates] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    // Load certificates from localStorage on mount
+    // Load certificates from Supabase on mount
     useEffect(() => {
-        const loadCertificates = () => {
+        loadCertificates();
+    }, []);
+
+    const loadCertificates = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const data = await certificateService.getAllCertificates();
+
+            if (data && data.length > 0) {
+                // Transform Supabase data to match expected format
+                const transformedData = data.map(cert => ({
+                    ...cert,
+                    date: cert.date_issued || cert.dateIssued || cert.date,
+                    dateIssued: cert.date_issued || cert.dateIssued || cert.date,
+                    verifyUrl: cert.verify_url || cert.verifyUrl,
+                    skills: Array.isArray(cert.skills)
+                        ? cert.skills
+                        : (cert.skills || '').split(',').map(s => s.trim()).filter(Boolean)
+                }));
+                setCertificates(transformedData);
+            } else {
+                // If no data in Supabase, use default certificates
+                console.log('No certificates found in Supabase, using defaults');
+                setCertificates(defaultCertificates);
+            }
+        } catch (err) {
+            console.error('Error loading certificates from Supabase:', err);
+            setError(err.message);
+
+            // Fallback to localStorage if Supabase fails
             try {
                 const storedCertificates = localStorage.getItem('portfolio-certificates');
                 if (storedCertificates) {
                     setCertificates(JSON.parse(storedCertificates));
                 } else {
                     setCertificates(defaultCertificates);
-                    localStorage.setItem('portfolio-certificates', JSON.stringify(defaultCertificates));
                 }
-            } catch (error) {
-                console.error('Error loading certificates:', error);
+            } catch (localError) {
+                console.error('Error loading from localStorage:', localError);
                 setCertificates(defaultCertificates);
-            } finally {
-                setLoading(false);
             }
-        };
-
-        loadCertificates();
-    }, []);
-
-    // Save certificates to localStorage whenever they change
-    useEffect(() => {
-        if (!loading && certificates.length >= 0) {
-            localStorage.setItem('portfolio-certificates', JSON.stringify(certificates));
+        } finally {
+            setLoading(false);
         }
-    }, [certificates, loading]);
+    };
 
     // CRUD Operations
-    const addCertificate = (certificateData) => {
-        const newCertificate = {
-            ...certificateData,
-            id: Date.now(),
-            skills: Array.isArray(certificateData.skills)
-                ? certificateData.skills
-                : certificateData.skills.split(',').map(skill => skill.trim()),
-        };
-        setCertificates(prev => [...prev, newCertificate]);
-        return newCertificate;
+    const addCertificate = async (certificateData) => {
+        try {
+            setError(null);
+
+            // Add to Supabase
+            const newCertificate = await certificateService.addCertificate({
+                title: certificateData.title,
+                organization: certificateData.organization,
+                date_issued: certificateData.date || certificateData.dateIssued || certificateData.date_issued,
+                skills: Array.isArray(certificateData.skills)
+                    ? certificateData.skills
+                    : certificateData.skills.split(',').map(s => s.trim()).filter(Boolean),
+                badge_url: certificateData.badgeUrl || certificateData.badge_url,
+                verify_url: certificateData.verifyUrl || certificateData.verify_url
+            });
+
+            if (newCertificate) {
+                // Transform and add to state
+                const transformed = {
+                    ...newCertificate,
+                    date: newCertificate.date_issued,
+                    dateIssued: newCertificate.date_issued,
+                    badgeUrl: newCertificate.badge_url,
+                    verifyUrl: newCertificate.verify_url
+                };
+                setCertificates(prev => [...prev, transformed]);
+
+                // Also save to localStorage as backup
+                const updated = [...certificates, transformed];
+                localStorage.setItem('portfolio-certificates', JSON.stringify(updated));
+
+                return transformed;
+            }
+        } catch (err) {
+            console.error('Error adding certificate:', err);
+            setError(err.message);
+
+            // Fallback to localStorage only
+            const newCertificate = {
+                ...certificateData,
+                id: Date.now(),
+                skills: Array.isArray(certificateData.skills)
+                    ? certificateData.skills
+                    : certificateData.skills.split(',').map(skill => skill.trim()),
+            };
+            setCertificates(prev => [...prev, newCertificate]);
+            localStorage.setItem('portfolio-certificates', JSON.stringify([...certificates, newCertificate]));
+            return newCertificate;
+        }
     };
 
-    const updateCertificate = (id, certificateData) => {
-        setCertificates(prev => prev.map(certificate =>
-            certificate.id === id
-                ? {
-                    ...certificate,
-                    ...certificateData,
-                    skills: Array.isArray(certificateData.skills)
-                        ? certificateData.skills
-                        : certificateData.skills.split(',').map(skill => skill.trim())
-                }
-                : certificate
-        ));
+    const updateCertificate = async (id, certificateData) => {
+        try {
+            setError(null);
+
+            // Update in Supabase
+            const updated = await certificateService.updateCertificate(id, {
+                title: certificateData.title,
+                organization: certificateData.organization,
+                date_issued: certificateData.date || certificateData.dateIssued || certificateData.date_issued,
+                skills: Array.isArray(certificateData.skills)
+                    ? certificateData.skills
+                    : certificateData.skills.split(',').map(s => s.trim()).filter(Boolean),
+                badge_url: certificateData.badgeUrl || certificateData.badge_url,
+                verify_url: certificateData.verifyUrl || certificateData.verify_url
+            });
+
+            if (updated) {
+                // Transform and update state
+                const transformed = {
+                    ...updated,
+                    date: updated.date_issued,
+                    dateIssued: updated.date_issued,
+                    badgeUrl: updated.badge_url,
+                    verifyUrl: updated.verify_url
+                };
+                setCertificates(prev =>
+                    prev.map(cert => cert.id === id ? transformed : cert)
+                );
+
+                // Also update localStorage as backup
+                const updatedList = certificates.map(cert =>
+                    cert.id === id ? transformed : cert
+                );
+                localStorage.setItem('portfolio-certificates', JSON.stringify(updatedList));
+            }
+        } catch (err) {
+            console.error('Error updating certificate:', err);
+            setError(err.message);
+
+            // Fallback to localStorage only
+            setCertificates(prev => prev.map(certificate =>
+                certificate.id === id
+                    ? {
+                        ...certificate,
+                        ...certificateData,
+                        skills: Array.isArray(certificateData.skills)
+                            ? certificateData.skills
+                            : certificateData.skills.split(',').map(skill => skill.trim())
+                    }
+                    : certificate
+            ));
+            const updatedList = certificates.map(certificate =>
+                certificate.id === id
+                    ? {
+                        ...certificate,
+                        ...certificateData,
+                        skills: Array.isArray(certificateData.skills)
+                            ? certificateData.skills
+                            : certificateData.skills.split(',').map(skill => skill.trim())
+                    }
+                    : certificate
+            );
+            localStorage.setItem('portfolio-certificates', JSON.stringify(updatedList));
+        }
     };
 
-    const deleteCertificate = (id) => {
-        setCertificates(prev => prev.filter(certificate => certificate.id !== id));
+    const deleteCertificate = async (id) => {
+        try {
+            setError(null);
+
+            // Delete from Supabase
+            const success = await certificateService.deleteCertificate(id);
+
+            if (success) {
+                // Remove from state
+                setCertificates(prev => prev.filter(cert => cert.id !== id));
+
+                // Also remove from localStorage
+                const updated = certificates.filter(cert => cert.id !== id);
+                localStorage.setItem('portfolio-certificates', JSON.stringify(updated));
+            }
+        } catch (err) {
+            console.error('Error deleting certificate:', err);
+            setError(err.message);
+
+            // Fallback to localStorage only
+            setCertificates(prev => prev.filter(certificate => certificate.id !== id));
+            const updated = certificates.filter(certificate => certificate.id !== id);
+            localStorage.setItem('portfolio-certificates', JSON.stringify(updated));
+        }
     };
 
     const getCertificate = (id) => {
@@ -188,28 +323,48 @@ export const CertificatesProvider = ({ children }) => {
         ));
     };
 
-    const duplicateCertificate = (id) => {
+    const duplicateCertificate = async (id) => {
         const certificate = getCertificate(id);
         if (certificate) {
             const duplicatedCertificate = {
                 ...certificate,
-                id: Date.now(),
                 title: `${certificate.title} (Copy)`,
             };
-            setCertificates(prev => [...prev, duplicatedCertificate]);
-            return duplicatedCertificate;
+            // Use addCertificate which now handles Supabase
+            return await addCertificate(duplicatedCertificate);
         }
+    };
+
+    // Upload certificate badge image
+    const uploadCertificateBadge = async (file) => {
+        try {
+            setError(null);
+            const url = await certificateService.uploadCertificateBadge(file);
+            return url;
+        } catch (err) {
+            console.error('Error uploading certificate badge:', err);
+            setError(err.message);
+            throw err;
+        }
+    };
+
+    // Refresh certificates from Supabase
+    const refresh = () => {
+        loadCertificates();
     };
 
     const value = {
         certificates,
         loading,
+        error,
         addCertificate,
         updateCertificate,
         deleteCertificate,
         getCertificate,
         toggleFeatured,
         duplicateCertificate,
+        uploadCertificateBadge,
+        refresh,
     };
 
     return (
