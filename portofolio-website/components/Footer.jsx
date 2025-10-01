@@ -84,7 +84,7 @@ const Footer = () => {
                         <div className="space-y-2 text-white/70">
                             <p>📧 kevin.adiputra@example.com</p>
                             <p>📱 +62 123 456 789</p>
-                            <p>📍 Jakarta, Indonesia</p>
+                            <p>📍 Palembang, Indonesia</p>
                         </div>
                         <div className="pt-4">
                             <button

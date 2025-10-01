@@ -3,6 +3,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { ProfileProvider } from "@/context/ProfileContext";
 import ClickSparkProvider from "@/components/ClickSpark";
+import ScrollRestoration from "@/components/ScrollRestoration";
 
 const sometypeMono = Sometype_Mono({
   variable: "--font-sometype-mono",
@@ -77,6 +78,7 @@ export default function RootLayout({ children }) {
               easing="ease-out"
               extraScale={1.5}
             >
+              <ScrollRestoration />
               {children}
             </ClickSparkProvider>
           </ProfileProvider>

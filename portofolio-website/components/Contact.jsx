@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram, CheckCircle, AlertCircle } from "lucide-react";
 import LocationMap from "./LocationMap";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import emailjs from '@emailjs/browser';
+import { emailConfig } from '@/lib/emailConfig';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -14,6 +16,7 @@ const Contact = () => {
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [notification, setNotification] = useState({ show: false, type: 'success', message: '' });
 
     const handleChange = (e) => {
         setFormData({
@@ -22,22 +25,70 @@ const Contact = () => {
         });
     };
 
+    // Initialize EmailJS
+    useEffect(() => {
+        // Initialize EmailJS dengan public key
+        if (emailConfig.publicKey !== "YOUR_PUBLIC_KEY") {
+            emailjs.init(emailConfig.publicKey);
+        }
+    }, []);
+
+    const showNotification = (type, message) => {
+        setNotification({ show: true, type, message });
+        setTimeout(() => {
+            setNotification({ show: false, type: 'success', message: '' });
+        }, 5000);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Simulate form submission
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        try {
+            // Template parameters untuk EmailJS
+            const templateParams = {
+                from_name: formData.name,
+                from_email: formData.email,
+                subject: formData.subject,
+                message: formData.message,
+                to_name: "Kevin Adiputra", // Nama penerima
+                reply_to: formData.email,
+            };
 
-        // Here you would typically send the form data to your backend
-        console.log("Form submitted:", formData);
+            // Kirim email menggunakan EmailJS jika sudah dikonfigurasi
+            if (emailConfig.serviceId !== "YOUR_SERVICE_ID" && emailConfig.templateId !== "YOUR_TEMPLATE_ID") {
+                const result = await emailjs.send(
+                    emailConfig.serviceId,
+                    emailConfig.templateId,
+                    templateParams
+                );
+                console.log('Email sent successfully:', result);
+            } else {
+                // Jika EmailJS belum dikonfigurasi, gunakan mailto
+                throw new Error('EmailJS not configured');
+            }
 
-        // Reset form
-        setFormData({ name: "", email: "", subject: "", message: "" });
-        setIsSubmitting(false);
 
-        // Show success message (you could use a toast library here)
-        alert("Thank you! Your message has been sent successfully.");
+            // Reset form
+            setFormData({ name: "", email: "", subject: "", message: "" });
+
+            // Show success notification
+            showNotification('success', 'Thank you! Your message has been sent successfully. I\'ll get back to you soon!');
+
+        } catch (error) {
+            console.error('Email sending failed:', error);
+
+            // Fallback to mailto untuk jika EmailJS gagal
+            const mailtoUrl = `mailto:kevinadiputra66@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
+                `Hi Kevin,\n\nName: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+            )}`;
+
+            window.open(mailtoUrl, '_blank');
+
+            showNotification('info', 'Email client opened. Please send the message manually, or try again later.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const contactInfo = [
@@ -414,6 +465,40 @@ const Contact = () => {
                         </form>
                     </motion.div>
                 </div>
+
+                {/* Notification Toast */}
+                <AnimatePresence>
+                    {notification.show && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 50, scale: 0.9 }}
+                            className={`fixed bottom-8 right-8 z-50 p-4 rounded-xl shadow-2xl border max-w-md ${notification.type === 'success'
+                                    ? 'bg-green-500/90 border-green-400/50 text-white'
+                                    : notification.type === 'error'
+                                        ? 'bg-red-500/90 border-red-400/50 text-white'
+                                        : 'bg-blue-500/90 border-blue-400/50 text-white'
+                                }`}
+                        >
+                            <div className="flex items-start gap-3">
+                                <div className="flex-shrink-0">
+                                    {notification.type === 'success' && <CheckCircle size={20} />}
+                                    {notification.type === 'error' && <AlertCircle size={20} />}
+                                    {notification.type === 'info' && <Mail size={20} />}
+                                </div>
+                                <div className="flex-1">
+                                    <p className="text-sm font-medium">{notification.message}</p>
+                                </div>
+                                <button
+                                    onClick={() => setNotification({ show: false, type: 'success', message: '' })}
+                                    className="flex-shrink-0 text-white/80 hover:text-white transition-colors"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </section>
     );
