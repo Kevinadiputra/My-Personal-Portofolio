@@ -67,10 +67,13 @@ export default function RootLayout({ children }) {
       >
         <AuthProvider>
           <ClickSparkProvider
-            particleCount={15}
-            colors={['#5810FF', '#8B46FF', '#A855F7', '#C084FC', '#DDD6FE', '#FFFFFF']}
-            speed={{ min: 150, max: 400 }}
-            life={1.5}
+            sparkColor="#5810FF"
+            sparkSize={8}
+            sparkRadius={20}
+            sparkCount={8}
+            duration={600}
+            easing="ease-out"
+            extraScale={1.2}
           >
             {children}
           </ClickSparkProvider>
