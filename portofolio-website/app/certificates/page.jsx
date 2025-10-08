@@ -24,27 +24,19 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import LogoLoop from "@/components/LogoLoop";
 import CertificateContextMenu from "@/components/CertificateContextMenu";
-import CertificateModal from "@/components/CertificateModal";
 import { CertificatesProvider, useCertificates } from "@/context/CertificatesContext";
-import { useAuth } from "@/context/AuthContext";
 
 const CertificatesPageContent = () => {
     const [filter, setFilter] = useState("all");
     const [searchTerm, setSearchTerm] = useState("");
     const [sortBy, setSortBy] = useState("newest");
     const [contextMenu, setContextMenu] = useState({ isVisible: false, position: { x: 0, y: 0 }, certificate: null });
-    const [modal, setModal] = useState({ isOpen: false, mode: 'add', certificate: null });
 
     const {
         certificates,
         loading,
-        addCertificate,
-        updateCertificate,
-        deleteCertificate,
-        duplicateCertificate,
-        toggleFeatured
+        getCertificate
     } = useCertificates();
-    const { isAuthenticated } = useAuth();
     const router = useRouter();
 
     const filters = [
@@ -144,43 +136,13 @@ const CertificatesPageContent = () => {
         setContextMenu({ isVisible: false, position: { x: 0, y: 0 }, certificate: null });
     };
 
-    // Modal Handlers
-    const handleAddCertificate = () => {
-        setModal({ isOpen: true, mode: 'add', certificate: null });
-    };
-
-    const handleEditCertificate = (certificate) => {
-        setModal({ isOpen: true, mode: 'edit', certificate });
-    };
-
-    const handleViewCertificate = (certificate) => {
-        setModal({ isOpen: true, mode: 'view', certificate });
-    };
-
-    const handleSaveCertificate = (certificateData) => {
-        if (modal.mode === 'add') {
-            addCertificate(certificateData);
-        } else if (modal.mode === 'edit') {
-            updateCertificate(certificateData.id, certificateData);
+    const handleViewCertificate = (certificate, newTab = false) => {
+        const url = `/certificates/${certificate.id}`;
+        if (newTab) {
+            window.open(url, '_blank', 'noopener,noreferrer');
+        } else {
+            router.push(url);
         }
-        setModal({ isOpen: false, mode: 'add', certificate: null });
-    };
-
-    const closeModal = () => {
-        setModal({ isOpen: false, mode: 'add', certificate: null });
-    };
-
-    // CRUD Handlers
-    const handleDeleteCertificate = (certificateId) => {
-        deleteCertificate(certificateId);
-    };
-
-    const handleDuplicateCertificate = (certificateId) => {
-        duplicateCertificate(certificateId);
-    };
-
-    const handleToggleFeatured = (certificateId) => {
-        toggleFeatured(certificateId);
     };
 
     if (loading) {
@@ -244,21 +206,6 @@ const CertificatesPageContent = () => {
                                 Continuous learning and professional development through industry-recognized certifications
                                 from leading institutions and technology platforms.
                             </motion.p>
-
-                            {isAuthenticated && (
-                                <motion.button
-                                    onClick={handleAddCertificate}
-                                    className="inline-flex items-center gap-2 bg-accent hover:bg-accent/80 text-white px-6 py-3 rounded-xl font-semibold transition-colors spark-on-click mb-8"
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.6, delay: 0.5 }}
-                                >
-                                    <Plus size={20} />
-                                    Add New Certificate
-                                </motion.button>
-                            )}
 
                             {/* Stats */}
                             <motion.div
@@ -492,9 +439,11 @@ const CertificatesPageContent = () => {
                                                         href={certificate.verifyUrl}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-accent transition-colors"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        className="w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-green-500 transition-colors"
                                                         whileHover={{ scale: 1.1 }}
                                                         whileTap={{ scale: 0.9 }}
+                                                        title="Verify Certificate"
                                                     >
                                                         <CheckCircle size={18} />
                                                     </motion.a>
@@ -555,11 +504,13 @@ const CertificatesPageContent = () => {
                                                         href={certificate.verifyUrl}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="text-accent hover:text-accent-hover font-medium flex items-center gap-2 transition-colors text-sm"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        className="text-green-400 hover:text-green-300 font-medium flex items-center gap-2 transition-colors text-sm"
                                                         whileHover={{ scale: 1.05 }}
+                                                        title="Verify this certificate"
                                                     >
                                                         Verify
-                                                        <ExternalLink size={14} />
+                                                        <CheckCircle size={14} />
                                                     </motion.a>
                                                 )}
                                             </div>
@@ -616,20 +567,7 @@ const CertificatesPageContent = () => {
                 position={contextMenu.position}
                 isVisible={contextMenu.isVisible}
                 onClose={closeContextMenu}
-                onEdit={handleEditCertificate}
-                onDelete={handleDeleteCertificate}
-                onDuplicate={handleDuplicateCertificate}
-                onToggleFeatured={handleToggleFeatured}
                 onView={handleViewCertificate}
-            />
-
-            {/* Certificate Modal */}
-            <CertificateModal
-                isOpen={modal.isOpen}
-                onClose={closeModal}
-                onSave={handleSaveCertificate}
-                certificate={modal.certificate}
-                mode={modal.mode}
             />
         </div>
     );

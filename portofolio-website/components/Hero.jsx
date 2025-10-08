@@ -1,20 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronDown, Download, Github, Linkedin, Mail, Instagram, Camera } from "lucide-react";
+import { ChevronDown, Download, Github, Linkedin, Mail, Instagram } from "lucide-react";
 import { motion } from "framer-motion";
 import { useProfile } from "@/context/ProfileContext";
-import { useAuth } from "@/context/AuthContext";
-import ProfilePictureManager from "@/components/ProfilePictureManager";
 
 const Hero = () => {
     const [displayText, setDisplayText] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentPhrase, setCurrentPhrase] = useState(0);
-    const [isProfileManagerOpen, setIsProfileManagerOpen] = useState(false);
 
-    const { profile, uploadProfilePicture } = useProfile();
-    const { isAuthenticated } = useAuth();
+    const { profile } = useProfile();
 
     const phrases = [
         "Full Stack Developer",
@@ -65,7 +61,7 @@ const Hero = () => {
                 >
                     {/* Profile Image */}
                     <motion.div
-                        className="relative mx-auto w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-accent shadow-2xl group cursor-pointer"
+                        className="relative mx-auto w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-accent shadow-2xl group"
                         initial={{ scale: 0, rotate: -180 }}
                         animate={{ scale: 1, rotate: 0 }}
                         transition={{
@@ -80,7 +76,6 @@ const Hero = () => {
                             rotate: [0, -5, 5, 0],
                             boxShadow: "0 0 30px rgba(88, 16, 255, 0.6)"
                         }}
-                        onClick={() => isAuthenticated && setIsProfileManagerOpen(true)}
                     >
                         {profile?.profilePicture && profile.profilePicture !== '/api/placeholder/400/400' ? (
                             <img
@@ -117,16 +112,6 @@ const Hero = () => {
                                 >
                                     {profile?.name?.split(' ').map(n => n.charAt(0)).join('') || 'KA'}
                                 </motion.span>
-                            </motion.div>
-                        )}
-
-                        {/* Camera overlay for admin */}
-                        {isAuthenticated && (
-                            <motion.div
-                                className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                whileHover={{ scale: 1.05 }}
-                            >
-                                <Camera className="text-white" size={24} />
                             </motion.div>
                         )}
                     </motion.div>
@@ -328,14 +313,6 @@ const Hero = () => {
                     </motion.button>
                 </motion.div>
             </div>
-
-            {/* Profile Picture Manager Modal */}
-            <ProfilePictureManager
-                isOpen={isProfileManagerOpen}
-                onClose={() => setIsProfileManagerOpen(false)}
-                currentImage={profile?.profilePicture}
-                onSave={uploadProfilePicture}
-            />
         </section>
     );
 };

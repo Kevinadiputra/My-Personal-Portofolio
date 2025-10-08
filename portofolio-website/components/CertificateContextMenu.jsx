@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import {
     Edit3,
     Trash2,
@@ -12,24 +13,19 @@ import {
     ExternalLink,
     CheckCircle,
     Info,
-    Award
+    Award,
+    FileText
 } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
 
 const CertificateContextMenu = ({
     certificate,
     position,
     isVisible,
     onClose,
-    onEdit,
-    onDelete,
-    onDuplicate,
-    onToggleFeatured,
-    onView,
-    onVerify
+    onView
 }) => {
-    const { isAuthenticated } = useAuth();
     const menuRef = useRef(null);
+    const router = useRouter();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -68,49 +64,33 @@ const CertificateContextMenu = ({
 
     const menuItems = [
         {
-            icon: Eye,
-            label: 'View Details',
-            action: () => handleAction(() => onView && onView(certificate)),
+            icon: FileText,
+            label: 'View Full Details',
+            action: () => handleAction(() => {
+                router.push(`/certificates/${certificate?.id}`);
+            }),
+            color: 'text-accent',
+            show: true
+        },
+        {
+            icon: ExternalLink,
+            label: 'Open in New Tab',
+            action: () => handleAction(() => {
+                window.open(`/certificates/${certificate?.id}`, '_blank');
+            }),
             color: 'text-white',
             show: true
         },
         {
-            icon: certificate?.featured ? StarOff : Star,
-            label: certificate?.featured ? 'Remove from Featured' : 'Mark as Featured',
-            action: () => handleAction(() => onToggleFeatured && onToggleFeatured(certificate.id)),
-            color: certificate?.featured ? 'text-yellow-400' : 'text-gray-400',
-            show: isAuthenticated
-        },
-        {
             type: 'separator',
-            show: isAuthenticated
-        },
-        {
-            icon: Edit3,
-            label: 'Edit Certificate',
-            action: () => handleAction(() => onEdit && onEdit(certificate)),
-            color: 'text-blue-400',
-            show: isAuthenticated
-        },
-        {
-            icon: Copy,
-            label: 'Duplicate Certificate',
-            action: () => handleAction(() => onDuplicate && onDuplicate(certificate.id)),
-            color: 'text-green-400',
-            show: isAuthenticated
-        },
-        {
-            type: 'separator',
-            show: isAuthenticated
+            show: certificate?.verifyUrl && certificate.verifyUrl !== '#'
         },
         {
             icon: CheckCircle,
             label: 'Verify Certificate',
             action: () => handleAction(() => {
                 if (certificate?.verifyUrl && certificate.verifyUrl !== '#') {
-                    window.open(certificate.verifyUrl, '_blank');
-                } else if (onVerify) {
-                    onVerify(certificate);
+                    window.open(certificate.verifyUrl, '_blank', 'noopener,noreferrer');
                 }
             }),
             color: 'text-green-400',
@@ -121,40 +101,25 @@ const CertificateContextMenu = ({
             label: 'View on Platform',
             action: () => handleAction(() => {
                 if (certificate?.verifyUrl && certificate.verifyUrl !== '#') {
-                    window.open(certificate.verifyUrl, '_blank');
+                    window.open(certificate.verifyUrl, '_blank', 'noopener,noreferrer');
                 }
             }),
-            color: 'text-white',
+            color: 'text-blue-400',
             show: certificate?.verifyUrl && certificate.verifyUrl !== '#'
         },
         {
             type: 'separator',
-            show: isAuthenticated && certificate?.verifyUrl !== '#'
-        },
-        {
-            icon: Info,
-            label: 'Certificate Info',
-            action: () => handleAction(() => {
-                const skillsList = certificate?.skills?.join(', ') || 'No skills listed';
-                alert(`Certificate: ${certificate?.title}\nIssuer: ${certificate?.issuer}\nPlatform: ${certificate?.platform}\nLevel: ${certificate?.level}\nSkills: ${skillsList}`);
-            }),
-            color: 'text-gray-400',
             show: true
         },
         {
-            type: 'separator',
-            show: isAuthenticated
-        },
-        {
-            icon: Trash2,
-            label: 'Delete Certificate',
+            icon: Info,
+            label: 'Quick Info',
             action: () => handleAction(() => {
-                if (confirm(`Are you sure you want to delete "${certificate?.title}"?`)) {
-                    onDelete && onDelete(certificate.id);
-                }
+                const skillsList = certificate?.skills?.join(', ') || 'No skills listed';
+                alert(`Certificate: ${certificate?.title}\nIssuer: ${certificate?.issuer}\nPlatform: ${certificate?.platform}\nLevel: ${certificate?.level}\nDate: ${certificate?.date}\nSkills: ${skillsList}`);
             }),
-            color: 'text-red-400',
-            show: isAuthenticated
+            color: 'text-gray-400',
+            show: true
         }
     ];
 
@@ -218,15 +183,6 @@ const CertificateContextMenu = ({
                         );
                     })}
                 </div>
-
-                {/* Footer */}
-                {!isAuthenticated && (
-                    <div className="px-4 py-2 border-t border-tertiary-hover">
-                        <p className="text-xs text-white/50">
-                            Login as admin for edit options
-                        </p>
-                    </div>
-                )}
             </motion.div>
         </AnimatePresence>
     );

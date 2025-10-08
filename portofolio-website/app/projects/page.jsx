@@ -23,15 +23,13 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProjectsBento from "@/components/ProjectsBento";
 import ProjectContextMenu from "@/components/ProjectContextMenu";
-import { useAuth } from "@/context/AuthContext";
 
 const ProjectsPageContent = () => {
     const [filter, setFilter] = useState("all");
     const [searchTerm, setSearchTerm] = useState("");
     const [sortBy, setSortBy] = useState("newest");
     const [contextMenu, setContextMenu] = useState({ visible: false, position: { x: 0, y: 0 }, project: null });
-    const { projects, loading, updateProject, deleteProject, duplicateProject, toggleFeatured } = useProjects();
-    const { isAuthenticated } = useAuth();
+    const { projects, loading } = useProjects();
     const router = useRouter();
 
     const filters = [
@@ -110,23 +108,6 @@ const ProjectsPageContent = () => {
 
     const handleCloseContextMenu = () => {
         setContextMenu({ visible: false, position: { x: 0, y: 0 }, project: null });
-    };
-
-    const handleEditProject = (project) => {
-        // For now, just show an alert. In a real app, you'd open an edit modal
-        alert(`Edit project: ${project.title}\n\nIn a real implementation, this would open an edit form.`);
-    };
-
-    const handleDeleteProject = (projectId) => {
-        deleteProject(projectId);
-    };
-
-    const handleDuplicateProject = (projectId) => {
-        duplicateProject(projectId);
-    };
-
-    const handleToggleFeatured = (projectId) => {
-        toggleFeatured(projectId);
     };
 
     const handleViewProject = (project, newTab = false) => {
@@ -521,16 +502,12 @@ const ProjectsPageContent = () => {
 
             <Footer />
 
-            {/* Context Menu */}
+            {/* Context Menu - View Only */}
             <ProjectContextMenu
                 project={contextMenu.project}
                 position={contextMenu.position}
                 isVisible={contextMenu.visible}
                 onClose={handleCloseContextMenu}
-                onEdit={handleEditProject}
-                onDelete={handleDeleteProject}
-                onDuplicate={handleDuplicateProject}
-                onToggleFeatured={handleToggleFeatured}
                 onView={handleViewProject}
             />
         </div>

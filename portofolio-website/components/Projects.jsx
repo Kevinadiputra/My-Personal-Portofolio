@@ -12,7 +12,7 @@ const Projects = () => {
 
     const filters = [
         { key: "all", label: "All Projects" },
-        { key: "featured", label: "Featured" },
+        { key: "highlight", label: "Highlights" }, // Filter untuk projects yang di-highlight
         { key: "fullstack", label: "Full Stack" },
         { key: "frontend", label: "Frontend" },
         { key: "backend", label: "Backend" },
@@ -21,7 +21,7 @@ const Projects = () => {
 
     const filteredProjects = projects.filter(project => {
         if (filter === "all") return true;
-        if (filter === "featured") return project.featured;
+        if (filter === "highlight") return project.highlight; // Filter berdasarkan property highlight
         return project.category === filter;
     });
 

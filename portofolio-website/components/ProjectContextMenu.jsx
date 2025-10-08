@@ -13,20 +13,13 @@ import {
     Github,
     Info
 } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
-
 const ProjectContextMenu = ({
     project,
     position,
     isVisible,
     onClose,
-    onEdit,
-    onDelete,
-    onDuplicate,
-    onToggleFeatured,
     onView
 }) => {
-    const { isAuthenticated } = useAuth();
     const menuRef = useRef(null);
 
     useEffect(() => {
@@ -69,37 +62,19 @@ const ProjectContextMenu = ({
             icon: Eye,
             label: 'View Details',
             action: () => handleAction(() => onView(project)),
+            color: 'text-accent',
+            show: true
+        },
+        {
+            icon: Eye,
+            label: 'Open in New Tab',
+            action: () => handleAction(() => onView(project, true)),
             color: 'text-white',
             show: true
         },
         {
-            icon: project?.featured ? StarOff : Star,
-            label: project?.featured ? 'Remove from Featured' : 'Mark as Featured',
-            action: () => handleAction(() => onToggleFeatured(project.id)),
-            color: project?.featured ? 'text-yellow-400' : 'text-gray-400',
-            show: isAuthenticated
-        },
-        {
             type: 'separator',
-            show: isAuthenticated
-        },
-        {
-            icon: Edit3,
-            label: 'Edit Project',
-            action: () => handleAction(() => onEdit(project)),
-            color: 'text-blue-400',
-            show: isAuthenticated
-        },
-        {
-            icon: Copy,
-            label: 'Duplicate Project',
-            action: () => handleAction(() => onDuplicate(project.id)),
-            color: 'text-green-400',
-            show: isAuthenticated
-        },
-        {
-            type: 'separator',
-            show: isAuthenticated
+            show: project?.liveUrl !== '#' || project?.githubUrl !== '#'
         },
         {
             icon: ExternalLink,
@@ -109,7 +84,7 @@ const ProjectContextMenu = ({
                     window.open(project.liveUrl, '_blank');
                 }
             }),
-            color: 'text-white',
+            color: 'text-green-400',
             show: project?.liveUrl && project.liveUrl !== '#'
         },
         {
@@ -125,7 +100,7 @@ const ProjectContextMenu = ({
         },
         {
             type: 'separator',
-            show: isAuthenticated && (project?.liveUrl !== '#' || project?.githubUrl !== '#')
+            show: true
         },
         {
             icon: Info,
@@ -135,21 +110,6 @@ const ProjectContextMenu = ({
             }),
             color: 'text-gray-400',
             show: true
-        },
-        {
-            type: 'separator',
-            show: isAuthenticated
-        },
-        {
-            icon: Trash2,
-            label: 'Delete Project',
-            action: () => handleAction(() => {
-                if (confirm(`Are you sure you want to delete "${project?.title}"?`)) {
-                    onDelete(project.id);
-                }
-            }),
-            color: 'text-red-400',
-            show: isAuthenticated
         }
     ];
 
@@ -208,15 +168,6 @@ const ProjectContextMenu = ({
                         );
                     })}
                 </div>
-
-                {/* Footer */}
-                {!isAuthenticated && (
-                    <div className="px-4 py-2 border-t border-tertiary-hover">
-                        <p className="text-xs text-white/50">
-                            Login as admin for edit options
-                        </p>
-                    </div>
-                )}
             </motion.div>
         </AnimatePresence>
     );

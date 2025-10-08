@@ -5,7 +5,6 @@ import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram, CheckCircle, Al
 import LocationMap from "./LocationMap";
 import { motion, AnimatePresence } from "framer-motion";
 import emailjs from '@emailjs/browser';
-import { emailConfig } from '@/lib/emailConfig';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -27,10 +26,8 @@ const Contact = () => {
 
     // Initialize EmailJS
     useEffect(() => {
-        // Initialize EmailJS dengan public key
-        if (emailConfig.publicKey !== "YOUR_PUBLIC_KEY") {
-            emailjs.init(emailConfig.publicKey);
-        }
+        // Initialize EmailJS - configure your own keys here if needed
+        // emailjs.init("YOUR_PUBLIC_KEY");
     }, []);
 
     const showNotification = (type, message) => {
@@ -44,51 +41,23 @@ const Contact = () => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        try {
-            // Template parameters untuk EmailJS
-            const templateParams = {
-                from_name: formData.name,
-                from_email: formData.email,
-                subject: formData.subject,
-                message: formData.message,
-                to_name: "Kevin Adiputra", // Nama penerima
-                reply_to: formData.email,
-            };
-
-            // Kirim email menggunakan EmailJS jika sudah dikonfigurasi
-            if (emailConfig.serviceId !== "YOUR_SERVICE_ID" && emailConfig.templateId !== "YOUR_TEMPLATE_ID") {
-                const result = await emailjs.send(
-                    emailConfig.serviceId,
-                    emailConfig.templateId,
-                    templateParams
-                );
-                console.log('Email sent successfully:', result);
-            } else {
-                // Jika EmailJS belum dikonfigurasi, gunakan mailto
-                throw new Error('EmailJS not configured');
-            }
-
-
-            // Reset form
-            setFormData({ name: "", email: "", subject: "", message: "" });
-
-            // Show success notification
-            showNotification('success', 'Thank you! Your message has been sent successfully. I\'ll get back to you soon!');
-
-        } catch (error) {
-            console.error('Email sending failed:', error);
-
-            // Fallback to mailto untuk jika EmailJS gagal
+        // Simulate email sending with a delay
+        setTimeout(() => {
+            // Open mailto as fallback
             const mailtoUrl = `mailto:kevinadiputra66@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
                 `Hi Kevin,\n\nName: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
             )}`;
 
             window.open(mailtoUrl, '_blank');
 
-            showNotification('info', 'Email client opened. Please send the message manually, or try again later.');
-        } finally {
+            // Reset form
+            setFormData({ name: "", email: "", subject: "", message: "" });
+
+            // Show notification
+            showNotification('success', 'Thank you! Your message form has been opened in your email client.');
+
             setIsSubmitting(false);
-        }
+        }, 500);
     };
 
     const contactInfo = [
@@ -474,10 +443,10 @@ const Contact = () => {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 50, scale: 0.9 }}
                             className={`fixed bottom-8 right-8 z-50 p-4 rounded-xl shadow-2xl border max-w-md ${notification.type === 'success'
-                                    ? 'bg-green-500/90 border-green-400/50 text-white'
-                                    : notification.type === 'error'
-                                        ? 'bg-red-500/90 border-red-400/50 text-white'
-                                        : 'bg-blue-500/90 border-blue-400/50 text-white'
+                                ? 'bg-green-500/90 border-green-400/50 text-white'
+                                : notification.type === 'error'
+                                    ? 'bg-red-500/90 border-red-400/50 text-white'
+                                    : 'bg-blue-500/90 border-blue-400/50 text-white'
                                 }`}
                         >
                             <div className="flex items-start gap-3">
