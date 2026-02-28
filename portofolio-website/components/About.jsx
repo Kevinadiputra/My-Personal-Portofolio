@@ -3,9 +3,9 @@
 const About = () => {
     const stats = [
         { number: "2+", label: "Years Experience" },
-        { number: "20+", label: "Projects Completed" },
-        { number: "10+", label: "Technologies Mastered" },
-        { number: "100%", label: "Client Satisfaction" },
+        { number: "15+", label: "Projects Completed" },
+        { number: "10+", label: "ML Models Deployed" },
+        { number: "95%+", label: "Model Accuracy" },
     ];
 
     return (
@@ -21,38 +21,39 @@ const About = () => {
                     <div className="space-y-6">
                         <div className="space-y-4">
                             <h3 className="h3 text-white">
-                                Passionate <span className="text-accent">Developer</span> & Problem Solver
+                                Passionate <span className="text-accent">Data Scientist</span> & ML Engineer
                             </h3>
                             <p className="text-white/70 leading-relaxed">
-                                I'm a dedicated full-stack developer with a passion for creating innovative
-                                digital solutions. With expertise in modern web technologies, I focus on
-                                building scalable, user-friendly applications that make a real impact.
+                                I'm a dedicated Machine Learning Engineer and Data Scientist with a passion
+                                for building intelligent systems that solve real-world problems. I specialize
+                                in developing end-to-end ML pipelines, from data collection and preprocessing
+                                to model training, evaluation, and deployment.
                             </p>
                             <p className="text-white/70 leading-relaxed">
-                                My journey in web development started with curiosity and has evolved into
-                                a deep commitment to crafting exceptional digital experiences. I believe
-                                in writing clean, maintainable code and staying up-to-date with the latest
-                                industry trends and best practices.
+                                My journey in data science started with curiosity about how algorithms can
+                                learn from data, and has evolved into expertise in deep learning, NLP,
+                                computer vision, and predictive analytics. I believe in building robust,
+                                scalable AI solutions backed by solid statistical foundations.
                             </p>
                         </div>
 
                         {/* Skills Summary */}
                         <div className="grid grid-cols-2 gap-4 mt-8">
                             <div className="space-y-2">
-                                <h4 className="text-white font-semibold">Frontend</h4>
-                                <p className="text-white/60 text-sm">React, Next.js, TypeScript, Tailwind CSS</p>
+                                <h4 className="text-white font-semibold">Machine Learning</h4>
+                                <p className="text-white/60 text-sm">TensorFlow, PyTorch, Scikit-learn, XGBoost</p>
                             </div>
                             <div className="space-y-2">
-                                <h4 className="text-white font-semibold">Backend</h4>
-                                <p className="text-white/60 text-sm">Node.js, Python, PostgreSQL, MongoDB</p>
+                                <h4 className="text-white font-semibold">Data Engineering</h4>
+                                <p className="text-white/60 text-sm">Python, SQL, Pandas, Apache Spark</p>
                             </div>
                             <div className="space-y-2">
-                                <h4 className="text-white font-semibold">Tools</h4>
-                                <p className="text-white/60 text-sm">Git, Docker, AWS, Vercel</p>
+                                <h4 className="text-white font-semibold">Visualization</h4>
+                                <p className="text-white/60 text-sm">Matplotlib, Seaborn, Plotly, Tableau</p>
                             </div>
                             <div className="space-y-2">
-                                <h4 className="text-white font-semibold">Design</h4>
-                                <p className="text-white/60 text-sm">Figma, UI/UX Principles</p>
+                                <h4 className="text-white font-semibold">Deployment</h4>
+                                <p className="text-white/60 text-sm">Docker, AWS, GCP, MLflow</p>
                             </div>
                         </div>
                     </div>
@@ -77,12 +78,12 @@ const About = () => {
 
                         {/* Personal Interests */}
                         <div className="bg-tertiary p-6 rounded-2xl">
-                            <h4 className="text-white font-semibold mb-4">When I'm not coding...</h4>
+                            <h4 className="text-white font-semibold mb-4">When I'm not training models...</h4>
                             <div className="space-y-2 text-white/70">
+                                <p>📊 Exploring new datasets on Kaggle</p>
+                                <p>📚 Reading ML research papers on arXiv</p>
                                 <p>🎵 Exploring new music and playing instruments</p>
-                                <p>📚 Reading tech blogs and learning new technologies</p>
                                 <p>🏃‍♂️ Staying active through running and fitness</p>
-                                <p>🎮 Gaming and exploring virtual worlds</p>
                             </div>
                         </div>
                     </div>

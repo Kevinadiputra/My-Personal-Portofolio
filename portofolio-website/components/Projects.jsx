@@ -12,16 +12,16 @@ const Projects = () => {
 
     const filters = [
         { key: "all", label: "All Projects" },
-        { key: "highlight", label: "Highlights" }, // Filter untuk projects yang di-highlight
-        { key: "fullstack", label: "Full Stack" },
-        { key: "frontend", label: "Frontend" },
-        { key: "backend", label: "Backend" },
-        { key: "mobile", label: "Mobile" },
+        { key: "highlight", label: "Highlights" },
+        { key: "deep-learning", label: "Deep Learning" },
+        { key: "nlp", label: "NLP" },
+        { key: "data-science", label: "Data Science" },
+        { key: "data-engineering", label: "Data Engineering" },
     ];
 
     const filteredProjects = projects.filter(project => {
         if (filter === "all") return true;
-        if (filter === "highlight") return project.highlight; // Filter berdasarkan property highlight
+        if (filter === "highlight") return project.highlight;
         return project.category === filter;
     });
 
@@ -30,7 +30,7 @@ const Projects = () => {
             <section id="projects" className="py-20 bg-secondary relative">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
-                        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent mx-auto"></div>
+                        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-accent mx-auto"></div>
                         <p className="text-white/70 mt-4">Loading projects...</p>
                     </div>
                 </div>
@@ -45,17 +45,18 @@ const Projects = () => {
                     <h2 className="h2 text-white mb-4">My Projects</h2>
                     <div className="w-24 h-1 bg-accent mx-auto rounded-full mb-6"></div>
                     <p className="text-white/70 max-w-2xl mx-auto">
-                        Here are some of the projects I've worked on, showcasing different technologies and approaches
+                        Machine learning and data science projects showcasing end-to-end ML pipelines,
+                        from data exploration to model deployment
                     </p>
                 </div>
 
                 {/* Filter Buttons */}
-                <div className="flex flex-wrap justify-center gap-4 mb-12">
+                <div className="flex flex-wrap justify-center gap-3 mb-12">
                     {filters.map((filterOption) => (
                         <button
                             key={filterOption.key}
                             onClick={() => setFilter(filterOption.key)}
-                            className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${filter === filterOption.key
+                            className={`px-5 py-2 rounded-full font-medium transition-all duration-300 text-sm ${filter === filterOption.key
                                 ? "bg-accent text-white shadow-lg"
                                 : "bg-tertiary text-white/70 hover:bg-tertiary-hover hover:text-white"
                                 }`}
@@ -73,10 +74,7 @@ const Projects = () => {
                         </div>
                         <h3 className="text-xl text-white mb-2">No Projects Found</h3>
                         <p className="text-white/70">
-                            {filter === "all"
-                                ? "No projects available yet."
-                                : `No projects found in the "${filter}" category.`
-                            }
+                            No projects found in this category.
                         </p>
                     </div>
                 ) : (
@@ -84,65 +82,19 @@ const Projects = () => {
                         {filteredProjects.map((project) => (
                             <div
                                 key={project.id}
-                                className="bg-tertiary rounded-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 group cursor-pointer"
+                                className="bg-tertiary rounded-2xl overflow-hidden hover:scale-[1.02] transition-all duration-300 group cursor-pointer"
                                 onClick={() => router.push(`/project/${project.id}`)}
                             >
                                 {/* Project Image */}
-                                <div className="relative h-48 bg-gradient-to-br from-accent/20 to-accent-hover/20 overflow-hidden">
+                                <div className="relative h-48 bg-gradient-to-br from-accent/20 to-purple-700/20 overflow-hidden">
                                     {project.image && project.image !== "/api/placeholder/400/250" ? (
-                                        <img
-                                            src={project.image}
-                                            alt={project.title}
-                                            className="w-full h-full object-cover"
-                                            onError={(e) => {
-                                                e.target.style.display = 'none';
-                                                e.target.nextSibling.style.display = 'flex';
-                                            }}
-                                        />
-                                    ) : null}
-
-                                    {/* Fallback placeholder */}
-                                    <div className={`w-full h-full flex items-center justify-center text-6xl text-accent/30 ${project.image && project.image !== "/api/placeholder/400/250" ? 'hidden' : 'flex'}`}>
-                                        <Eye />
-                                    </div>
-
-                                    {/* Overlay */}
-                                    <div className="absolute inset-0 bg-primary/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center space-y-4">
-                                        <button
-                                            onClick={() => router.push(`/project/${project.id}`)}
-                                            className="bg-accent hover:bg-accent-hover text-white px-6 py-2 rounded-full flex items-center gap-2 font-semibold transition-colors"
-                                        >
-                                            <Eye size={18} />
-                                            View Details
-                                        </button>
-
-                                        <div className="flex space-x-3">
-                                            {project.liveUrl && project.liveUrl !== "#" && (
-                                                <a
-                                                    href={project.liveUrl}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="w-12 h-12 bg-accent hover:bg-accent-hover rounded-full flex items-center justify-center transition-colors"
-                                                    onClick={(e) => e.stopPropagation()}
-                                                >
-                                                    <ExternalLink size={20} />
-                                                </a>
-                                            )}
-                                            {project.githubUrl && project.githubUrl !== "#" && (
-                                                <a
-                                                    href={project.githubUrl}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="w-12 h-12 bg-white hover:bg-white/90 text-primary rounded-full flex items-center justify-center transition-colors"
-                                                    onClick={(e) => e.stopPropagation()}
-                                                >
-                                                    <Github size={20} />
-                                                </a>
-                                            )}
+                                        <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-6xl text-accent/30">
+                                            <Eye />
                                         </div>
-                                    </div>
+                                    )}
 
-                                    {/* Featured Badge */}
                                     {project.featured && (
                                         <div className="absolute top-4 right-4 bg-accent px-3 py-1 rounded-full text-xs font-semibold">
                                             Featured
@@ -150,69 +102,35 @@ const Projects = () => {
                                     )}
                                 </div>
 
-                                {/* Project Content */}
+                                {/* Content */}
                                 <div className="p-6 space-y-4">
-                                    <h3 className="text-xl font-semibold text-white group-hover:text-accent transition-colors">
+                                    <h3 className="text-lg font-semibold text-white group-hover:text-accent transition-colors">
                                         {project.title}
                                     </h3>
 
-                                    <p className="text-white/70 text-sm leading-relaxed">
+                                    <p className="text-white/70 text-sm leading-relaxed line-clamp-2">
                                         {project.description}
                                     </p>
 
-                                    {/* Technologies */}
                                     <div className="flex flex-wrap gap-2">
-                                        {project.technologies.map((tech, index) => (
-                                            <span
-                                                key={index}
-                                                className="px-3 py-1 bg-primary rounded-full text-xs font-medium text-accent"
-                                            >
+                                        {project.technologies.slice(0, 4).map((tech, index) => (
+                                            <span key={index} className="px-3 py-1 bg-primary rounded-full text-xs font-medium text-accent">
                                                 {tech}
                                             </span>
                                         ))}
+                                        {project.technologies.length > 4 && (
+                                            <span className="px-3 py-1 bg-primary rounded-full text-xs text-white/50">
+                                                +{project.technologies.length - 4}
+                                            </span>
+                                        )}
                                     </div>
 
-                                    {/* View Details Button */}
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            router.push(`/project/${project.id}`);
-                                        }}
-                                        className="w-full bg-accent hover:bg-accent-hover text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 font-medium transition-colors group-hover:scale-105"
-                                    >
-                                        <Eye size={16} />
-                                        View Details
-                                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                                    </button>
-
-                                    {/* Project Links */}
                                     <div className="flex justify-between items-center pt-4 border-t border-primary">
                                         <span className="text-xs text-white/50 uppercase tracking-wider">
                                             {project.category}
                                         </span>
-                                        <div className="flex space-x-3">
-                                            {project.liveUrl && project.liveUrl !== "#" && (
-                                                <a
-                                                    href={project.liveUrl}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-accent hover:text-accent-hover transition-colors"
-                                                    onClick={(e) => e.stopPropagation()}
-                                                >
-                                                    <ExternalLink size={16} />
-                                                </a>
-                                            )}
-                                            {project.githubUrl && project.githubUrl !== "#" && (
-                                                <a
-                                                    href={project.githubUrl}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-white/70 hover:text-white transition-colors"
-                                                    onClick={(e) => e.stopPropagation()}
-                                                >
-                                                    <Github size={16} />
-                                                </a>
-                                            )}
+                                        <div className="flex items-center gap-2 text-accent text-sm font-medium">
+                                            View Details <ArrowRight size={14} />
                                         </div>
                                     </div>
                                 </div>
@@ -221,11 +139,11 @@ const Projects = () => {
                     </div>
                 )}
 
-                {/* Call to Action */}
+                {/* CTA */}
                 <div className="text-center mt-16 space-y-6">
                     <button
                         onClick={() => router.push('/projects')}
-                        className="bg-accent hover:bg-accent-hover text-white px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-3 mx-auto transition-all duration-300 hover:scale-105"
+                        className="bg-accent hover:bg-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-3 mx-auto transition-all duration-300 hover:scale-105"
                     >
                         <Eye size={20} />
                         View All Projects
@@ -233,8 +151,8 @@ const Projects = () => {
                     </button>
 
                     <div>
-                        <p className="text-white/70 mb-6">
-                            Want to discuss a collaboration?
+                        <p className="text-white/70 mb-4">
+                            Interested in collaborating on a data science project?
                         </p>
                         <button
                             onClick={() => {

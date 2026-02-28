@@ -1,9 +1,6 @@
 import { Sometype_Mono } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/context/AuthContext";
 import { ProfileProvider } from "@/context/ProfileContext";
-import ClickSparkProvider from "@/components/ClickSpark";
-import ScrollRestoration from "@/components/ScrollRestoration";
 
 const sometypeMono = Sometype_Mono({
   variable: "--font-sometype-mono",
@@ -11,9 +8,9 @@ const sometypeMono = Sometype_Mono({
 });
 
 export const metadata = {
-  title: "Kevin Adiputra - Data Science & Machine Learning Operations Portfolio",
-  description: "Machine Learning Operations Engineer specializing in data processing, ETL, and modern data technologies. Explore my projects and get in touch for data engineering services.",
-  keywords: "Kevin Adiputra, Machine Learning Operations Engineer, ETL, Data Processing, Data Pipeline, Portfolio",
+  title: "Kevin Adiputra - Machine Learning & Data Science Portfolio",
+  description: "Machine Learning Engineer & Data Scientist specializing in deep learning, NLP, computer vision, and data analytics. Building intelligent solutions with Python, TensorFlow, and PyTorch.",
+  keywords: "Kevin Adiputra, Machine Learning, Data Scientist, Deep Learning, NLP, Computer Vision, Python, TensorFlow, PyTorch, Portfolio",
   authors: [{ name: "Kevin Adiputra" }],
   creator: "Kevin Adiputra",
   publisher: "Kevin Adiputra",
@@ -27,8 +24,8 @@ export const metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: "Kevin Adiputra - Data Science & Machine Learning Operations Portfolio",
-    description: "Machine Learning Operations Engineer specializing in data processing, ETL, and modern data technologies.",
+    title: "Kevin Adiputra - Machine Learning & Data Science Portfolio",
+    description: "Machine Learning Engineer & Data Scientist building intelligent solutions with modern AI technologies.",
     url: 'https://kevin-adiputra-portfolio.vercel.app',
     siteName: 'Kevin Adiputra Portfolio',
     images: [
@@ -36,17 +33,11 @@ export const metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Kevin Adiputra - Data Science & Machine Learning Operations Portfolio',
+        alt: 'Kevin Adiputra - ML & Data Science Portfolio',
       },
     ],
     locale: 'en_US',
     type: 'website',
-  },
-  instagram: {
-    card: 'summary_large_image',
-    title: "Kevin Adiputra - Data Science & Machine Learning Operations Portfolio",
-    description: "Machine Learning Operations Engineer specializing in data processing, ETL, and modern data technologies.",
-    images: ['/og-image.jpg'],
   },
   robots: {
     index: true,
@@ -64,25 +55,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${sometypeMono.variable} antialiased`}
-      >
-        <AuthProvider>
-          <ProfileProvider>
-            <ClickSparkProvider
-              sparkColor="#5810FF"
-              sparkSize={10}
-              sparkRadius={25}
-              sparkCount={12}
-              duration={800}
-              easing="ease-out"
-              extraScale={1.5}
-            >
-              <ScrollRestoration />
-              {children}
-            </ClickSparkProvider>
-          </ProfileProvider>
-        </AuthProvider>
+      <body className={`${sometypeMono.variable} antialiased`}>
+        <ProfileProvider>
+          {children}
+        </ProfileProvider>
       </body>
     </html>
   );

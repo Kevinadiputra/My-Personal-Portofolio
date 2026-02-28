@@ -25,7 +25,6 @@ const Footer = () => {
     return (
         <footer className="bg-secondary border-t border-tertiary">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Main Footer Content */}
                 <div className="py-12 grid md:grid-cols-3 gap-8">
                     {/* Brand Section */}
                     <div className="space-y-4">
@@ -33,12 +32,12 @@ const Footer = () => {
                             <span className="text-accent">Kevin</span> Adiputra
                         </div>
                         <p className="text-white/70 leading-relaxed">
-                            Full Stack Developer passionate about creating innovative web solutions
-                            and bringing ideas to life through clean, efficient code.
+                            Machine Learning Engineer & Data Scientist passionate about building
+                            intelligent solutions and turning data into actionable insights.
                         </p>
                         <div className="flex space-x-4">
                             <a
-                                href="https://github.com"
+                                href="https://github.com/Kevinadiputra"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-white/70 hover:text-accent transition-colors"
@@ -46,7 +45,7 @@ const Footer = () => {
                                 GitHub
                             </a>
                             <a
-                                href="https://linkedin.com"
+                                href="https://www.linkedin.com/in/kevin-adiputra-mahesa-8339911b3/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-white/70 hover:text-accent transition-colors"
@@ -54,7 +53,7 @@ const Footer = () => {
                                 LinkedIn
                             </a>
                             <a
-                                href="mailto:kevin@example.com"
+                                href="mailto:kevinadiputra1704@gmail.com"
                                 className="text-white/70 hover:text-accent transition-colors"
                             >
                                 Email
@@ -82,9 +81,9 @@ const Footer = () => {
                     <div className="space-y-4">
                         <h3 className="text-white font-semibold text-lg">Get In Touch</h3>
                         <div className="space-y-2 text-white/70">
-                            <p>📧 kevin.adiputra@example.com</p>
-                            <p>📱 +62 123 456 789</p>
-                            <p>📍 Palembang, Indonesia</p>
+                            <p>📧 kevinadiputra1704@gmail.com</p>
+                            <p>📱 +62 859-3000-7017</p>
+                            <p>📍 Indonesia</p>
                         </div>
                         <div className="pt-4">
                             <button
@@ -104,7 +103,7 @@ const Footer = () => {
                     </p>
 
                     <div className="flex items-center space-x-6">
-                        <span className="text-white/50 text-sm">Made with ❤️ using Next.js</span>
+                        <span className="text-white/50 text-sm">Built with Next.js</span>
                         <button
                             onClick={scrollToTop}
                             className="text-white/50 hover:text-accent transition-colors text-sm"

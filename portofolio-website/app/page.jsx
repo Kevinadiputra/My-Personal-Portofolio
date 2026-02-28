@@ -8,14 +8,12 @@ import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
-import LoadingScreen from "@/components/LoadingScreen";
 import { ProjectsProvider } from "@/context/ProjectsContext";
 
 const Home = () => {
   return (
     <ProjectsProvider>
       <div className="relative">
-        <LoadingScreen />
         <Header />
         <main>
           <Hero />

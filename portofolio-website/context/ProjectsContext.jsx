@@ -12,233 +12,41 @@ export const useProjects = () => {
     return context;
 };
 
-// Projects data - Edit langsung di sini untuk menambah/mengubah projects
 const projectsData = [
     {
         id: 1,
-        title: "E-Commerce Platform",
-        description: "A comprehensive e-commerce solution featuring modern design, secure payment processing, real-time inventory management, and an intuitive admin dashboard. Built with scalability and performance in mind, this platform handles thousands of concurrent users and integrates with multiple payment gateways.",
+        title: "Medical Image Classification System",
+        description: "Deep learning-powered image classification system for medical diagnosis. Uses convolutional neural networks (CNN) to analyze medical images with 95% accuracy. Built with TensorFlow and deployed on cloud infrastructure.",
         image: "/api/placeholder/400/250",
-        technologies: ["React", "Node.js", "MongoDB", "Stripe", "Tailwind CSS", "Redux", "Express.js", "JWT"],
-        category: "fullstack",
-        date: "2024",
+        technologies: ["Python", "TensorFlow", "Keras", "OpenCV", "Flask", "Docker", "AWS"],
+        category: "deep-learning",
+        date: "2025",
         liveUrl: "#",
         githubUrl: "#",
         featured: true,
-        highlight: true, // Tampilkan di section ReactBits/Highlight
-        details: {
-            duration: "3 months",
-            status: "Completed",
-            features: [
-                "User authentication and authorization",
-                "Product catalog with search and filtering",
-                "Shopping cart and checkout process",
-                "Payment integration with Stripe",
-                "Admin dashboard for inventory management",
-                "Order tracking and management",
-                "Responsive design for all devices",
-                "Email notifications and confirmations"
-            ]
-        },
-        // 🆕 OVERVIEW - Detail lengkap untuk halaman detail project
-        overview: {
-            // Problem statement
-            problem: "Many small businesses struggle to create an online presence and manage their e-commerce operations efficiently. They need a comprehensive platform that's easy to use yet powerful enough to handle growing demands.",
-
-            // Solution yang diberikan
-            solution: "Developed a full-stack e-commerce platform with modern UI/UX, secure payment processing, real-time inventory management, and an intuitive admin dashboard. The platform is built with scalability in mind and can handle thousands of concurrent users.",
-
-            // Challenge yang dihadapi
-            challenges: [
-                {
-                    title: "Payment Security",
-                    description: "Implementing secure payment processing while maintaining user-friendly checkout flow",
-                    solution: "Integrated Stripe with PCI compliance and implemented additional security layers"
-                },
-                {
-                    title: "Real-time Inventory",
-                    description: "Managing inventory across multiple warehouses in real-time",
-                    solution: "Built WebSocket-based system for instant inventory updates"
-                },
-                {
-                    title: "Scalability",
-                    description: "Ensuring the platform can handle traffic spikes during sales events",
-                    solution: "Implemented load balancing, caching, and database optimization"
-                }
-            ],
-
-            // Screenshots/Images dengan deskripsi
-            gallery: [
-                {
-                    image: "/api/placeholder/800/600",
-                    title: "Homepage & Product Catalog",
-                    description: "Modern, responsive homepage with featured products, categories, and search functionality"
-                },
-                {
-                    image: "/api/placeholder/800/600",
-                    title: "Shopping Cart & Checkout",
-                    description: "Streamlined checkout process with multiple payment options and order summary"
-                },
-                {
-                    image: "/api/placeholder/800/600",
-                    title: "Admin Dashboard",
-                    description: "Comprehensive admin panel for managing products, orders, and analytics"
-                },
-                {
-                    image: "/api/placeholder/800/600",
-                    title: "Mobile Responsive",
-                    description: "Fully responsive design optimized for mobile shopping experience"
-                }
-            ],
-
-            // Metrics & Results
-            metrics: [
-                {
-                    label: "Active Users",
-                    value: "10K+",
-                    description: "Monthly active users"
-                },
-                {
-                    label: "Transactions",
-                    value: "$500K+",
-                    description: "Total transaction value"
-                },
-                {
-                    label: "Performance",
-                    value: "99.9%",
-                    description: "Uptime reliability"
-                },
-                {
-                    label: "Load Time",
-                    value: "< 2s",
-                    description: "Average page load time"
-                }
-            ],
-
-            // Technical highlights
-            technicalHighlights: [
-                {
-                    title: "Architecture",
-                    description: "Microservices architecture with separate services for authentication, payment, inventory, and notifications",
-                    tech: ["Node.js", "Express", "MongoDB", "Redis"]
-                },
-                {
-                    title: "Frontend",
-                    description: "React-based SPA with Redux for state management and Tailwind CSS for styling",
-                    tech: ["React", "Redux", "Tailwind CSS", "React Router"]
-                },
-                {
-                    title: "Payment Integration",
-                    description: "Secure payment processing with Stripe, supporting multiple currencies and payment methods",
-                    tech: ["Stripe API", "Webhooks", "PCI Compliance"]
-                },
-                {
-                    title: "DevOps",
-                    description: "CI/CD pipeline with automated testing and deployment to AWS",
-                    tech: ["GitHub Actions", "Docker", "AWS EC2", "Nginx"]
-                }
-            ],
-
-            // External Links
-            links: {
-                // Link ke live project
-                live: "https://ecommerce-demo.example.com",
-
-                // Link ke GitHub repository
-                github: "https://github.com/username/ecommerce-platform",
-
-                // Link ke dokumentasi
-                documentation: "https://docs.example.com/ecommerce",
-
-                // Link ke demo video (YouTube, Vimeo, dll)
-                demo: "https://youtube.com/watch?v=demo123",
-
-                // Link khusus (bisa custom)
-                custom: [
-                    {
-                        label: "API Documentation",
-                        url: "https://api.example.com/docs"
-                    },
-                    {
-                        label: "Case Study",
-                        url: "https://medium.com/@username/case-study"
-                    }
-                ]
-            },
-
-            // Team & Role
-            team: {
-                size: "Solo Project",
-                role: "Full Stack Developer",
-                responsibilities: [
-                    "Designed and implemented entire application architecture",
-                    "Developed frontend using React and Redux",
-                    "Built RESTful APIs with Node.js and Express",
-                    "Integrated Stripe payment gateway",
-                    "Set up CI/CD pipeline and deployment"
-                ]
-            },
-
-            // Technologies breakdown dengan detail
-            techStack: {
-                frontend: {
-                    primary: ["React", "Redux", "Tailwind CSS"],
-                    additional: ["React Router", "Axios", "Framer Motion"]
-                },
-                backend: {
-                    primary: ["Node.js", "Express", "MongoDB"],
-                    additional: ["JWT", "Bcrypt", "Mongoose", "Socket.io"]
-                },
-                tools: ["Git", "VS Code", "Postman", "MongoDB Compass"],
-                deployment: ["AWS EC2", "Nginx", "Docker", "GitHub Actions"]
-            },
-
-            // Future improvements
-            futureImprovements: [
-                "Implement AI-powered product recommendations",
-                "Add multi-language support",
-                "Integrate with more payment gateways",
-                "Add progressive web app (PWA) features"
-            ]
-        }
-    },
-    {
-        id: 2,
-        title: "AI Image Classification System",
-        description: "Deep learning-powered image classification system for medical diagnosis. Uses convolutional neural networks (CNN) to analyze medical images with 95% accuracy. Built with TensorFlow and deployed on cloud infrastructure for scalability.",
-        image: "/api/placeholder/400/250",
-        technologies: ["Python", "TensorFlow", "Keras", "Flask", "Docker", "AWS", "OpenCV", "NumPy"],
-        category: "ai-ml",
-        date: "2024",
-        liveUrl: "#",
-        githubUrl: "#",
-        featured: true,
-        highlight: true, // Tampilkan di section ReactBits/Highlight
+        highlight: true,
         details: {
             duration: "4 months",
             status: "Completed",
             features: [
-                "CNN-based image classification",
-                "95% accuracy on test dataset",
-                "REST API for model inference",
-                "Web-based image upload interface",
-                "Batch processing capability",
-                "Model versioning and A/B testing",
-                "Real-time prediction results",
-                "Explainable AI visualizations"
+                "CNN-based image classification with 95% accuracy",
+                "Data augmentation pipeline for limited datasets",
+                "Grad-CAM visualization for model interpretability",
+                "REST API for real-time inference",
+                "Batch processing for bulk predictions",
+                "Model versioning with MLflow",
+                "Responsive web interface for image upload",
+                "Automated model retraining pipeline"
             ]
         },
-        // 🆕 OVERVIEW untuk ML/AI Project
         overview: {
             problem: "Medical diagnosis through image analysis is time-consuming and requires expert radiologists. There's a need for an automated system that can assist in preliminary diagnosis while maintaining high accuracy.",
-
-            solution: "Developed a deep learning system using Convolutional Neural Networks (CNN) to classify medical images with 95% accuracy. The system can process images in real-time and provide probability scores for different conditions.",
-
+            solution: "Developed a deep learning system using Convolutional Neural Networks (CNN) to classify medical images with 95% accuracy. The system processes images in real-time and provides probability scores for different conditions.",
             challenges: [
                 {
                     title: "Data Imbalance",
                     description: "Dataset had uneven distribution of different medical conditions",
-                    solution: "Applied data augmentation techniques and weighted loss functions to balance the training"
+                    solution: "Applied data augmentation techniques and weighted loss functions"
                 },
                 {
                     title: "Model Interpretability",
@@ -251,503 +59,246 @@ const projectsData = [
                     solution: "Optimized model with TensorFlow Lite and deployed on AWS with auto-scaling"
                 }
             ],
-
             gallery: [
-                {
-                    image: "/api/placeholder/800/600",
-                    title: "Model Architecture",
-                    description: "Custom CNN architecture with 5 convolutional layers and attention mechanisms"
-                },
-                {
-                    image: "/api/placeholder/800/600",
-                    title: "Training Dashboard",
-                    description: "Real-time training metrics showing accuracy and loss over epochs"
-                },
-                {
-                    image: "/api/placeholder/800/600",
-                    title: "Prediction Interface",
-                    description: "User-friendly web interface for uploading and analyzing medical images"
-                },
-                {
-                    image: "/api/placeholder/800/600",
-                    title: "Grad-CAM Visualization",
-                    description: "Heatmap showing which regions of the image influenced the prediction"
-                }
+                { image: "/api/placeholder/800/600", title: "Model Architecture", description: "Custom CNN architecture with attention mechanisms" },
+                { image: "/api/placeholder/800/600", title: "Training Dashboard", description: "Real-time training metrics" },
+                { image: "/api/placeholder/800/600", title: "Prediction Interface", description: "Web interface for image analysis" },
+                { image: "/api/placeholder/800/600", title: "Grad-CAM Visualization", description: "Heatmap showing model attention" }
             ],
-
             metrics: [
-                {
-                    label: "Accuracy",
-                    value: "95.3%",
-                    description: "On test dataset"
-                },
-                {
-                    label: "Images Processed",
-                    value: "50K+",
-                    description: "Training dataset size"
-                },
-                {
-                    label: "Inference Time",
-                    value: "< 0.5s",
-                    description: "Per image prediction"
-                },
-                {
-                    label: "F1 Score",
-                    value: "0.94",
-                    description: "Balanced performance metric"
-                }
+                { label: "Accuracy", value: "95.3%", description: "On test dataset" },
+                { label: "Images Processed", value: "50K+", description: "Training dataset size" },
+                { label: "Inference Time", value: "< 0.5s", description: "Per image prediction" },
+                { label: "F1 Score", value: "0.94", description: "Balanced performance" }
             ],
-
             technicalHighlights: [
-                {
-                    title: "Model Architecture",
-                    description: "Custom CNN with residual connections and attention mechanisms for improved feature extraction",
-                    tech: ["TensorFlow", "Keras", "ResNet", "Attention Layers"]
-                },
-                {
-                    title: "Data Pipeline",
-                    description: "Automated data preprocessing, augmentation, and validation pipeline",
-                    tech: ["OpenCV", "NumPy", "Albumentations", "TensorFlow Data API"]
-                },
-                {
-                    title: "Model Serving",
-                    description: "Flask-based REST API with batch processing and result caching",
-                    tech: ["Flask", "Redis", "Celery", "TensorFlow Serving"]
-                },
-                {
-                    title: "MLOps",
-                    description: "Complete ML pipeline with experiment tracking, model versioning, and monitoring",
-                    tech: ["MLflow", "DVC", "Prometheus", "Grafana"]
-                }
+                { title: "Model Architecture", description: "Custom CNN with residual connections and attention mechanisms", tech: ["TensorFlow", "Keras", "ResNet"] },
+                { title: "Data Pipeline", description: "Automated data preprocessing and augmentation pipeline", tech: ["OpenCV", "NumPy", "Albumentations"] },
+                { title: "Model Serving", description: "Flask-based REST API with batch processing", tech: ["Flask", "Redis", "TensorFlow Serving"] },
+                { title: "MLOps", description: "Complete ML pipeline with experiment tracking", tech: ["MLflow", "DVC", "Docker"] }
             ],
-
             links: {
-                live: "https://ml-diagnosis-demo.example.com",
-                github: "https://github.com/username/ml-image-classifier",
-
-                // 🆕 Link ke Google Colab notebook
-                colab: "https://colab.research.google.com/drive/your-notebook-id",
-
-                // Link ke research paper atau artikel
-                paper: "https://arxiv.org/abs/example-paper",
-
-                documentation: "https://docs.example.com/ml-classifier",
-                demo: "https://youtube.com/watch?v=ml-demo",
-
-                custom: [
-                    {
-                        label: "Kaggle Dataset",
-                        url: "https://kaggle.com/datasets/medical-images"
-                    },
-                    {
-                        label: "Model Weights (HuggingFace)",
-                        url: "https://huggingface.co/username/model"
-                    },
-                    {
-                        label: "Blog Post",
-                        url: "https://medium.com/@username/ml-project"
-                    }
-                ]
+                live: "#",
+                github: "#",
+                colab: "#",
+                documentation: "#",
+                custom: []
             },
-
             team: {
                 size: "Solo Project",
-                role: "ML Engineer & Full Stack Developer",
+                role: "ML Engineer",
                 responsibilities: [
                     "Collected and preprocessed 50K+ medical images",
                     "Designed and trained custom CNN architecture",
-                    "Implemented data augmentation pipeline",
                     "Built REST API for model inference",
-                    "Deployed model on AWS with auto-scaling",
-                    "Created web interface for predictions"
+                    "Deployed model on AWS with auto-scaling"
                 ]
             },
-
             techStack: {
-                ml: {
-                    primary: ["TensorFlow", "Keras", "Python"],
-                    additional: ["OpenCV", "NumPy", "Pandas", "Matplotlib", "Scikit-learn"]
-                },
-                backend: {
-                    primary: ["Flask", "Redis", "Celery"],
-                    additional: ["Gunicorn", "Nginx"]
-                },
-                frontend: {
-                    primary: ["React", "Chart.js"],
-                    additional: ["Axios", "Bootstrap"]
-                },
-                tools: ["Jupyter", "Google Colab", "TensorBoard", "MLflow", "DVC"],
-                deployment: ["AWS EC2", "Docker", "AWS S3", "CloudWatch"]
+                ml: { primary: ["TensorFlow", "Keras", "Python"], additional: ["OpenCV", "NumPy", "Scikit-learn"] },
+                backend: { primary: ["Flask", "Redis"], additional: ["Gunicorn"] },
+                tools: ["Jupyter", "Google Colab", "TensorBoard", "MLflow"],
+                deployment: ["AWS EC2", "Docker", "AWS S3"]
             },
-
-            // 🆕 Research & Experiments (khusus ML/AI projects)
             research: {
                 experiments: [
-                    {
-                        name: "Baseline Model",
-                        description: "Simple CNN with 3 layers",
-                        accuracy: "87.5%",
-                        notes: "Good starting point but underfitting"
-                    },
-                    {
-                        name: "ResNet Transfer Learning",
-                        description: "Pre-trained ResNet50 with fine-tuning",
-                        accuracy: "92.3%",
-                        notes: "Better but still room for improvement"
-                    },
-                    {
-                        name: "Custom Architecture + Attention",
-                        description: "Custom CNN with attention mechanisms",
-                        accuracy: "95.3%",
-                        notes: "Best performance achieved"
-                    }
+                    { name: "Baseline CNN", description: "Simple 3-layer CNN", accuracy: "87.5%", notes: "Good baseline" },
+                    { name: "ResNet Transfer Learning", description: "Pre-trained ResNet50", accuracy: "92.3%", notes: "Better performance" },
+                    { name: "Custom + Attention", description: "Custom architecture with attention", accuracy: "95.3%", notes: "Best result" }
                 ],
-
-                // Link ke experiment notebooks
                 notebooks: [
-                    {
-                        title: "Data Exploration & Preprocessing",
-                        url: "https://colab.research.google.com/drive/notebook1",
-                        description: "Initial data analysis and preprocessing pipeline"
-                    },
-                    {
-                        title: "Model Training & Experiments",
-                        url: "https://colab.research.google.com/drive/notebook2",
-                        description: "Different model architectures and hyperparameter tuning"
-                    },
-                    {
-                        title: "Model Evaluation & Visualization",
-                        url: "https://colab.research.google.com/drive/notebook3",
-                        description: "Performance metrics and result visualizations"
-                    }
+                    { title: "Data Exploration", url: "#", description: "Initial data analysis" },
+                    { title: "Model Training", url: "#", description: "Training experiments" }
                 ]
             },
-
             futureImprovements: [
-                "Implement multi-class classification for more conditions",
-                "Add support for 3D medical imaging (CT scans, MRI)",
-                "Improve model interpretability with SHAP values",
-                "Create mobile app for on-the-go diagnosis",
-                "Integrate with hospital information systems"
+                "Multi-class classification for more conditions",
+                "Support for 3D medical imaging (CT/MRI)",
+                "Improve interpretability with SHAP values",
+                "Mobile app for on-the-go diagnosis"
             ]
         }
     },
     {
-        id: 3,
-        title: "Weather Dashboard",
-        description: "A beautiful weather dashboard with location-based forecasts and interactive charts.",
+        id: 2,
+        title: "NLP Sentiment Analysis Engine",
+        description: "Natural Language Processing system for real-time sentiment analysis of customer reviews and social media data. Uses transformer-based models for multi-language support with 92% accuracy.",
         image: "/api/placeholder/400/250",
-        technologies: ["React", "Chart.js", "Weather API", "CSS3"],
-        category: "frontend",
-        date: "2023",
+        technologies: ["Python", "PyTorch", "Hugging Face", "FastAPI", "PostgreSQL", "Docker"],
+        category: "nlp",
+        date: "2025",
         liveUrl: "#",
         githubUrl: "#",
-        featured: false,
-        highlight: false, // Tidak tampil di ReactBits
+        featured: true,
+        highlight: true,
+        details: {
+            duration: "3 months",
+            status: "Completed",
+            features: [
+                "Real-time sentiment classification",
+                "Multi-language support (EN, ID)",
+                "Fine-tuned BERT model",
+                "REST API for batch processing",
+                "Dashboard for analytics visualization",
+                "Automated data labeling pipeline"
+            ]
+        },
+        overview: {
+            problem: "Businesses need to understand customer sentiment at scale from reviews, social media, and feedback forms, but manual analysis is slow and subjective.",
+            solution: "Built a transformer-based NLP pipeline that classifies sentiment in real-time with 92% accuracy, supporting multiple languages and integrating with business dashboards.",
+            challenges: [
+                { title: "Multi-language Support", description: "Handling Indonesian and English text", solution: "Used multilingual BERT and language-specific preprocessing" },
+                { title: "Real-time Processing", description: "Low latency requirements for live feeds", solution: "Optimized model with ONNX Runtime and async processing" }
+            ],
+            gallery: [
+                { image: "/api/placeholder/800/600", title: "Sentiment Dashboard", description: "Real-time analytics dashboard" },
+                { image: "/api/placeholder/800/600", title: "Model Performance", description: "Confusion matrix and metrics" }
+            ],
+            metrics: [
+                { label: "Accuracy", value: "92%", description: "Multi-class sentiment" },
+                { label: "Latency", value: "< 100ms", description: "Per prediction" },
+                { label: "Reviews Analyzed", value: "100K+", description: "Total processed" },
+                { label: "Languages", value: "2", description: "EN & ID support" }
+            ],
+            technicalHighlights: [
+                { title: "Model", description: "Fine-tuned multilingual BERT for sentiment classification", tech: ["PyTorch", "Hugging Face", "BERT"] },
+                { title: "API", description: "High-performance async API with batch support", tech: ["FastAPI", "ONNX Runtime", "Redis"] }
+            ],
+            links: { live: "#", github: "#", colab: "#", custom: [] },
+            team: { size: "Solo Project", role: "NLP Engineer", responsibilities: ["Data collection & annotation", "Model fine-tuning", "API development", "Dashboard creation"] },
+            techStack: {
+                ml: { primary: ["PyTorch", "Hugging Face", "BERT"], additional: ["ONNX", "Scikit-learn"] },
+                backend: { primary: ["FastAPI", "PostgreSQL"], additional: ["Redis", "Celery"] },
+                tools: ["Jupyter", "Weights & Biases", "Git"],
+                deployment: ["Docker", "AWS"]
+            },
+            futureImprovements: ["Add aspect-based sentiment analysis", "Support more languages", "Implement active learning pipeline"]
+        }
+    },
+    {
+        id: 3,
+        title: "Predictive Analytics Dashboard",
+        description: "End-to-end data science project for sales forecasting and customer churn prediction using ensemble methods and time series analysis.",
+        image: "/api/placeholder/400/250",
+        technologies: ["Python", "Scikit-learn", "XGBoost", "Pandas", "Plotly", "Streamlit"],
+        category: "data-science",
+        date: "2024",
+        liveUrl: "#",
+        githubUrl: "#",
+        featured: true,
+        highlight: true,
+        details: {
+            duration: "2 months",
+            status: "Completed",
+            features: [
+                "Sales forecasting with time series models",
+                "Customer churn prediction (89% accuracy)",
+                "Interactive Streamlit dashboard",
+                "Automated feature engineering",
+                "A/B test analysis module",
+                "Exportable reports"
+            ]
+        },
+        overview: {
+            problem: "A retail business needed to predict future sales trends and identify customers at risk of churning to optimize marketing spend and inventory management.",
+            solution: "Built a predictive analytics platform combining time series forecasting (Prophet, ARIMA) with ML-based churn prediction (XGBoost) served through an interactive Streamlit dashboard.",
+            challenges: [
+                { title: "Feature Engineering", description: "Creating meaningful features from raw transaction data", solution: "Built automated feature engineering pipeline with domain-specific transformations" },
+                { title: "Model Selection", description: "Choosing the right model for different prediction tasks", solution: "Implemented model comparison framework and used ensemble methods" }
+            ],
+            gallery: [
+                { image: "/api/placeholder/800/600", title: "Sales Forecast", description: "Interactive time series forecast visualization" },
+                { image: "/api/placeholder/800/600", title: "Churn Analysis", description: "Customer segmentation and risk scoring" }
+            ],
+            metrics: [
+                { label: "Churn Accuracy", value: "89%", description: "Prediction accuracy" },
+                { label: "Forecast MAPE", value: "8.2%", description: "Sales forecast error" },
+                { label: "Data Processed", value: "1M+", description: "Transaction records" },
+                { label: "ROI Impact", value: "25%", description: "Marketing spend optimization" }
+            ],
+            technicalHighlights: [
+                { title: "Forecasting", description: "Ensemble of Prophet and ARIMA models for robust predictions", tech: ["Prophet", "statsmodels", "Pandas"] },
+                { title: "Classification", description: "XGBoost with SHAP explanations for churn prediction", tech: ["XGBoost", "SHAP", "Scikit-learn"] }
+            ],
+            links: { live: "#", github: "#", colab: "#", custom: [] },
+            team: { size: "Solo Project", role: "Data Scientist", responsibilities: ["Data analysis & cleaning", "Feature engineering", "Model training & evaluation", "Dashboard development"] },
+            techStack: {
+                ml: { primary: ["Scikit-learn", "XGBoost", "Prophet"], additional: ["SHAP", "statsmodels"] },
+                backend: { primary: ["Streamlit", "Python"], additional: ["Plotly"] },
+                tools: ["Jupyter", "Pandas", "NumPy"],
+                deployment: ["Streamlit Cloud"]
+            },
+            futureImprovements: ["Add real-time data ingestion", "Implement causal inference methods", "Build automated alerting system"]
+        }
     },
     {
         id: 4,
-        title: "REST API Service",
-        description: "A robust REST API with authentication, rate limiting, and comprehensive documentation.",
+        title: "Computer Vision Object Detection",
+        description: "Real-time object detection system for autonomous vehicle research using YOLOv8. Detects vehicles, pedestrians, and traffic signs in various weather conditions.",
         image: "/api/placeholder/400/250",
-        technologies: ["Node.js", "Express", "JWT", "Swagger", "Docker"],
-        category: "backend",
-        date: "2023",
+        technologies: ["Python", "PyTorch", "YOLOv8", "OpenCV", "CUDA", "Roboflow"],
+        category: "deep-learning",
+        date: "2024",
         liveUrl: "#",
         githubUrl: "#",
         featured: false,
-        highlight: false, // Tidak tampil di ReactBits
+        highlight: false,
+        details: {
+            duration: "3 months",
+            status: "Completed",
+            features: [
+                "Real-time object detection at 30+ FPS",
+                "Multi-class detection (vehicles, pedestrians, signs)",
+                "Weather-robust performance",
+                "Custom dataset with 10K+ annotated images",
+                "Model optimization with TensorRT"
+            ]
+        }
     },
     {
         id: 5,
-        title: "Portfolio Website",
-        description: "A responsive portfolio website with modern design and smooth animations.",
+        title: "Recommendation System",
+        description: "Collaborative filtering and content-based recommendation engine for an e-learning platform. Personalizes course suggestions based on user behavior and preferences.",
         image: "/api/placeholder/400/250",
-        technologies: ["Next.js", "Tailwind CSS", "Framer Motion"],
-        category: "frontend",
-        date: "2023",
+        technologies: ["Python", "Scikit-learn", "Pandas", "FastAPI", "Redis"],
+        category: "data-science",
+        date: "2024",
         liveUrl: "#",
         githubUrl: "#",
         featured: false,
-        highlight: false, // Tidak tampil di ReactBits
+        highlight: false,
+        details: {
+            duration: "2 months",
+            status: "Completed",
+            features: [
+                "Hybrid recommendation (collaborative + content-based)",
+                "Cold-start handling for new users",
+                "Real-time recommendations via API",
+                "A/B testing framework"
+            ]
+        }
     },
     {
         id: 6,
-        title: "Blog CMS",
-        description: "A content management system for bloggers with rich text editor and SEO optimization.",
+        title: "ETL Data Pipeline",
+        description: "Automated ETL pipeline for processing and transforming large-scale datasets from multiple sources into a unified data warehouse for analytics.",
         image: "/api/placeholder/400/250",
-        technologies: ["React", "Node.js", "MySQL", "TinyMCE"],
-        category: "fullstack",
-        date: "2023",
+        technologies: ["Python", "Apache Spark", "Airflow", "PostgreSQL", "Docker", "AWS S3"],
+        category: "data-engineering",
+        date: "2024",
         liveUrl: "#",
         githubUrl: "#",
         featured: false,
-        highlight: false, // Tidak tampil di ReactBits
-    },
-    // 🎯 CONTOH PROJECT LENGKAP dengan semua field overview
-    {
-        id: 7,
-        title: "Smart Healthcare System",
-        description: "AI-powered healthcare management system with predictive analytics, patient monitoring, and telemedicine capabilities. Integrates with medical devices and provides real-time health insights.",
-        image: "/api/placeholder/400/250",
-        technologies: ["Python", "FastAPI", "React", "PostgreSQL", "TensorFlow", "Docker", "Redis", "WebSocket"],
-        category: "fullstack",
-        date: "2024",
-        liveUrl: "https://healthcare-demo.vercel.app",
-        githubUrl: "https://github.com/username/smart-healthcare",
-        featured: true,
-        highlight: true, // Tampil di ReactBits
-
+        highlight: false,
         details: {
-            duration: "8 months",
+            duration: "2 months",
             status: "Completed",
             features: [
-                "Real-time patient vital signs monitoring",
-                "AI-powered disease prediction",
-                "Telemedicine video consultations",
-                "Electronic Health Records (EHR) management",
-                "Prescription and medication tracking",
-                "Appointment scheduling system",
-                "Integration with medical IoT devices",
-                "HIPAA compliant data security"
-            ]
-        },
-
-        // 🎯 OVERVIEW LENGKAP - Copy template ini untuk project baru
-        overview: {
-            // Masalah yang diselesaikan
-            problem: "Healthcare facilities struggle with fragmented patient data, inefficient monitoring systems, and limited predictive capabilities. Patients often experience delays in diagnosis and treatment due to manual processes and lack of integrated systems.",
-
-            // Solusi yang diberikan
-            solution: "Developed an intelligent healthcare platform that integrates patient monitoring, predictive analytics, and telemedicine. The system uses AI to predict health risks, provides real-time alerts for critical conditions, and enables seamless communication between patients and healthcare providers.",
-
-            // Tantangan dan solusinya
-            challenges: [
-                {
-                    title: "Real-time Data Processing",
-                    description: "Processing and analyzing vital signs data from multiple IoT devices in real-time while maintaining accuracy",
-                    solution: "Implemented Redis for caching and WebSocket connections for real-time data streaming. Used background workers for processing heavy analytics tasks."
-                },
-                {
-                    title: "Data Privacy & Security",
-                    description: "Ensuring HIPAA compliance and protecting sensitive patient health information",
-                    solution: "Implemented end-to-end encryption, role-based access control (RBAC), audit logging, and regular security audits. Used secure communication protocols (TLS/SSL)."
-                },
-                {
-                    title: "AI Model Accuracy",
-                    description: "Building reliable predictive models for disease risk assessment with limited training data",
-                    solution: "Applied transfer learning from pre-trained medical models, data augmentation techniques, and ensemble methods to improve accuracy to 93%."
-                },
-                {
-                    title: "System Scalability",
-                    description: "Handling thousands of concurrent users and real-time monitoring sessions",
-                    solution: "Designed microservices architecture with Docker, implemented load balancing, database sharding, and horizontal scaling on cloud infrastructure."
-                }
-            ],
-
-            // Gallery dengan screenshots/images
-            gallery: [
-                {
-                    image: "/api/placeholder/800/600",
-                    title: "Patient Dashboard",
-                    description: "Comprehensive view of patient health metrics, medication schedule, and upcoming appointments with real-time vital signs monitoring"
-                },
-                {
-                    image: "/api/placeholder/800/600",
-                    title: "AI Prediction Interface",
-                    description: "Disease risk assessment dashboard showing probability scores, risk factors, and recommended preventive actions"
-                },
-                {
-                    image: "/api/placeholder/800/600",
-                    title: "Telemedicine Console",
-                    description: "Video consultation interface with integrated EHR, prescription writing, and real-time vital signs display"
-                },
-                {
-                    image: "/api/placeholder/800/600",
-                    title: "Admin Analytics Panel",
-                    description: "Hospital-wide statistics, patient flow analysis, resource utilization, and performance metrics"
-                },
-                {
-                    image: "/api/placeholder/800/600",
-                    title: "Mobile App Interface",
-                    description: "Patient mobile app for booking appointments, viewing health records, and communicating with doctors"
-                }
-            ],
-
-            // Metrics/Key Results
-            metrics: [
-                {
-                    label: "Diagnosis Time",
-                    value: "60% Faster",
-                    description: "Reduced average time to diagnosis"
-                },
-                {
-                    label: "Patient Satisfaction",
-                    value: "4.8/5.0",
-                    description: "Average user rating"
-                },
-                {
-                    label: "Active Users",
-                    value: "25,000+",
-                    description: "Registered patients and doctors"
-                },
-                {
-                    label: "Prediction Accuracy",
-                    value: "93%",
-                    description: "AI disease risk assessment"
-                }
-            ],
-
-            // Technical Highlights
-            technicalHighlights: [
-                {
-                    title: "Microservices Architecture",
-                    description: "Separated concerns into patient management, analytics, telemedicine, and notification services for better scalability and maintenance",
-                    tech: ["FastAPI", "Docker", "Kubernetes", "NGINX"]
-                },
-                {
-                    title: "Real-time Monitoring System",
-                    description: "WebSocket-based system for streaming vital signs data from IoT devices with sub-second latency",
-                    tech: ["WebSocket", "Redis", "MQTT", "Socket.io"]
-                },
-                {
-                    title: "AI Prediction Engine",
-                    description: "Deep learning models for disease risk prediction, anomaly detection in vital signs, and treatment recommendation",
-                    tech: ["TensorFlow", "Scikit-learn", "XGBoost", "LIME"]
-                },
-                {
-                    title: "Secure Data Pipeline",
-                    description: "HIPAA-compliant data handling with encryption at rest and in transit, audit logging, and access controls",
-                    tech: ["PostgreSQL", "AES-256", "JWT", "OAuth 2.0"]
-                }
-            ],
-
-            // Links & Resources (CONTOH LENGKAP SEMUA JENIS LINK)
-            links: {
-                // Link ke website/aplikasi live
-                live: "https://healthcare-demo.vercel.app",
-
-                // Link ke GitHub repository
-                github: "https://github.com/username/smart-healthcare",
-
-                // Link ke Google Colab notebook (untuk ML/AI projects)
-                colab: "https://colab.research.google.com/drive/abc123",
-
-                // Link ke dokumentasi teknis
-                documentation: "https://docs.healthcare-system.com",
-
-                // Link ke demo video/YouTube
-                demo: "https://youtube.com/watch?v=abc123",
-
-                // Link ke research paper (untuk research projects)
-                paper: "https://arxiv.org/abs/2024.12345",
-
-                // Custom links (bisa tambah link apapun)
-                custom: [
-                    {
-                        label: "API Documentation",
-                        url: "https://api.healthcare-system.com/docs"
-                    },
-                    {
-                        label: "Case Study",
-                        url: "https://medium.com/@username/healthcare-case-study"
-                    },
-                    {
-                        label: "Figma Design",
-                        url: "https://figma.com/file/abc123"
-                    },
-                    {
-                        label: "Postman Collection",
-                        url: "https://postman.com/collections/abc123"
-                    }
-                ]
-            },
-
-            // Research & Experiments (KHUSUS untuk ML/AI projects)
-            research: {
-                experiments: [
-                    {
-                        name: "Baseline Model",
-                        accuracy: "85.2%",
-                        improvements: [
-                            "Simple CNN architecture",
-                            "Limited preprocessing",
-                            "Basic data augmentation"
-                        ],
-                        notes: "Initial model using ResNet-50"
-                    },
-                    {
-                        name: "Improved Architecture",
-                        accuracy: "90.5%",
-                        improvements: [
-                            "Added attention mechanisms",
-                            "Enhanced feature extraction",
-                            "Ensemble of 3 models"
-                        ],
-                        notes: "Significant improvement with EfficientNet"
-                    },
-                    {
-                        name: "Final Optimized Model",
-                        accuracy: "93.1%",
-                        improvements: [
-                            "Transfer learning from medical dataset",
-                            "Advanced augmentation techniques",
-                            "Model distillation for speed"
-                        ],
-                        notes: "Production-ready model"
-                    }
-                ],
-
-                notebooks: [
-                    {
-                        title: "Data Analysis & Exploration",
-                        url: "https://colab.research.google.com/drive/data-exploration",
-                        description: "Exploratory data analysis, statistical tests, and data quality assessment for medical datasets"
-                    },
-                    {
-                        title: "Model Training & Evaluation",
-                        url: "https://colab.research.google.com/drive/model-training",
-                        description: "Complete pipeline for training, validating, and testing disease prediction models with hyperparameter tuning"
-                    },
-                    {
-                        title: "Model Deployment & Testing",
-                        url: "https://colab.research.google.com/drive/deployment",
-                        description: "Model optimization, quantization, and deployment testing with performance benchmarking"
-                    }
-                ]
-            },
-
-            // Team & Contributions
-            team: {
-                size: "5 members",
-                role: "Full Stack Developer & ML Engineer",
-                responsibilities: [
-                    "Led backend API development using FastAPI and PostgreSQL",
-                    "Developed and trained ML models for disease risk prediction",
-                    "Implemented real-time monitoring system with WebSocket",
-                    "Designed and implemented microservices architecture",
-                    "Set up CI/CD pipeline and deployment infrastructure",
-                    "Conducted code reviews and mentored junior developers"
-                ]
-            },
-
-            // Complete Tech Stack (Detail per layer)
-            techStack: {
-                frontend: ["React 18", "TypeScript", "Tailwind CSS", "Redux Toolkit", "React Query", "Chart.js", "Socket.io-client"],
-                backend: ["FastAPI", "Python 3.11", "Celery", "PostgreSQL", "Redis", "MongoDB", "WebSocket"],
-                ml: ["TensorFlow", "Scikit-learn", "XGBoost", "LIME", "Pandas", "NumPy"],
-                tools: ["Docker", "Kubernetes", "Git", "Postman", "Figma", "Jira"],
-                deployment: ["Vercel", "AWS EC2", "AWS S3", "AWS RDS", "Nginx", "GitHub Actions"]
-            },
-
-            // Future Improvements
-            futureImprovements: [
-                "Implement voice-controlled interface for accessibility",
-                "Add support for wearable device integration (Apple Watch, Fitbit)",
-                "Develop mobile apps for iOS and Android platforms",
-                "Integrate with national electronic health record systems",
-                "Add multi-language support for international expansion",
-                "Implement blockchain for secure medical record sharing"
+                "Automated daily ETL workflows",
+                "Multi-source data ingestion",
+                "Data quality validation checks",
+                "Scalable Spark processing",
+                "Monitoring and alerting"
             ]
         }
     },

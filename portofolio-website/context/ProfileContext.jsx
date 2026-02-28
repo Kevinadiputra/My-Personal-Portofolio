@@ -12,36 +12,35 @@ export const useProfile = () => {
     return context;
 };
 
-// Profile data - Edit langsung di sini untuk mengubah profile
 const profileData = {
     name: 'Kevin Adiputra',
-    title: 'Machine Learning Operations Engineer',
-    bio: 'Passionate Machine Learning Operations Engineer specializing in data processing, ETL, and modern data technologies. Experienced in building scalable data pipelines and implementing ML solutions in production environments.',
+    title: 'Machine Learning Engineer & Data Scientist',
+    bio: 'Passionate Machine Learning Engineer and Data Scientist specializing in deep learning, NLP, computer vision, and predictive analytics. Experienced in building end-to-end ML pipelines and deploying models in production environments.',
     profilePicture: '/api/placeholder/400/400',
     email: 'kevinadiputra1704@gmail.com',
     phone: '+62 859-3000-7017',
     location: 'Indonesia',
-    linkedin: 'https://linkedin.com/in/kevin-adiputra',
-    github: 'https://github.com/kevinadiputra',
+    linkedin: 'https://www.linkedin.com/in/kevin-adiputra-mahesa-8339911b3/',
+    github: 'https://github.com/Kevinadiputra',
     website: 'https://kevin-adiputra-portfolio.vercel.app',
     skills: [
-        'Python', 'Machine Learning', 'Data Engineering', 'ETL', 'Apache Spark',
-        'TensorFlow', 'PyTorch', 'Docker', 'Kubernetes', 'AWS', 'GCP',
-        'SQL', 'NoSQL', 'Data Visualization', 'MLOps'
+        'Python', 'Machine Learning', 'Deep Learning', 'TensorFlow', 'PyTorch',
+        'Scikit-learn', 'Pandas', 'NumPy', 'SQL', 'Data Visualization',
+        'NLP', 'Computer Vision', 'Docker', 'AWS', 'MLflow'
     ],
     experience: [
         {
-            title: 'Machine Learning Operations Engineer',
+            title: 'Machine Learning Engineer',
             company: 'Tech Company',
-            period: '2022 - Present',
-            description: 'Leading ML infrastructure and deployment strategies'
+            period: '2024 - Present',
+            description: 'Building and deploying ML models for production systems'
         }
     ],
     education: [
         {
             degree: 'Bachelor in Computer Science',
             institution: 'University',
-            period: '2018 - 2022'
+            period: '2020 - 2024'
         }
     ]
 };
