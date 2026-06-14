@@ -1,116 +1,88 @@
 "use client";
 
-const Footer = () => {
-    const currentYear = new Date().getFullYear();
+import { ArrowUp, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { useProfile } from "@/context/ProfileContext";
 
+const Footer = () => {
+    const { profile } = useProfile();
+    const currentYear = new Date().getFullYear();
     const quickLinks = [
         { name: "Home", href: "#home" },
         { name: "About", href: "#about" },
-        { name: "Skills", href: "#skills" },
-        { name: "Projects", href: "#projects" },
+        { name: "Work", href: "#projects" },
+        { name: "Certificates", href: "#certificates" },
         { name: "Contact", href: "#contact" },
     ];
 
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
-
     const scrollToSection = (href) => {
-        const element = document.querySelector(href);
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
-        }
+        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
     };
 
     return (
-        <footer className="bg-secondary border-t border-tertiary">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="py-12 grid md:grid-cols-3 gap-8">
-                    {/* Brand Section */}
+        <footer className="border-t border-white/10 bg-secondary">
+            <div className="section-shell">
+                <div className="grid gap-10 py-12 md:grid-cols-[1.2fr_0.8fr_1fr]">
                     <div className="space-y-4">
-                        <div className="text-2xl font-bold">
-                            <span className="text-accent">Kevin</span> Adiputra
+                        <div className="font-display text-2xl font-semibold">
+                            <span className="text-accent">{profile?.name?.split(" ")[0] || "Kevin"}</span> {profile?.name?.split(" ").slice(1).join(" ") || "Adiputra"}
                         </div>
-                        <p className="text-white/70 leading-relaxed">
-                            Machine Learning Engineer & Data Scientist passionate about building
-                            intelligent solutions and turning data into actionable insights.
+                        <p className="max-w-md leading-relaxed text-white/70">
+                            {profile?.bio || "Machine learning engineer and data scientist building practical intelligence from analysis to deployment."}
                         </p>
-                        <div className="flex space-x-4">
-                            <a
-                                href="https://github.com/Kevinadiputra"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-white/70 hover:text-accent transition-colors"
-                            >
-                                GitHub
+                        <div className="flex gap-3">
+                            <a href={profile?.github || "https://github.com/Kevinadiputra"} target="_blank" rel="noopener noreferrer" className="chip hover:border-accent/50 hover:text-accent" aria-label="GitHub">
+                                <Github size={16} />
                             </a>
-                            <a
-                                href="https://www.linkedin.com/in/kevin-adiputra-mahesa-8339911b3/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-white/70 hover:text-accent transition-colors"
-                            >
-                                LinkedIn
+                            <a href={profile?.linkedin || "https://www.linkedin.com/in/kevin-adiputra-mahesa-8339911b3/"} target="_blank" rel="noopener noreferrer" className="chip hover:border-accent/50 hover:text-accent" aria-label="LinkedIn">
+                                <Linkedin size={16} />
                             </a>
-                            <a
-                                href="mailto:kevinadiputra1704@gmail.com"
-                                className="text-white/70 hover:text-accent transition-colors"
-                            >
-                                Email
+                            <a href={`mailto:${profile?.email || "kevinadiputra1704@gmail.com"}`} className="chip hover:border-accent/50 hover:text-accent" aria-label="Email">
+                                <Mail size={16} />
                             </a>
                         </div>
                     </div>
 
-                    {/* Quick Links */}
                     <div className="space-y-4">
-                        <h3 className="text-white font-semibold text-lg">Quick Links</h3>
-                        <div className="space-y-2">
+                        <h3 className="font-semibold text-white">Navigation</h3>
+                        <div className="grid gap-2">
                             {quickLinks.map((link) => (
-                                <button
-                                    key={link.name}
-                                    onClick={() => scrollToSection(link.href)}
-                                    className="block text-white/70 hover:text-accent transition-colors"
-                                >
+                                <button key={link.name} onClick={() => scrollToSection(link.href)} className="text-left text-sm text-white/60 transition-colors hover:text-accent">
                                     {link.name}
                                 </button>
                             ))}
                         </div>
                     </div>
 
-                    {/* Contact Info */}
                     <div className="space-y-4">
-                        <h3 className="text-white font-semibold text-lg">Get In Touch</h3>
-                        <div className="space-y-2 text-white/70">
-                            <p>📧 kevinadiputra1704@gmail.com</p>
-                            <p>📱 +62 859-3000-7017</p>
-                            <p>📍 Indonesia</p>
+                        <h3 className="font-semibold text-white">Get in touch</h3>
+                        <div className="grid gap-3 text-sm text-white/70">
+                            <a href={`mailto:${profile?.email || "kevinadiputra1704@gmail.com"}`} className="flex items-center gap-3 hover:text-accent">
+                                <Mail size={16} className="text-accent" />
+                                {profile?.email || "kevinadiputra1704@gmail.com"}
+                            </a>
+                            <a href={`tel:${(profile?.phone || "+628593007017").replace(/\s|-/g, "")}`} className="flex items-center gap-3 hover:text-accent">
+                                <Phone size={16} className="text-accent" />
+                                {profile?.phone || "+62 859-3000-7017"}
+                            </a>
+                            <p className="flex items-center gap-3">
+                                <MapPin size={16} className="text-accent" />
+                                {profile?.location || "Indonesia"}
+                            </p>
                         </div>
-                        <div className="pt-4">
-                            <button
-                                onClick={() => scrollToSection("#contact")}
-                                className="btn btn-sm btn-accent"
-                            >
-                                Let's Work Together
-                            </button>
-                        </div>
+                        <button onClick={() => scrollToSection("#contact")} className="btn btn-sm btn-accent">
+                            Start a project
+                        </button>
                     </div>
                 </div>
 
-                {/* Bottom Footer */}
-                <div className="py-6 border-t border-tertiary flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                    <p className="text-white/50 text-sm">
-                        © {currentYear} Kevin Adiputra. All rights reserved.
+                <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-6 md:flex-row">
+                    <p className="text-sm text-white/50">
+                        Copyright {currentYear} {profile?.name || "Kevin Adiputra"}. All rights reserved.
                     </p>
-
-                    <div className="flex items-center space-x-6">
-                        <span className="text-white/50 text-sm">Built with Next.js</span>
-                        <button
-                            onClick={scrollToTop}
-                            className="text-white/50 hover:text-accent transition-colors text-sm"
-                        >
-                            Back to Top ↑
-                        </button>
-                    </div>
+                    <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="inline-flex items-center gap-2 text-sm text-white/50 transition-colors hover:text-accent">
+                        Back to top
+                        <ArrowUp size={14} />
+                    </button>
                 </div>
             </div>
         </footer>

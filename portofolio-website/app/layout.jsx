@@ -1,10 +1,28 @@
-import { Sometype_Mono } from "next/font/google";
 import "./globals.css";
 import { ProfileProvider } from "@/context/ProfileContext";
+import { ProjectsProvider } from "@/context/ProjectsContext";
+import { CertificatesProvider } from "@/context/CertificatesContext";
+import { Space_Grotesk, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 
-const sometypeMono = Sometype_Mono({
-  variable: "--font-sometype-mono",
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  variable: "--font-body",
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata = {
@@ -54,10 +72,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${sometypeMono.variable} antialiased`}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} ${ibmPlexSans.variable}`}>
+      <body className="antialiased font-body bg-primary text-white/90">
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <ProfileProvider>
-          {children}
+          <CertificatesProvider>
+            <ProjectsProvider>
+              {children}
+            </ProjectsProvider>
+          </CertificatesProvider>
         </ProfileProvider>
       </body>
     </html>

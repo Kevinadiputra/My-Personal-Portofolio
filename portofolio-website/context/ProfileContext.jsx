@@ -15,32 +15,44 @@ export const useProfile = () => {
 const profileData = {
     name: 'Kevin Adiputra',
     title: 'Machine Learning Engineer & Data Scientist',
-    bio: 'Passionate Machine Learning Engineer and Data Scientist specializing in deep learning, NLP, computer vision, and predictive analytics. Experienced in building end-to-end ML pipelines and deploying models in production environments.',
-    profilePicture: '/api/placeholder/400/400',
-    email: 'kevinadiputra1704@gmail.com',
-    phone: '+62 859-3000-7017',
+    bio: 'Machine Learning Engineer and Data Scientist focused on transforming data into actionable insights through Machine Learning, Data Analytics, Remote Sensing, Deep Learning, and MLOps.',
+    profilePicture: '/profile-picture.jpg',
+    email: 'kevinadiputra66@gmail.com',
+    phone: '+62 821-8185-7340',
     location: 'Indonesia',
     linkedin: 'https://www.linkedin.com/in/kevin-adiputra-mahesa-8339911b3/',
     github: 'https://github.com/Kevinadiputra',
     website: 'https://kevin-adiputra-portfolio.vercel.app',
     skills: [
-        'Python', 'Machine Learning', 'Deep Learning', 'TensorFlow', 'PyTorch',
-        'Scikit-learn', 'Pandas', 'NumPy', 'SQL', 'Data Visualization',
-        'NLP', 'Computer Vision', 'Docker', 'AWS', 'MLflow'
+        'Machine Learning', 'Data Science', 'Data Analytics', 'Deep Learning', 
+        'Computer Vision', 'NLP', 'MLOps', 'Remote Sensing', 'Python', 'SQL',
+        'Apache Airflow', 'Docker', 'DevOps', 'TensorFlow', 'XGBoost'
     ],
     experience: [
         {
-            title: 'Machine Learning Engineer',
-            company: 'Tech Company',
-            period: '2024 - Present',
-            description: 'Building and deploying ML models for production systems'
+            title: 'Project Officer',
+            company: 'Build with AI 2026',
+            period: '2026',
+            description: 'Led community organization, workshop planning, and technical event management for regional AI initiatives, driving developer engagement and AI collaboration.'
+        },
+        {
+            title: 'Core Team Machine Learning',
+            company: 'GDGoC Universitas Sriwijaya',
+            period: '2024 - 2025',
+            description: 'Mentored developer cohorts in machine learning fundamentals, designed technical workshops, and organized community-building sessions for aspiring data practitioners.'
+        },
+        {
+            title: 'IT Intern (Data & ML Focus)',
+            company: 'PT Pupuk Sriwidjaja Palembang',
+            period: '2024',
+            description: 'Conducted exploratory and explanatory data analyses, built carbon stock prediction models, handled data preprocessing/validation, and generated business intelligence reports.'
         }
     ],
     education: [
         {
-            degree: 'Bachelor in Computer Science',
-            institution: 'University',
-            period: '2020 - 2024'
+            degree: 'Bachelor of Computer Science',
+            institution: 'Universitas Sriwijaya',
+            period: '2021 - 2025'
         }
     ]
 };

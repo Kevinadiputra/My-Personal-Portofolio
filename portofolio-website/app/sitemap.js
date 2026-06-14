@@ -13,16 +13,16 @@ export default function sitemap() {
             priority: 0.8,
         },
         {
-            url: 'https://kevin-adiputra-portfolio.vercel.app/#skills',
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
-            priority: 0.8,
-        },
-        {
             url: 'https://kevin-adiputra-portfolio.vercel.app/#projects',
             lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 0.9,
+        },
+        {
+            url: 'https://kevin-adiputra-portfolio.vercel.app/#certificates',
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.7,
         },
         {
             url: 'https://kevin-adiputra-portfolio.vercel.app/#contact',

@@ -14,123 +14,188 @@ export const useCertificates = () => {
 
 const certificatesData = [
     {
-        id: 1,
-        title: "Machine Learning Specialization",
-        issuer: "Stanford University",
-        platform: "Coursera",
+        id: 12,
+        title: "Belajar Pengembangan Machine Learning",
+        issuer: "Dicoding Indonesia",
+        platform: "Dicoding",
         date: "2025",
         image: "/api/placeholder/400/300",
-        credentialId: "ML2025-001",
-        skills: ["Python", "TensorFlow", "Scikit-learn", "Deep Learning", "Neural Networks", "Regression", "Classification"],
-        description: "Comprehensive machine learning program covering supervised learning, unsupervised learning, recommender systems, and reinforcement learning by Andrew Ng.",
-        verifyUrl: "#",
+        credentialId: "ML-DEV-DICODING-2025",
+        skills: ["Machine Learning", "TensorFlow", "NLP", "Time Series Forecasting", "Image Classification"],
+        description: "Advanced machine learning developer path covering deep neural networks, natural language processing with text embeddings, and time-series forecasting with TensorFlow.",
+        verifyUrl: "https://www.dicoding.com/certificates/verify",
         featured: true,
-        category: "ai-ml",
-        level: "Advanced",
-        duration: "4 months",
-        relatedProjects: [1],
-        overview: {
-            summary: "Deep dive into machine learning algorithms and neural networks. Applied these concepts to build AI-powered applications with real-world impact.",
-            projects: [
-                {
-                    title: "Image Classification System",
-                    description: "CNN-based image classifier for medical diagnosis with 95% accuracy using TensorFlow.",
-                    image: "/api/placeholder/600/400",
-                    tech: ["TensorFlow", "Python", "Keras", "OpenCV"],
-                    highlights: ["95% test accuracy", "50K+ training images", "Grad-CAM visualization", "AWS deployment"]
-                }
-            ],
-            achievements: [
-                "Built 3+ production ML models",
-                "Achieved 95%+ accuracy on classification tasks",
-                "Completed all hands-on labs and assignments",
-                "Applied concepts in real-world projects"
-            ]
-        }
-    },
-    {
-        id: 2,
-        title: "Deep Learning Specialization",
-        issuer: "DeepLearning.AI",
-        platform: "Coursera",
-        date: "2025",
-        image: "/api/placeholder/400/300",
-        credentialId: "DL2025-002",
-        skills: ["Deep Learning", "CNN", "RNN", "Transformers", "TensorFlow", "NLP", "Computer Vision"],
-        description: "Advanced deep learning concepts including CNNs, RNNs, LSTMs, Transformers, and their applications in computer vision and NLP.",
-        verifyUrl: "#",
-        featured: true,
-        category: "ai-ml",
-        level: "Advanced",
-        duration: "5 months",
-        relatedProjects: [1, 2],
-        overview: {
-            summary: "Mastered deep learning architectures from basic neural networks to advanced transformer models. Applied to both computer vision and natural language processing tasks.",
-            projects: [
-                {
-                    title: "NLP Sentiment Analysis",
-                    description: "Transformer-based sentiment analysis system with multi-language support.",
-                    image: "/api/placeholder/600/400",
-                    tech: ["PyTorch", "Hugging Face", "BERT"],
-                    highlights: ["92% accuracy", "Multi-language support", "Real-time processing", "Fine-tuned BERT"]
-                }
-            ],
-            achievements: [
-                "Implemented neural networks from scratch",
-                "Built sequence models for NLP tasks",
-                "Applied transfer learning techniques",
-                "Completed capstone project on transformer architectures"
-            ]
-        }
-    },
-    {
-        id: 3,
-        title: "Google Data Analytics Certificate",
-        issuer: "Google",
-        platform: "Coursera",
-        date: "2024",
-        image: "/api/placeholder/400/300",
-        credentialId: "GDA-2024-003",
-        skills: ["SQL", "R", "Tableau", "Data Visualization", "Statistics", "Excel", "Data Cleaning"],
-        description: "Comprehensive data analytics program covering data collection, processing, analysis, and visualization techniques used by data professionals.",
-        verifyUrl: "#",
-        featured: true,
-        category: "data",
-        level: "Professional",
-        duration: "6 months"
-    },
-    {
-        id: 4,
-        title: "AWS Cloud Practitioner",
-        issuer: "Amazon Web Services",
-        platform: "AWS Training",
-        date: "2024",
-        image: "/api/placeholder/400/300",
-        credentialId: "AWS-CP-004",
-        skills: ["AWS", "Cloud Computing", "EC2", "S3", "Lambda", "SageMaker"],
-        description: "Foundational understanding of AWS cloud services including compute, storage, and machine learning services like SageMaker.",
-        verifyUrl: "#",
-        featured: false,
-        category: "cloud",
-        level: "Foundation",
+        category: "Machine Learning",
+        level: "Intermediate",
         duration: "2 months"
     },
     {
-        id: 5,
-        title: "TensorFlow Developer Certificate",
-        issuer: "Google",
-        platform: "TensorFlow",
+        id: 11,
+        title: "Belajar Machine Learning untuk Pemula",
+        issuer: "Dicoding Indonesia",
+        platform: "Dicoding",
         date: "2024",
         image: "/api/placeholder/400/300",
-        credentialId: "TF-DEV-005",
-        skills: ["TensorFlow", "Keras", "CNN", "NLP", "Time Series", "Transfer Learning"],
-        description: "Professional certification demonstrating proficiency in using TensorFlow to build and train neural networks for various ML tasks.",
-        verifyUrl: "#",
+        credentialId: "ML-PEMULA-DICODING-2024",
+        skills: ["Machine Learning", "Supervised Learning", "Regression", "Classification", "Scikit-Learn"],
+        description: "Learned basic concepts of machine learning, classification, regression, and data clustering, implementing algorithms in Python using Scikit-Learn.",
+        verifyUrl: "https://www.dicoding.com/certificates/verify",
         featured: false,
-        category: "ai-ml",
+        category: "Machine Learning",
+        level: "Beginner",
+        duration: "1 month"
+    },
+    {
+        id: 13,
+        title: "Belajar Dasar Data Science",
+        issuer: "Dicoding Indonesia",
+        platform: "Dicoding",
+        date: "2024",
+        image: "/api/placeholder/400/300",
+        credentialId: "DS-BASICS-DICODING-2024",
+        skills: ["Data Science", "Data Analytics", "Statistics", "Pandas", "Matplotlib"],
+        description: "Learned data science methodology, statistical analysis, data modeling, exploratory data analysis, and uncovering meaningful patterns from unstructured datasets.",
+        verifyUrl: "https://www.dicoding.com/certificates/verify",
+        featured: false,
+        category: "Data Science",
+        level: "Beginner",
+        duration: "1 month"
+    },
+    {
+        id: 14,
+        title: "Belajar Analisis Data dengan Python",
+        issuer: "Dicoding Indonesia",
+        platform: "Dicoding",
+        date: "2024",
+        image: "/api/placeholder/400/300",
+        credentialId: "DA-PYTHON-DICODING-2024",
+        skills: ["Data Analysis", "Python", "Data Wrangling", "Exploratory Data Analysis", "Streamlit"],
+        description: "Focused on end-to-end data analysis workflow: gathering data, assessing and cleaning data, exploratory data analysis, and building interactive data dashboards using Streamlit.",
+        verifyUrl: "https://www.dicoding.com/certificates/verify",
+        featured: false,
+        category: "Data Science",
+        level: "Intermediate",
+        duration: "1 month"
+    },
+    {
+        id: 8,
+        title: "Belajar SQL",
+        issuer: "Dicoding Indonesia",
+        platform: "Dicoding",
+        date: "2024",
+        image: "/api/placeholder/400/300",
+        credentialId: "SQL-DICODING-2024",
+        skills: ["SQL", "Relational Databases", "Data Querying", "Database Schemas", "MySQL"],
+        description: "Learned core database principles and SQL querying, including data manipulation (DML), data definition (DDL), joins, indexing, and aggregate functions.",
+        verifyUrl: "https://www.dicoding.com/certificates/verify",
+        featured: false,
+        category: "Database",
+        level: "Intermediate",
+        duration: "1 month"
+    },
+    {
+        id: 1,
+        title: "Apache Airflow Certified (DAG Authoring)",
+        issuer: "Astronomer",
+        platform: "Astronomer Academy",
+        date: "2025",
+        image: "/api/placeholder/400/300",
+        credentialId: "AA-DAG-2025",
+        skills: ["Apache Airflow", "DAG Authoring", "Data Orchestration", "Python", "Data Pipelines"],
+        description: "Official certification validating advanced proficiency in designing, writing, scheduling, and troubleshooting Apache Airflow Directed Acyclic Graphs (DAGs) for orchestrating data and machine learning workflows.",
+        verifyUrl: "https://www.credly.com/org/astronomer",
+        featured: true,
+        category: "MLOps & Infrastructure",
         level: "Professional",
+        duration: "2 months",
+        overview: {
+            summary: "Validated expertise in writing and orchestrating complex data workflows, managing dependency graphs, and building robust data pipelines using Apache Airflow.",
+            projects: [
+                {
+                    title: "Automated Data Pipeline Orchestration",
+                    description: "Built and orchestrated an end-to-end ETL and model training pipeline. Configured task dependencies, dynamic task generation, and custom operators in Apache Airflow.",
+                    image: "/api/placeholder/600/400",
+                    tech: ["Apache Airflow", "Python", "PostgreSQL", "Docker"],
+                    highlights: [
+                        "Automated ingestion of 10M+ daily events",
+                        "Designed dynamic DAGs with task mapping",
+                        "Configured failure alerting via Slack",
+                        "Integrated Spark processing jobs"
+                    ]
+                }
+            ],
+            achievements: [
+                "Achieved Astronomer DAG Authoring Certification",
+                "Reduced data processing failures by 35% through robust Airflow retries and callbacks",
+                "Designed reusable custom plugins and operators",
+                "Orchestrated ML model retraining schedule based on data drift indicators"
+            ]
+        }
+    },
+    {
+        id: 7,
+        title: "Belajar Dasar-Dasar DevOps",
+        issuer: "Dicoding Indonesia",
+        platform: "Dicoding",
+        date: "2024",
+        image: "/api/placeholder/400/300",
+        credentialId: "DEVOPS-DICODING-2024",
+        skills: ["DevOps Culture", "CI/CD Pipelines", "Git", "GitHub Actions", "Shell Scripting", "YAML"],
+        description: "Learned the foundational principles of DevOps culture, continuous integration and continuous delivery (CI/CD), automating build/test workflows, and configuration management.",
+        verifyUrl: "https://www.dicoding.com/certificates/verify",
+        featured: false,
+        category: "MLOps & Infrastructure",
+        level: "Beginner",
+        duration: "1 month"
+    },
+    {
+        id: 6,
+        title: "Google Cloud Arcade Facilitator",
+        issuer: "Google Cloud",
+        platform: "Qwiklabs / Google Cloud Skills Boost",
+        date: "2024",
+        image: "/api/placeholder/400/300",
+        credentialId: "GCA-FAC-2024",
+        skills: ["Google Cloud Platform (GCP)", "Compute Engine", "Cloud Storage", "IAM", "Kubernetes Engine"],
+        description: "Guided and facilitated Google Cloud learning pathways, helping participants complete hands-on labs, deploy cloud architectures, and master GCP fundamentals.",
+        verifyUrl: "https://www.qwiklabs.com",
+        featured: false,
+        category: "Cloud",
+        level: "Intermediate",
         duration: "3 months"
     },
+    {
+        id: 9,
+        title: "Memulai Pemrograman dengan Python",
+        issuer: "Dicoding Indonesia",
+        platform: "Dicoding",
+        date: "2024",
+        image: "/api/placeholder/400/300",
+        credentialId: "PYTHON-DICODING-2024",
+        skills: ["Python", "Control Flow", "Object-Oriented Programming (OOP)", "Functions", "Data Structures"],
+        description: "Introduction to software development with Python, mastering basic data types, control flow statements, building reusable functions, OOP, and data parsing.",
+        verifyUrl: "https://www.dicoding.com/certificates/verify",
+        featured: false,
+        category: "Programming",
+        level: "Beginner",
+        duration: "1 month"
+    },
+    {
+        id: 10,
+        title: "Memulai Dasar Pemrograman untuk Menjadi Pengembang Software",
+        issuer: "Dicoding Indonesia",
+        platform: "Dicoding",
+        date: "2024",
+        image: "/api/placeholder/400/300",
+        credentialId: "SE-BASICS-DICODING-2024",
+        skills: ["Software Engineering Basics", "Programming Logic", "Flowcharts", "Algorithmic Thinking"],
+        description: "Learned computational thinking, software lifecycle basics, flowchart designing, logic gates, and the foundational algorithms necessary for professional software development.",
+        verifyUrl: "https://www.dicoding.com/certificates/verify",
+        featured: false,
+        category: "Programming",
+        level: "Beginner",
+        duration: "1 month"
+    }
 ];
 
 export const CertificatesProvider = ({ children }) => {

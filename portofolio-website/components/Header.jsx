@@ -22,9 +22,9 @@ const Header = () => {
     const navItems = [
         { name: "Home", href: "/", type: "route" },
         { name: "About", href: "#about", type: "section" },
-        { name: "Skills", href: "#skills", type: "section" },
-        { name: "Projects", href: "/projects", type: "route" },
-        { name: "Certificates", href: "/certificates", type: "route" },
+        { name: "Work", href: "#projects", type: "section" },
+        { name: "Certificates", href: "#certificates", type: "section" },
+        { name: "Experience", href: "#experience", type: "section" },
         { name: "Contact", href: "#contact", type: "section" },
     ];
 
@@ -58,20 +58,21 @@ const Header = () => {
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-primary/95 backdrop-blur-md shadow-lg" : "bg-transparent"
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-primary/80 backdrop-blur-xl border-b border-white/10" : "bg-transparent"
                 }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4">
                     <button
                         onClick={() => router.push("/")}
-                        className="text-xl font-bold hover:scale-105 transition-transform"
+                        className="text-lg md:text-xl font-display font-semibold hover:text-accent transition-colors"
+                        aria-label="Go to homepage"
                     >
                         <span className="text-accent">Kevin</span> Adiputra
                     </button>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center space-x-8">
+                    <nav className="hidden md:flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] p-1">
                         {navItems.map((item) => {
                             const isActive = (item.type === "route" && pathname === item.href) ||
                                 (item.type === "section" && pathname === "/");
@@ -80,9 +81,9 @@ const Header = () => {
                                 <button
                                     key={item.name}
                                     onClick={(e) => handleNavigation(item, e.ctrlKey || e.metaKey)}
-                                    className={`font-medium transition-colors duration-200 ${isActive && item.type === "route"
-                                        ? "text-accent"
-                                        : "text-white hover:text-accent"
+                                    className={`rounded-xl px-3 py-2 text-sm font-medium transition-all duration-200 ${isActive && item.type === "route"
+                                        ? "bg-accent text-primary"
+                                        : "text-white/70 hover:bg-white/10 hover:text-white"
                                         }`}
                                 >
                                     {item.name}
@@ -93,8 +94,10 @@ const Header = () => {
 
                     {/* Mobile Menu Button */}
                     <button
-                        className="md:hidden text-white hover:text-accent transition-colors"
+                        className="md:hidden rounded-xl border border-white/10 p-2 text-white hover:text-accent transition-colors"
                         onClick={() => setIsOpen(!isOpen)}
+                        aria-label={isOpen ? "Close menu" : "Open menu"}
+                        aria-expanded={isOpen}
                     >
                         {isOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
@@ -102,13 +105,13 @@ const Header = () => {
 
                 {/* Mobile Navigation */}
                 {isOpen && (
-                    <div className="md:hidden py-4 border-t border-secondary">
-                        <nav className="flex flex-col space-y-4">
+                    <div className="md:hidden pb-4 border-t border-white/10">
+                        <nav className="mt-4 grid gap-2 rounded-2xl bg-secondary/95 p-3">
                             {navItems.map((item) => (
                                 <button
                                     key={item.name}
                                     onClick={() => handleNavigation(item)}
-                                    className="font-medium transition-colors duration-200 text-left text-white hover:text-accent"
+                                    className="rounded-xl px-3 py-3 text-left text-sm font-medium text-white/70 transition-colors duration-200 hover:bg-white/10 hover:text-accent"
                                 >
                                     {item.name}
                                 </button>

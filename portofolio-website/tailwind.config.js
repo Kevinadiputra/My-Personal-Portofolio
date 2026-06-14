@@ -8,15 +8,17 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                primary: '#0d091a',
-                secondary: '#140e25',
-                accent: '#5810ff',
-                'accent-hover': '#4a0bde',
-                tertiary: '#201837',
-                'tertiary-hover': '#271f40',
+                primary: '#0b0b12',
+                secondary: '#12131a',
+                accent: '#3df6ff',
+                'accent-hover': '#25d7e2',
+                tertiary: '#1a1c26',
+                'tertiary-hover': '#222536',
             },
             fontFamily: {
-                primary: ['var(--font-sometype-mono)', 'monospace'],
+                display: ['var(--font-display)', 'sans-serif'],
+                body: ['var(--font-body)', 'sans-serif'],
+                mono: ['var(--font-mono)', 'monospace'],
             },
             animation: {
                 'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
